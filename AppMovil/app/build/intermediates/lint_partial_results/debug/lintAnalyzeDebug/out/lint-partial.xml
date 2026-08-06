@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<incidents format="6" by="lint 8.5.2" type="partial_results">
+    <map id="UnsafeIntentLaunch">
+            <map id="unprotected">
+                <entry
+                    name="com.felipe.endoscopeviewer.SplashActivity"
+                    boolean="true"/>
+            </map>
+    </map>
+    <map id="UnusedResources">
+        <location id="R.drawable.panel_background_v2"
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/drawable/panel_background_v2.xml"
+            line="2"
+            column="1"
+            startOffset="39"
+            endLine="8"
+            endColumn="9"
+            endOffset="265"/>
+        <location id="R.string.app_name"
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/strings.xml"
+            line="2"
+            column="13"
+            startOffset="24"
+            endLine="2"
+            endColumn="28"
+            endOffset="39"/>
+        <location id="R.drawable.button_blue"
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/drawable/button_blue.xml"
+            line="2"
+            column="1"
+            startOffset="39"
+            endLine="25"
+            endColumn="12"
+            endOffset="791"/>
+        <location id="R.drawable.icon_blue_background"
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/drawable/icon_blue_background.xml"
+            line="2"
+            column="1"
+            startOffset="39"
+            endLine="5"
+            endColumn="9"
+            endOffset="190"/>
+        <location id="R.drawable.icon_green_background"
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/drawable/icon_green_background.xml"
+            line="2"
+            column="1"
+            startOffset="39"
+            endLine="5"
+            endColumn="9"
+            endOffset="190"/>
+        <location id="R.drawable.camera_background_v2"
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/drawable/camera_background_v2.xml"
+            line="2"
+            column="1"
+            startOffset="39"
+            endLine="8"
+            endColumn="9"
+            endOffset="320"/>
+        <entry
+            name="model"
+            string="color[button_outline_text(U),button_primary_text(U),material_checkbox_tint(U),launcher_background(U),teal_400(U)],drawable[badge_disconnected(U),button_blue(D),button_outline(U),button_primary(U),camera_background(U),camera_background_v2(D),checklist_item_background(U),divider_light(U),ic_arrow_left_purple(U),ic_arrow_right_primary(U),ic_arrow_right_purple(U),ic_calendar_gray(U),ic_camera_blue(U),ic_center_axis(U),ic_clipboard_green(U),ic_diu_launcher_foreground(U),ic_email_purple(U),ic_history_blue(U),ic_link_white(U),ic_scale_purple(U),ic_thresholds_gray(U),ic_trash_white(U),icon_blue_background(D),icon_green_background(D),panel_background(U),panel_background_v2(D),sim_background(U),splash_tagline_background(U),tab_selected_background(U),tab_unselected_background(U),simgyo_logo(U)],id[fragmentContainer(U),checklistRoot(U),material1Check(U),material2Check(U),material3Check(U),material4Check(U),material5Check(U),material6Check(U),materialProgressText(U),materialNextButton(U),splashRoot(U),contactEmailText(D),welcomeNextButton(U),connectionBadge(U),currentWeightText(U),zoneText(U),lastWeightText(U),forceGauge(U),bleStatusText(U),bluetoothButton(U),tareButton(U),motorStatusText(U),motorLeftButton(U),motorCenterButton(U),motorRightButton(U),statusText(U),switchCameraButton(U),cameraViewContainer(U),cameraStatusText(U),clearHistoryButton(U),historyTabButton(U),thresholdsTabButton(U),historySelectedText(U),historyContent(U),historyList(U),thresholdsContent(U),thresholdsList(U)],layout[activity_main(U),activity_material_checklist(U),activity_splash(U),fragment_usb_camera(U)],mipmap[ic_launcher(U)],string[logo_description(U),checklist_eyebrow(U),checklist_title(U),checklist_description(U),diu_icon_description(U),checklist_card_title(U),checklist_card_subtitle(U),material_1(U),material_2(U),material_3(U),material_4(U),material_5(U),material_6(U),material_progress_initial(U),checklist_next(U),splash_tagline(U),splash_product_name(U),splash_description(U),welcome_continue_hint(U),contact_email_description(U),contact_email(U),welcome_next(U),app_name(D),material_progress(U)],style[Theme_EndoscopeViewer(U),Theme_Material3_Light_NoActionBar(R)];d^0,e^1,f^0,12^1,49^1f,4a^1f^4e^23^4f^50^51^1d^52^4d^53^54^b^2^55^56^57^58^59^5a^5b^8^e^5c^1,4b^1f^4e^23^20^5d^5e^5f^60^b^61^15^62^8^e^63^1^1d,4c^1f^23^5^1d^8^17^1^7^18^0^d^12^f^22^11^9^1a^21^16^19^c,4d^3^14,66^67^4;;;"/>
+    </map>
+
+</incidents>

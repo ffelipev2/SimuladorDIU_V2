@@ -1,0 +1,4 @@
+com.felipe.endoscopeviewer.test.app-androidTest-0 C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\build\generated\res\resValues\androidTest\debug
+com.felipe.endoscopeviewer.test.app-mergeDebugAndroidTestResources-1 C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
+com.felipe.endoscopeviewer.test.app-mergeDebugAndroidTestResources-2 C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
+com.felipe.endoscopeviewer.test.app-debugAndroidTest-3 C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\build\intermediates\merged_res\debugAndroidTest\mergeDebugAndroidTestResources

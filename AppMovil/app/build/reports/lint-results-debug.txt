@@ -1,0 +1,622 @@
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\java\com\felipe\endoscopeviewer\UsbCameraFragment.kt:859: Warning: Implicitly using the default locale is a common source of bugs: Use String.format(Locale, ...) instead [DefaultLocale]
+        currentWeight.text = String.format("%.2f g", state.currentGrams)
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\java\com\felipe\endoscopeviewer\UsbCameraFragment.kt:859: Warning: Implicitly using the default locale is a common source of bugs: Use String.format(Locale, ...) instead [DefaultLocale]
+        currentWeight.text = String.format("%.2f g", state.currentGrams)
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\java\com\felipe\endoscopeviewer\UsbCameraFragment.kt:860: Warning: Implicitly using the default locale is a common source of bugs: Use String.format(Locale, ...) instead [DefaultLocale]
+        lastWeight.text = String.format("Último: %.2f g", state.lastGrams)
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\java\com\felipe\endoscopeviewer\UsbCameraFragment.kt:860: Warning: Implicitly using the default locale is a common source of bugs: Use String.format(Locale, ...) instead [DefaultLocale]
+        lastWeight.text = String.format("Último: %.2f g", state.lastGrams)
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "DefaultLocale":
+   Calling String#toLowerCase() or #toUpperCase() without specifying an
+   explicit locale is a common source of bugs. The reason for that is that
+   those methods will use the current locale on the user's device, and even
+   though the code appears to work correctly when you are developing the app,
+   it will fail in some locales. For example, in the Turkish locale, the
+   uppercase replacement for i is not I.
+
+   If you want the methods to just perform ASCII replacement, for example to
+   convert an enum name, call String#toUpperCase(Locale.ROOT) instead. If you
+   really want to use the current locale, call
+   String#toUpperCase(Locale.getDefault()) instead.
+
+   https://developer.android.com/reference/java/util/Locale.html#default_locale
+
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:17: Warning: Attribute usesPermissionFlags is only used in API level 31 and higher (current min is 23) [UnusedAttribute]
+        android:usesPermissionFlags="neverForLocation" />
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:364: Warning: Attribute clipToOutline is only used in API level 31 and higher (current min is 23) [UnusedAttribute]
+                        android:clipToOutline="true">
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:367: Warning: Attribute clipToOutline is only used in API level 31 and higher (current min is 23) [UnusedAttribute]
+                    android:clipToOutline="true">
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "UnusedAttribute":
+   This check finds attributes set in XML files that were introduced in a
+   version newer than the oldest version targeted by your application (with
+   the minSdkVersion attribute).
+
+   This is not an error; the application will simply ignore the attribute.
+   However, if the attribute is important to the appearance or functionality
+   of your application, you should consider finding an alternative way to
+   achieve the same result with only available attributes, and then you can
+   optionally create a copy of the layout in a layout-vNN folder which will be
+   used on API NN or higher where you can take advantage of the newer
+   attribute.
+
+   Note: This check does not only apply to attributes. For example, some tags
+   can be unused too, such as the new <tag> element in layouts introduced in
+   API 21.
+
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\java\com\felipe\endoscopeviewer\SplashActivity.kt:10: Warning: The application should not provide its own launch screen [CustomSplashScreen]
+class SplashActivity : AppCompatActivity() {
+      ~~~~~~~~~~~~~~
+
+   Explanation for issues of type "CustomSplashScreen":
+   Starting in Android 12 (API 31+), the application's Launch Screen is
+   provided by the system and the application should not create its own,
+   otherwise the user will see two splashscreens. Please check the
+   SplashScreen class to check how the Splash Screen can be controlled and
+   customized.
+
+   https://developer.android.com/guide/topics/ui/splash-screen
+
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\drawable\sim_background.xml:3: Warning: Limit vector icons sizes to 200×200 to keep icon drawing fast; see https://developer.android.com/studio/write/vector-asset-studio#when for more [VectorRaster]
+    android:width="1080dp"
+                   ~~~~~~
+
+   Explanation for issues of type "VectorRaster":
+   Vector icons require API 21 or API 24 depending on used features, but when
+   minSdkVersion is less than 21 or 24 and Android Gradle plugin 1.4 or higher
+   is used, a vector drawable placed in the drawable folder is automatically
+   moved to drawable-anydpi-v21 or drawable-anydpi-v24 and bitmap images are
+   generated for different screen resolutions for backwards compatibility.
+
+   However, there are some limitations to this raster image generation, and
+   this lint check flags elements and attributes that are not fully supported.
+   You should manually check whether the generated output is acceptable for
+   those older devices.
+
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\build.gradle.kts:30: Warning: A newer version of androidx.core:core-ktx than 1.13.1 is available: 1.19.0 [GradleDependency]
+    implementation("androidx.core:core-ktx:1.13.1")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\build.gradle.kts:31: Warning: A newer version of androidx.appcompat:appcompat than 1.7.0 is available: 1.7.1 [GradleDependency]
+    implementation("androidx.appcompat:appcompat:1.7.0")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\build.gradle.kts:32: Warning: A newer version of com.google.android.material:material than 1.12.0 is available: 1.14.0 [GradleDependency]
+    implementation("com.google.android.material:material:1.12.0")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\build.gradle.kts:34: Warning: A newer version of androidx.camera:camera-core than 1.4.0 is available: 1.6.1 [GradleDependency]
+    implementation("androidx.camera:camera-core:$cameraX")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\build.gradle.kts:35: Warning: A newer version of androidx.camera:camera-camera2 than 1.4.0 is available: 1.6.1 [GradleDependency]
+    implementation("androidx.camera:camera-camera2:$cameraX")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\build.gradle.kts:36: Warning: A newer version of androidx.camera:camera-lifecycle than 1.4.0 is available: 1.6.1 [GradleDependency]
+    implementation("androidx.camera:camera-lifecycle:$cameraX")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\build.gradle.kts:37: Warning: A newer version of androidx.camera:camera-view than 1.4.0 is available: 1.6.1 [GradleDependency]
+    implementation("androidx.camera:camera-view:$cameraX")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "GradleDependency":
+   This detector looks for usages of libraries where the version you are using
+   is not the current stable release. Using older versions is fine, and there
+   are cases where you deliberately want to stick with an older version.
+   However, you may simply not be aware that a more recent version is
+   available, and that is what this lint check helps find.
+
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\activity_splash.xml:80: Warning: Use app:drawableStartCompat instead of android:drawableStart [UseCompatTextViewDrawableXml from androidx.appcompat]
+                android:drawableStart="@drawable/ic_email_purple"
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\activity_splash.xml:95: Warning: Use app:drawableStartCompat instead of android:drawableStart [UseCompatTextViewDrawableXml from androidx.appcompat]
+                    android:drawableStart="@drawable/ic_email_purple"
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-sw600dp-port\activity_splash.xml:95: Warning: Use app:drawableStartCompat instead of android:drawableStart [UseCompatTextViewDrawableXml from androidx.appcompat]
+                android:drawableStart="@drawable/ic_email_purple"
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:370: Warning: Use app:drawableTopCompat instead of android:drawableTop [UseCompatTextViewDrawableXml from androidx.appcompat]
+                            android:drawableTop="@drawable/ic_camera_blue"
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:373: Warning: Use app:drawableTopCompat instead of android:drawableTop [UseCompatTextViewDrawableXml from androidx.appcompat]
+                        android:drawableTop="@drawable/ic_camera_blue"
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "UseCompatTextViewDrawableXml":
+   TextView uses android: compound drawable attributes instead of app: ones
+
+   Vendor: Android Open Source Project
+   Identifier: androidx.appcompat
+   Feedback: https://issuetracker.google.com/issues/new?component=460343
+
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\values\strings.xml:24: Warning: Formatting %d followed by words ("materiales"): This should probably be a plural rather than a string [PluralsCandidate]
+    <string name="material_progress">%1$d de %2$d materiales listos</string>
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "PluralsCandidate":
+   This lint check looks for potential errors in internationalization where
+   you have translated a message which involves a quantity and it looks like
+   other parts of the string may need grammatical changes.
+
+   For example, rather than something like this:
+     <string name="try_again">Try again in %d seconds.</string>
+   you should be using a plural:
+      <plurals name="try_again">
+           <item quantity="one">Try again in %d second</item>
+           <item quantity="other">Try again in %d seconds</item>
+       </plurals>
+   This will ensure that in other languages the right set of translations are
+   provided for the different quantity classes.
+
+   (This check depends on some heuristics, so it may not accurately determine
+   whether a string really should be a quantity. You can use tools:ignore to
+   filter out false positives.
+
+   https://developer.android.com/guide/topics/resources/string-resource.html#Plurals
+
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\java\com\felipe\endoscopeviewer\ForceGaugeView.kt:50: Warning: Avoid object allocations during draw/layout operations (preallocate and reuse instead) [DrawAllocation]
+        val bar = RectF(left, top, right, top + barHeight)
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\java\com\felipe\endoscopeviewer\ForceGaugeView.kt:53: Warning: Avoid object allocations during draw/layout operations (preallocate and reuse instead) [DrawAllocation]
+        val clipPath = Path().apply { addRoundRect(bar, radius, radius, Path.Direction.CW) }
+                       ~~~~~~
+
+   Explanation for issues of type "DrawAllocation":
+   You should avoid allocating objects during a drawing or layout operation.
+   These are called frequently, so a smooth UI can be interrupted by garbage
+   collection pauses caused by the object allocations.
+
+   The way this is generally handled is to allocate the needed objects up
+   front and to reuse them for each drawing operation.
+
+   Some methods allocate memory on your behalf (such as Bitmap.create), and
+   these should be handled in the same way.
+
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\activity_material_checklist.xml:14: Warning: Set android:baselineAligned="false" on this element for better performance [DisableBaselineAlignment]
+        <LinearLayout
+         ~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\activity_material_checklist.xml:117: Warning: Set android:baselineAligned="false" on this element for better performance [DisableBaselineAlignment]
+                    <LinearLayout
+                     ~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\activity_splash.xml:14: Warning: Set android:baselineAligned="false" on this element for better performance [DisableBaselineAlignment]
+        <LinearLayout
+         ~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:72: Warning: Set android:baselineAligned="false" on this element for better performance [DisableBaselineAlignment]
+            <LinearLayout
+             ~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:80: Warning: Set android:baselineAligned="false" on this element for better performance [DisableBaselineAlignment]
+                <LinearLayout
+                 ~~~~~~~~~~~~
+
+   Explanation for issues of type "DisableBaselineAlignment":
+   When a LinearLayout is used to distribute the space proportionally between
+   nested layouts, the baseline alignment property should be turned off to
+   make the layout computation faster.
+
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-sw600dp-port\activity_material_checklist.xml:104: Warning: Nested weights are bad for performance [NestedWeights]
+                android:layout_weight="1"
+                ~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:362: Warning: Nested weights are bad for performance [NestedWeights]
+                        android:layout_weight="1"
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "NestedWeights":
+   Layout weights require a widget to be measured twice. When a LinearLayout
+   with non-zero weights is nested inside another LinearLayout with non-zero
+   weights, then the number of measurements increase exponentially.
+
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\drawable\button_blue.xml:2: Warning: The resource R.drawable.button_blue appears to be unused [UnusedResources]
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+^
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\drawable\camera_background_v2.xml:2: Warning: The resource R.drawable.camera_background_v2 appears to be unused [UnusedResources]
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+^
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\drawable\icon_blue_background.xml:2: Warning: The resource R.drawable.icon_blue_background appears to be unused [UnusedResources]
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+^
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\drawable\icon_green_background.xml:2: Warning: The resource R.drawable.icon_green_background appears to be unused [UnusedResources]
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+^
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\drawable\panel_background_v2.xml:2: Warning: The resource R.drawable.panel_background_v2 appears to be unused [UnusedResources]
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+^
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\values\strings.xml:2: Warning: The resource R.string.app_name appears to be unused [UnusedResources]
+    <string name="app_name">SimGyO-DIU</string>
+            ~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "UnusedResources":
+   Unused resources make applications larger and slow down builds.
+
+
+   The unused resource check can ignore tests. If you want to include
+   resources that are only referenced from tests, consider packaging them in a
+   test source set instead.
+
+   You can include test sources in the unused resource check by setting the
+   system property lint.unused-resources.include-tests =true, and to exclude
+   them (usually for performance reasons), use
+   lint.unused-resources.exclude-tests =true.
+   ,
+
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\activity_material_checklist.xml:8: Warning: This ScrollView layout or its FrameLayout parent is unnecessary; transfer the background attribute to the other view [UselessParent]
+    <ScrollView
+     ~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\activity_material_checklist.xml:8: Warning: This ScrollView layout or its FrameLayout parent is unnecessary; transfer the background attribute to the other view [UselessParent]
+    <ScrollView
+     ~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\activity_splash.xml:8: Warning: This ScrollView layout or its FrameLayout parent is unnecessary; transfer the background attribute to the other view [UselessParent]
+    <ScrollView
+     ~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\activity_splash.xml:8: Warning: This ScrollView layout or its FrameLayout parent is unnecessary; transfer the background attribute to the other view [UselessParent]
+    <ScrollView
+     ~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:7: Warning: This ScrollView layout or its FrameLayout parent is unnecessary; transfer the background attribute to the other view [UselessParent]
+    <ScrollView
+     ~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:7: Warning: This ScrollView layout or its FrameLayout parent is unnecessary; transfer the background attribute to the other view [UselessParent]
+    <ScrollView
+     ~~~~~~~~~~
+
+   Explanation for issues of type "UselessParent":
+   A layout with children that has no siblings, is not a scrollview or a root
+   layout, and does not have a background, can be removed and have its
+   children moved directly into the parent for a flatter and more efficient
+   layout hierarchy.
+
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\mipmap-anydpi-v26\ic_launcher.xml:2: Warning: The application adaptive icon is missing a monochrome tag [MonochromeLauncherIcon]
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+^
+
+   Explanation for issues of type "MonochromeLauncherIcon":
+   If android:roundIcon and android:icon are both in your manifest, you must
+   either remove the reference to android:roundIcon if it is not needed; or,
+   supply the monochrome icon in the drawable defined by the android:roundIcon
+   and android:icon attribute.
+
+   For example, if android:roundIcon and android:icon are both in the
+   manifest, a launcher might choose to use android:roundIcon over
+   android:icon to display the adaptive app icon. Therefore, your themed
+   application iconwill not show if your monochrome attribute is not also
+   specified in android:roundIcon.
+
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:161: Warning: Buttons in button bars should be borderless; use style="?android:attr/buttonBarButtonStyle" (and ?android:attr/buttonBarStyle on the parent) [ButtonStyle]
+                        <Button
+                         ~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:161: Warning: Buttons in button bars should be borderless; use style="?android:attr/buttonBarButtonStyle" (and ?android:attr/buttonBarStyle on the parent) [ButtonStyle]
+                    <Button
+                     ~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:179: Warning: Buttons in button bars should be borderless; use style="?android:attr/buttonBarButtonStyle" (and ?android:attr/buttonBarStyle on the parent) [ButtonStyle]
+                        <Button
+                         ~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:182: Warning: Buttons in button bars should be borderless; use style="?android:attr/buttonBarButtonStyle" (and ?android:attr/buttonBarStyle on the parent) [ButtonStyle]
+                    <Button
+                     ~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:235: Warning: Buttons in button bars should be borderless; use style="?android:attr/buttonBarButtonStyle" (and ?android:attr/buttonBarStyle on the parent) [ButtonStyle]
+                        <Button
+                         ~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:241: Warning: Buttons in button bars should be borderless; use style="?android:attr/buttonBarButtonStyle" (and ?android:attr/buttonBarStyle on the parent) [ButtonStyle]
+                    <Button
+                     ~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:255: Warning: Buttons in button bars should be borderless; use style="?android:attr/buttonBarButtonStyle" (and ?android:attr/buttonBarStyle on the parent) [ButtonStyle]
+                        <Button
+                         ~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:261: Warning: Buttons in button bars should be borderless; use style="?android:attr/buttonBarButtonStyle" (and ?android:attr/buttonBarStyle on the parent) [ButtonStyle]
+                    <Button
+                     ~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:276: Warning: Buttons in button bars should be borderless; use style="?android:attr/buttonBarButtonStyle" (and ?android:attr/buttonBarStyle on the parent) [ButtonStyle]
+                        <Button
+                         ~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:282: Warning: Buttons in button bars should be borderless; use style="?android:attr/buttonBarButtonStyle" (and ?android:attr/buttonBarStyle on the parent) [ButtonStyle]
+                    <Button
+                     ~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:428: Warning: Buttons in button bars should be borderless; use style="?android:attr/buttonBarButtonStyle" (and ?android:attr/buttonBarStyle on the parent) [ButtonStyle]
+                    <Button
+                     ~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:430: Warning: Buttons in button bars should be borderless; use style="?android:attr/buttonBarButtonStyle" (and ?android:attr/buttonBarStyle on the parent) [ButtonStyle]
+                    <Button
+                     ~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:442: Warning: Buttons in button bars should be borderless; use style="?android:attr/buttonBarButtonStyle" (and ?android:attr/buttonBarStyle on the parent) [ButtonStyle]
+                    <Button
+                     ~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:446: Warning: Buttons in button bars should be borderless; use style="?android:attr/buttonBarButtonStyle" (and ?android:attr/buttonBarStyle on the parent) [ButtonStyle]
+                    <Button
+                     ~~~~~~
+
+   Explanation for issues of type "ButtonStyle":
+   Button bars typically use a borderless style for the buttons. Set the
+   style="?android:attr/buttonBarButtonStyle" attribute on each of the
+   buttons, and set style="?android:attr/buttonBarStyle" on the parent layout
+
+   https://d.android.com/r/studio-ui/designer/material/dialogs
+
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\activity_material_checklist.xml:225: Warning: Avoid using sizes smaller than 11sp: 10sp [SmallSp]
+                                android:textSize="10sp"
+                                ~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:47: Warning: Avoid using sizes smaller than 11sp: 10sp [SmallSp]
+                        android:textSize="10sp"
+                        ~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:68: Warning: Avoid using sizes smaller than 11sp: 10sp [SmallSp]
+                    android:textSize="10sp"
+                    ~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:106: Warning: Avoid using sizes smaller than 11sp: 10sp [SmallSp]
+                                android:textSize="10sp"
+                                ~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:153: Warning: Avoid using sizes smaller than 11sp: 10sp [SmallSp]
+                        android:textSize="10sp" />
+                        ~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:212: Warning: Avoid using sizes smaller than 11sp: 10sp [SmallSp]
+                            android:textSize="10sp"
+                            ~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:226: Warning: Avoid using sizes smaller than 11sp: 9sp [SmallSp]
+                            android:textSize="9sp" />
+                            ~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:232: Warning: Avoid using sizes smaller than 11sp: 10sp [SmallSp]
+                        android:textSize="10sp" />
+                        ~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:252: Warning: Avoid using sizes smaller than 11sp: 10sp [SmallSp]
+                            android:textSize="10sp"
+                            ~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:273: Warning: Avoid using sizes smaller than 11sp: 10sp [SmallSp]
+                            android:textSize="10sp"
+                            ~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:293: Warning: Avoid using sizes smaller than 11sp: 10sp [SmallSp]
+                            android:textSize="10sp"
+                            ~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:336: Warning: Avoid using sizes smaller than 11sp: 9sp [SmallSp]
+                                android:textSize="9sp" />
+                                ~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:353: Warning: Avoid using sizes smaller than 11sp: 9sp [SmallSp]
+                            android:textSize="9sp"
+                            ~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:357: Warning: Avoid using sizes smaller than 11sp: 10sp [SmallSp]
+                        android:textSize="10sp"
+                        ~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:419: Warning: Avoid using sizes smaller than 11sp: 10sp [SmallSp]
+                        android:textSize="10sp" />
+                        ~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:466: Warning: Avoid using sizes smaller than 11sp: 10sp [SmallSp]
+                    android:textSize="10sp" />
+                    ~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "SmallSp":
+   Avoid using sizes smaller than 11sp.
+
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\java\com\felipe\endoscopeviewer\UsbCameraFragment.kt:868: Warning: Custom view `Button` has setOnTouchListener called on it but does not override performClick [ClickableViewAccessibility]
+        button.setOnTouchListener { view, event ->
+        ^
+
+   Explanation for issues of type "ClickableViewAccessibility":
+   If a View that overrides onTouchEvent or uses an OnTouchListener does not
+   also implement performClick and call it when clicks are detected, the View
+   may not handle accessibility actions properly. Logic handling the click
+   actions should ideally be placed in View#performClick as some accessibility
+   services invoke performClick when a click action should occur.
+
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\java\com\felipe\endoscopeviewer\UsbCameraFragment.kt:268: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+                        "${sortedCameras().size} cámara(s) detectada(s) · mostrando cámara $slot"
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\java\com\felipe\endoscopeviewer\UsbCameraFragment.kt:268: Warning: String literal in setText can not be translated. Use Android resources instead. [SetTextI18n]
+                        "${sortedCameras().size} cámara(s) detectada(s) · mostrando cámara $slot"
+                                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\java\com\felipe\endoscopeviewer\UsbCameraFragment.kt:290: Warning: String literal in setText can not be translated. Use Android resources instead. [SetTextI18n]
+            cameraStatus.text = "Sólo hay una cámara USB conectada"
+                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\java\com\felipe\endoscopeviewer\UsbCameraFragment.kt:503: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+            text = "$label  ·  $detail"
+                   ~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\java\com\felipe\endoscopeviewer\UsbCameraFragment.kt:578: Warning: String literal in setText can not be translated. Use Android resources instead. [SetTextI18n]
+            historySelectedText.text = "Sin registros. Presiona y suelta el dispositivo."
+                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\java\com\felipe\endoscopeviewer\UsbCameraFragment.kt:580: Warning: String literal in setText can not be translated. Use Android resources instead. [SetTextI18n]
+                text = "Aún no hay presiones registradas"
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\java\com\felipe\endoscopeviewer\UsbCameraFragment.kt:608: Warning: String literal in setText can not be translated. Use Android resources instead. [SetTextI18n]
+        historySelectedText.text = "Toca un registro para ver todos sus valores."
+                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\java\com\felipe\endoscopeviewer\UsbCameraFragment.kt:838: Warning: String literal in setText can not be translated. Use Android resources instead. [SetTextI18n]
+        if (!connected) motorStatus.text = "Conecta Bluetooth para controlar la extensión"
+                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\java\com\felipe\endoscopeviewer\UsbCameraFragment.kt:893: Warning: String literal in setText can not be translated. Use Android resources instead. [SetTextI18n]
+            motorStatus.text = "El dispositivo no está conectado"
+                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\java\com\felipe\endoscopeviewer\UsbCameraFragment.kt:912: Warning: String literal in setText can not be translated. Use Android resources instead. [SetTextI18n]
+        if (::motorStatus.isInitialized && isBleConnected) motorStatus.text = "Extensión detenida"
+                                                                               ~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\java\com\felipe\endoscopeviewer\UsbCameraFragment.kt:917: Warning: String literal in setText can not be translated. Use Android resources instead. [SetTextI18n]
+            motorStatus.text = "El dispositivo no está conectado"
+                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "SetTextI18n":
+   When calling TextView#setText
+   * Never call Number#toString() to format numbers; it will not handle
+   fraction separators and locale-specific digits properly. Consider using
+   String#format with proper format specifications (%d or %f) instead.
+   * Do not pass a string literal (e.g. "Hello") to display text. Hardcoded
+   text can not be properly translated to other languages. Consider using
+   Android resource strings instead.
+   * Do not build messages by concatenating text chunks. Such messages can not
+   be properly translated.
+
+   https://developer.android.com/guide/topics/resources/localization.html
+
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:27: Warning: Hardcoded string "Logo SimGyo", should use @string resource [HardcodedText]
+                android:contentDescription="Logo SimGyo"
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:31: Warning: Hardcoded string "Logo SimGyo", should use @string resource [HardcodedText]
+                    android:contentDescription="Logo SimGyo"
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:35: Warning: Hardcoded string "ENDOSCOPIO", should use @string resource [HardcodedText]
+                android:text="ENDOSCOPIO"
+                ~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:45: Warning: Hardcoded string "ENDOSCOPIO", should use @string resource [HardcodedText]
+                        android:text="ENDOSCOPIO"
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:51: Warning: Hardcoded string "Simulador DIU", should use @string resource [HardcodedText]
+                    android:text="Simulador DIU"
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:53: Warning: Hardcoded string "Simulador DIU", should use @string resource [HardcodedText]
+                        android:text="Simulador DIU"
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:65: Warning: Hardcoded string "○  SIN CONEXIÓN", should use @string resource [HardcodedText]
+                    android:text="○  SIN CONEXIÓN"
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:66: Warning: Hardcoded string "○  SIN CONEXIÓN", should use @string resource [HardcodedText]
+                    android:text="○  SIN CONEXIÓN"
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:95: Warning: Hardcoded string "FUERZA ACTUAL", should use @string resource [HardcodedText]
+                            android:text="FUERZA ACTUAL"
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:104: Warning: Hardcoded string "FUERZA ACTUAL", should use @string resource [HardcodedText]
+                                android:text="FUERZA ACTUAL"
+                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:105: Warning: Hardcoded string "0.00 g", should use @string resource [HardcodedText]
+                            android:text="0.00 g"
+                            ~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:114: Warning: Hardcoded string "0.00 g", should use @string resource [HardcodedText]
+                                android:text="0.00 g"
+                                ~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:122: Warning: Hardcoded string "AZUL", should use @string resource [HardcodedText]
+                            android:text="AZUL"
+                            ~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:125: Warning: Hardcoded string "AZUL", should use @string resource [HardcodedText]
+                            android:text="AZUL"
+                            ~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:132: Warning: Hardcoded string "Último: 0.00 g", should use @string resource [HardcodedText]
+                            android:text="Último: 0.00 g"
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:135: Warning: Hardcoded string "Último: 0.00 g", should use @string resource [HardcodedText]
+                            android:text="Último: 0.00 g"
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:151: Warning: Hardcoded string "•  Conecta el dispositivo ESP32-S3", should use @string resource [HardcodedText]
+                        android:text="•  Conecta el dispositivo ESP32-S3"
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:151: Warning: Hardcoded string "•  Conecta el dispositivo ESP32-S3", should use @string resource [HardcodedText]
+                    android:text="•  Conecta el dispositivo ESP32-S3"
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:173: Warning: Hardcoded string "Conectar dispositivo", should use @string resource [HardcodedText]
+                            android:text="Conectar dispositivo"
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:176: Warning: Hardcoded string "Conectar dispositivo", should use @string resource [HardcodedText]
+                        android:text="Conectar dispositivo"
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:193: Warning: Hardcoded string "Realizar tara", should use @string resource [HardcodedText]
+                            android:text="Realizar tara"
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:199: Warning: Hardcoded string "Realizar tara", should use @string resource [HardcodedText]
+                        android:text="Realizar tara"
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:210: Warning: Hardcoded string "EXTENSIÓN DEL ÚTERO", should use @string resource [HardcodedText]
+                            android:text="EXTENSIÓN DEL ÚTERO"
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:216: Warning: Hardcoded string "EXTENSIÓN DEL ÚTERO", should use @string resource [HardcodedText]
+                        android:text="EXTENSIÓN DEL ÚTERO"
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:224: Warning: Hardcoded string "Conecta Bluetooth para controlar la extensión", should use @string resource [HardcodedText]
+                            android:text="Conecta Bluetooth para controlar la extensión"
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:230: Warning: Hardcoded string "Conecta Bluetooth para controlar la extensión", should use @string resource [HardcodedText]
+                        android:text="Conecta Bluetooth para controlar la extensión"
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:249: Warning: Hardcoded string "Izquierda", should use @string resource [HardcodedText]
+                            android:text="Izquierda"
+                            ~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:255: Warning: Hardcoded string "Izquierda", should use @string resource [HardcodedText]
+                        android:text="Izquierda"
+                        ~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:270: Warning: Hardcoded string "Centrar eje", should use @string resource [HardcodedText]
+                            android:text="Centrar eje"
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:276: Warning: Hardcoded string "Centrar eje", should use @string resource [HardcodedText]
+                        android:text="Centrar eje"
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:290: Warning: Hardcoded string "Derecha", should use @string resource [HardcodedText]
+                            android:text="Derecha"
+                            ~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:296: Warning: Hardcoded string "Derecha", should use @string resource [HardcodedText]
+                        android:text="Derecha"
+                        ~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:323: Warning: Hardcoded string "CÁMARA EN VIVO", should use @string resource [HardcodedText]
+                                android:text="CÁMARA EN VIVO"
+                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:328: Warning: Hardcoded string "CÁMARA EN VIVO", should use @string resource [HardcodedText]
+                            android:text="CÁMARA EN VIVO"
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:334: Warning: Hardcoded string "Conecta una cámara mediante OTG", should use @string resource [HardcodedText]
+                                android:text="Conecta una cámara mediante OTG"
+                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:339: Warning: Hardcoded string "Conecta una cámara mediante OTG", should use @string resource [HardcodedText]
+                            android:text="Conecta una cámara mediante OTG"
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:350: Warning: Hardcoded string "Sin otra cámara", should use @string resource [HardcodedText]
+                            android:text="Sin otra cámara"
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:354: Warning: Hardcoded string "Sin otra cámara", should use @string resource [HardcodedText]
+                        android:text="Sin otra cámara"
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:374: Warning: Hardcoded string "Esperando cámara USB", should use @string resource [HardcodedText]
+                            android:text="Esperando cámara USB"
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:377: Warning: Hardcoded string "Esperando cámara USB", should use @string resource [HardcodedText]
+                        android:text="Esperando cámara USB"
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:400: Warning: Hardcoded string "REGISTROS DEL DISPOSITIVO", should use @string resource [HardcodedText]
+                        android:text="REGISTROS DEL DISPOSITIVO"
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:402: Warning: Hardcoded string "REGISTROS DEL DISPOSITIVO", should use @string resource [HardcodedText]
+                        android:text="REGISTROS DEL DISPOSITIVO"
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:416: Warning: Hardcoded string "Limpiar", should use @string resource [HardcodedText]
+                        android:text="Limpiar"
+                        ~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:417: Warning: Hardcoded string "Limpiar", should use @string resource [HardcodedText]
+                        android:text="Limpiar"
+                        ~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:437: Warning: Hardcoded string "Historial", should use @string resource [HardcodedText]
+                        android:text="Historial"
+                        ~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:440: Warning: Hardcoded string "Historial", should use @string resource [HardcodedText]
+                        android:text="Historial"
+                        ~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:452: Warning: Hardcoded string "Umbrales", should use @string resource [HardcodedText]
+                        android:text="Umbrales"
+                        ~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:457: Warning: Hardcoded string "Umbrales", should use @string resource [HardcodedText]
+                        android:text="Umbrales"
+                        ~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout-land\fragment_usb_camera.xml:464: Warning: Hardcoded string "Sin registros. Presiona y suelta el dispositivo.", should use @string resource [HardcodedText]
+                    android:text="Sin registros. Presiona y suelta el dispositivo."
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res\layout\fragment_usb_camera.xml:470: Warning: Hardcoded string "Sin registros. Presiona y suelta el dispositivo.", should use @string resource [HardcodedText]
+                    android:text="Sin registros. Presiona y suelta el dispositivo."
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "HardcodedText":
+   Hardcoding text attributes directly in layout files is bad for several
+   reasons:
+
+   * When creating configuration variations (for example for landscape or
+   portrait) you have to repeat the actual text (and keep it up to date when
+   making changes)
+
+   * The application cannot be translated to other languages by just adding
+   new translations for existing string resources.
+
+   There are quickfixes to automatically extract this hardcoded string into a
+   resource lookup.
+
+C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml: Warning: The project references RTL attributes, but does not explicitly enable or disable RTL support with android:supportsRtl in the manifest [RtlEnabled]
+
+   Explanation for issues of type "RtlEnabled":
+   To enable right-to-left support, when running on API 17 and higher, you
+   must set the android:supportsRtl attribute in the manifest <application>
+   element.
+
+   If you have started adding RTL attributes, but have not yet finished the
+   migration, you can set the attribute to false to satisfy this lint check.
+
+0 errors, 137 warnings

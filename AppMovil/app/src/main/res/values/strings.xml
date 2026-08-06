@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">SimGyO-DIU</string>
+    <string name="logo_description">Logo SimGyO</string>
+    <string name="splash_tagline">+Entrenamiento   +Precisión</string>
+    <string name="splash_product_name">SimGyO-DIU</string>
+    <string name="splash_description">Simulador clínico para el entrenamiento\nen inserción de dispositivos intrauterinos</string>
+    <string name="welcome_continue_hint">Continúa para revisar los materiales necesarios.</string>
+    <string name="contact_email">Contacto:  simgyo25@gmail.com</string>
+    <string name="contact_email_description">Enviar correo a SimGyO</string>
+    <string name="welcome_next">Siguiente</string>
+    <string name="checklist_eyebrow">PREPARACIÓN</string>
+    <string name="checklist_title">Lista de materiales</string>
+    <string name="checklist_description">Confirma que todos los materiales estén disponibles antes de iniciar el simulador.</string>
+    <string name="diu_icon_description">Icono de dispositivo intrauterino</string>
+    <string name="checklist_card_title">Materiales para el procedimiento</string>
+    <string name="checklist_card_subtitle">Marca cada elemento para continuar</string>
+    <string name="material_1">Espéculo</string>
+    <string name="material_2">Solución y aplicador antiséptico</string>
+    <string name="material_3">Pinza Pozzi</string>
+    <string name="material_4">Histerómetro</string>
+    <string name="material_5">Tijeras curvas afiladas</string>
+    <string name="material_6">Guantes (examen bimanual) y guantes estériles (inserción)</string>
+    <string name="material_progress_initial">0 de 6 materiales listos</string>
+    <string name="material_progress">%1$d de %2$d materiales listos</string>
+    <string name="checklist_next">Siguiente</string>
+</resources>
