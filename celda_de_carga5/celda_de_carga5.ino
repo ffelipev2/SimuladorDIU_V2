@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #include "HX711.h"
 #include <math.h>
 
@@ -15,6 +16,10 @@
 static const int HX_DOUT = 4;
 static const int HX_SCK = 5;
 static const int BUZZER_PIN = 6;
+// Frecuencia de excitación para el buzzer pasivo. Ajustar si el modelo usado
+// tiene otra frecuencia de resonancia, manteniendo el mismo GPIO.
+static const unsigned int BUZZER_FREQUENCY_HZ = 2400;
+static const unsigned long BUZZER_BEEP_INTERVAL_MS = 200;
 
 // Sensor de humedad digital HW-08: conectar D0 a este GPIO.
 static const int HUMIDITY_PIN = 11;
@@ -35,7 +40,9 @@ static const int STEPPER_IN4 = 18;
 //                  BLUETOOTH LOW ENERGY
 // =====================================================
 // Estos UUID deben coincidir con BleScaleManager.kt.
-static const char* BLE_DEVICE_NAME = "CeldaCarga-S3";
+// Cada placa agrega seis caracteres de su identificador para diferenciarse.
+static const char* BLE_DEVICE_NAME_PREFIX = "SimGyO-DIU";
+char bleDeviceName[24] = {};
 static const char* BLE_SERVICE_UUID = "4fafc201-1fb5-459e-8fcc-c5c9c331914b";
 static const char* BLE_STATE_UUID = "beb5483e-36e1-4688-b7f5-ea07361b26a8";
 static const char* BLE_COMMAND_UUID = "e3223119-9445-4e96-a4a1-85358c4046a2";
@@ -43,16 +50,70 @@ static const char* BLE_COMMAND_UUID = "e3223119-9445-4e96-a4a1-85358c4046a2";
 BLECharacteristic* stateCharacteristic = nullptr;
 volatile bool bleConnected = false;
 volatile bool tareRequested = false;
+bool tareInProgress = false;
 
 // =====================================================
 //                      HX711
 // =====================================================
 HX711 scale;
-float CAL = 1040.6f;
+float CAL = 207.395996f;
 
-const float DEADBAND_G = 0.3f;
+// El HX711 es opcional para el arranque. El firmware publica uno de estos
+// estados por BLE y sigue atendiendo el motor y el sensor de humedad aunque la
+// celda de carga no responda. Si vuelve a conectarse, se reinicializa sola.
+enum LoadCellStatus : uint8_t {
+  LOAD_CELL_UNAVAILABLE = 0,
+  LOAD_CELL_INITIALIZING = 1,
+  LOAD_CELL_READY = 2
+};
+
+const uint8_t LOAD_CELL_INIT_SAMPLES = 12;
+const unsigned long LOAD_CELL_INIT_TIMEOUT_MS = 5000;
+const unsigned long LOAD_CELL_LOST_TIMEOUT_MS = 2000;
+
+LoadCellStatus loadCellStatus = LOAD_CELL_INITIALIZING;
+unsigned long loadCellStatusStartedAt = 0;
+unsigned long loadCellLastReadyAt = 0;
+long loadCellInitValues[LOAD_CELL_INIT_SAMPLES] = {};
+uint8_t loadCellInitCount = 0;
+float loadCellSampleSum = 0.0f;
+uint8_t loadCellSampleCount = 0;
+
+// Una celda de 10 kg tiene menos resolución en cargas pequeñas. La histéresis
+// evita que el ruido alrededor de cero aparezca y desaparezca en pantalla.
+const float ZERO_UNLOCK_G = 0.80f;
+const float ZERO_RELOCK_G = 0.55f;
+bool zeroLocked = true;
+
+float weightWindow[3] = { 0.0f, 0.0f, 0.0f };
+uint8_t weightWindowCount = 0;
+uint8_t weightWindowIndex = 0;
+
 float prettyZero(float grams) {
-  return fabs(grams) < DEADBAND_G ? 0.0f : grams;
+  const float magnitude = fabs(grams);
+  if (zeroLocked) {
+    if (magnitude <= ZERO_UNLOCK_G) return 0.0f;
+    zeroLocked = false;
+  }
+  if (magnitude <= ZERO_RELOCK_G) {
+    zeroLocked = true;
+    return 0.0f;
+  }
+  return grams;
+}
+
+float medianOf3(float a, float b, float c) {
+  if (a > b) { const float t = a; a = b; b = t; }
+  if (b > c) { const float t = b; b = c; c = t; }
+  if (a > b) { const float t = a; a = b; b = t; }
+  return b;
+}
+
+void resetWeightFilter() {
+  weightWindow[0] = weightWindow[1] = weightWindow[2] = 0.0f;
+  weightWindowCount = 0;
+  weightWindowIndex = 0;
+  zeroLocked = true;
 }
 
 float peso_g_now = 0.0f;
@@ -278,6 +339,7 @@ bool autoZeroAdjustOffset(uint8_t samples = 18) {
       if (millis() - waitStarted > 800) return false;
     }
     values[i] = scale.read();
+    loadCellLastReadyAt = millis();
     delay(0);
   }
 
@@ -312,7 +374,11 @@ bool autoZeroAdjustOffset(uint8_t samples = 18) {
 }
 
 void updateAutoZero(unsigned long now) {
-  if (!AUTOZERO_ENABLED || now - lastAutoZero < AUTOZERO_EVERY_MS) return;
+  if (
+    loadCellStatus != LOAD_CELL_READY ||
+    !AUTOZERO_ENABLED ||
+    now - lastAutoZero < AUTOZERO_EVERY_MS
+  ) return;
   // El ajuste toma varias muestras seguidas; no debe interrumpir el movimiento.
   if (stepperRequestedDirection != 0 || stepperBleDirection != 0) {
     autoZeroHavePrev = false;
@@ -339,6 +405,9 @@ void updateAutoZero(unsigned long now) {
       if (autoZeroAdjustOffset()) {
         lastAutoZero = now;
         peso_g_now = 0.0f;
+        loadCellSampleSum = 0.0f;
+        loadCellSampleCount = 0;
+        resetWeightFilter();
       }
       autoZeroHavePrev = false;
     }
@@ -351,46 +420,140 @@ void updateAutoZero(unsigned long now) {
 // =====================================================
 //                   LECTURA Y TARA
 // =====================================================
-bool initHX711(unsigned long timeoutMs) {
-  Serial.println("HX711: esperando...");
-  const unsigned long started = millis();
-  while (!scale.is_ready()) {
-    delay(1);
-    if (millis() - started > timeoutMs) {
-      Serial.println("ERROR HX711: revisa el cableado");
-      return false;
+long trimmedMean(long* values, uint8_t count) {
+  for (uint8_t i = 0; i + 1 < count; i++) {
+    for (uint8_t j = i + 1; j < count; j++) {
+      if (values[j] < values[i]) {
+        const long temp = values[i];
+        values[i] = values[j];
+        values[j] = temp;
+      }
     }
   }
 
-  scale.tare(20);
-  scale.set_scale(CAL);
-  Serial.println("HX711 listo");
-  return true;
+  uint8_t trim = (uint8_t)(count * 0.2f);
+  if (trim < 1 && count > 2) trim = 1;
+  uint8_t start = trim;
+  uint8_t end = count - trim;
+  if (end <= start) {
+    start = 0;
+    end = count;
+  }
+
+  long long sum = 0;
+  uint8_t used = 0;
+  for (uint8_t i = start; i < end; i++) {
+    sum += values[i];
+    used++;
+  }
+  return used > 0 ? (long)(sum / used) : 0;
 }
 
-void updatePesoNonBlocking() {
-  if (!scale.is_ready()) return;
+void resetLoadCellValues(unsigned long now) {
+  peso_g_now = 0.0f;
+  peso_g_last = 0.0f;
+  loadCellSampleSum = 0.0f;
+  loadCellSampleCount = 0;
+  resetWeightFilter();
+  peakTracker = 0.0f;
+  stableSince = now;
+  lastNowForStable = 0.0f;
+  autoZeroHavePrev = false;
+}
+
+void markLoadCellUnavailable(unsigned long now) {
+  if (loadCellStatus != LOAD_CELL_UNAVAILABLE) {
+    Serial.println("HX711 no detectado; el resto del sistema continua disponible");
+  }
+  loadCellStatus = LOAD_CELL_UNAVAILABLE;
+  loadCellStatusStartedAt = now;
+  loadCellInitCount = 0;
+  resetLoadCellValues(now);
+}
+
+void beginLoadCellInitialization(unsigned long now) {
+  loadCellStatus = LOAD_CELL_INITIALIZING;
+  loadCellStatusStartedAt = now;
+  loadCellLastReadyAt = now;
+  loadCellInitCount = 0;
+  loadCellSampleSum = 0.0f;
+  loadCellSampleCount = 0;
+  scale.set_scale(CAL);
+  Serial.println("HX711 detectado; inicializando sin bloquear el sistema...");
+}
+
+void updateLoadCellInitialization(unsigned long now) {
+  if (!scale.is_ready()) {
+    if (
+      loadCellStatus == LOAD_CELL_INITIALIZING &&
+      now - loadCellStatusStartedAt >= LOAD_CELL_INIT_TIMEOUT_MS
+    ) {
+      markLoadCellUnavailable(now);
+    }
+    return;
+  }
+
+  if (loadCellStatus == LOAD_CELL_UNAVAILABLE) beginLoadCellInitialization(now);
+
+  loadCellLastReadyAt = now;
+  loadCellInitValues[loadCellInitCount++] = scale.read();
+  if (loadCellInitCount < LOAD_CELL_INIT_SAMPLES) return;
+
+  scale.set_offset(trimmedMean(loadCellInitValues, loadCellInitCount));
+  scale.set_scale(CAL);
+  loadCellStatus = LOAD_CELL_READY;
+  loadCellStatusStartedAt = now;
+  lastAutoZero = now;
+  resetLoadCellValues(now);
+  Serial.println("HX711 listo");
+}
+
+void updatePesoNonBlocking(unsigned long now) {
+  if (loadCellStatus != LOAD_CELL_READY) {
+    updateLoadCellInitialization(now);
+    return;
+  }
+
+  if (!scale.is_ready()) {
+    if ((long)(now - loadCellLastReadyAt) >= (long)LOAD_CELL_LOST_TIMEOUT_MS) {
+      markLoadCellUnavailable(now);
+    }
+    return;
+  }
+
+  loadCellLastReadyAt = now;
 
   // Promedia dos conversiones sin esperar bloqueado por la siguiente. Así el
   // loop puede seguir generando los pasos del motor entre lecturas del HX711.
-  static float sampleSum = 0.0f;
-  static uint8_t sampleCount = 0;
-  sampleSum += scale.get_units(1);
-  sampleCount++;
-  if (sampleCount >= 2) {
-    peso_g_now = prettyZero(sampleSum / sampleCount);
-    sampleSum = 0.0f;
-    sampleCount = 0;
+  loadCellSampleSum += scale.get_units(1);
+  loadCellSampleCount++;
+  if (loadCellSampleCount >= 2) {
+    const float averaged = loadCellSampleSum / loadCellSampleCount;
+    loadCellSampleSum = 0.0f;
+    loadCellSampleCount = 0;
+
+    weightWindow[weightWindowIndex] = averaged;
+    weightWindowIndex = (weightWindowIndex + 1) % 3;
+    if (weightWindowCount < 3) weightWindowCount++;
+
+    const float filtered = weightWindowCount < 3
+      ? averaged
+      : medianOf3(weightWindow[0], weightWindow[1], weightWindow[2]);
+    peso_g_now = prettyZero(filtered);
   }
 }
 
 bool tarePrecisa(uint8_t samples = 40, float stableDelta = 0.20f, unsigned long stableMs = 350) {
+  if (loadCellStatus != LOAD_CELL_READY) return false;
   Serial.println("Tara solicitada desde la app. No tocar la celda...");
 
   unsigned long started = millis();
   while (!scale.is_ready()) {
     delay(0);
-    if (millis() - started > 1200) return false;
+    if (millis() - started > 1200) {
+      markLoadCellUnavailable(millis());
+      return false;
+    }
   }
 
   float previous = 0.0f;
@@ -400,6 +563,7 @@ bool tarePrecisa(uint8_t samples = 40, float stableDelta = 0.20f, unsigned long 
   while (true) {
     if (scale.is_ready()) {
       const float grams = scale.get_units(1);
+      loadCellLastReadyAt = millis();
       if (!havePrevious) {
         previous = grams;
         havePrevious = true;
@@ -421,9 +585,13 @@ bool tarePrecisa(uint8_t samples = 40, float stableDelta = 0.20f, unsigned long 
     const unsigned long waitStarted = millis();
     while (!scale.is_ready()) {
       delay(0);
-      if (millis() - waitStarted > 1000) return false;
+      if (millis() - waitStarted > 1000) {
+        markLoadCellUnavailable(millis());
+        return false;
+      }
     }
     values[i] = scale.read();
+    loadCellLastReadyAt = millis();
     delay(0);
   }
 
@@ -453,22 +621,29 @@ bool tarePrecisa(uint8_t samples = 40, float stableDelta = 0.20f, unsigned long 
     count++;
   }
   scale.set_offset(count > 0 ? (long)(sum / count) : values[samples / 2]);
+  loadCellLastReadyAt = millis();
   return true;
 }
 
-void performTare() {
+bool performTare() {
   stopStepper();
-  const bool success = tarePrecisa();
-  if (!success) scale.tare(20);
+  if (loadCellStatus != LOAD_CELL_READY) {
+    Serial.println("Tara rechazada: HX711 no disponible");
+    return false;
+  }
 
-  peso_g_now = 0.0f;
-  peso_g_last = 0.0f;
-  peakTracker = 0.0f;
-  stableSince = millis();
-  lastNowForStable = 0.0f;
-  lastAutoZero = millis();
-  autoZeroHavePrev = false;
-  Serial.println(success ? "Tara OK" : "Tara completada con método de respaldo");
+  const bool success = tarePrecisa();
+  if (!success) {
+    Serial.println("Tara fallida: HX711 sin respuesta");
+    return false;
+  }
+
+  const unsigned long completedAt = millis();
+  resetLoadCellValues(completedAt);
+  loadCellLastReadyAt = completedAt;
+  lastAutoZero = completedAt;
+  Serial.println("Tara OK");
+  return true;
 }
 
 // =====================================================
@@ -525,22 +700,28 @@ void updateLedIfNeeded() {
 void updateBuzzer(unsigned long now) {
   alarmOn = computeAlarm();
   static unsigned long lastBeep = 0;
-  static bool beepState = false;
+  static bool buzzerSounding = false;
 
-  if (alarmOn && now - lastBeep > 200) {
+  if (alarmOn && now - lastBeep >= BUZZER_BEEP_INTERVAL_MS) {
     lastBeep = now;
-    beepState = !beepState;
-    digitalWrite(BUZZER_PIN, beepState ? HIGH : LOW);
+    buzzerSounding = !buzzerSounding;
+    if (buzzerSounding) {
+      tone(BUZZER_PIN, BUZZER_FREQUENCY_HZ);
+    } else {
+      noTone(BUZZER_PIN);
+    }
   } else if (!alarmOn) {
-    beepState = false;
-    digitalWrite(BUZZER_PIN, LOW);
+    if (buzzerSounding) noTone(BUZZER_PIN);
+    buzzerSounding = false;
+    lastBeep = now;
   }
 }
 
 // =====================================================
 //                  PROTOCOLO BLE
 // =====================================================
-// Estado: S,peso,ultimo,zona,alarma,humedad,direccion,posicion,puedeIzq,puedeDer,centrando
+// Estado: S,peso,ultimo,zona,alarma,humedad,direccion,posicion,puedeIzq,puedeDer,centrando,tara,hx711
+// hx711: 0 = no disponible, 1 = inicializando, 2 = listo.
 // Comandos aceptados: TARE, MOTOR,-1|0|1 y CENTER
 void updateBleStateValue(bool notifyClient) {
   if (stateCharacteristic == nullptr) return;
@@ -549,7 +730,7 @@ void updateBleStateValue(bool notifyClient) {
   snprintf(
     state,
     sizeof(state),
-    "S,%.2f,%.2f,%c,%d,%d,%d,%ld,%d,%d,%d",
+    "S,%.2f,%.2f,%c,%d,%d,%d,%ld,%d,%d,%d,%d,%d",
     peso_g_now,
     peso_g_last,
     zoneFromWeight(peso_g_now),
@@ -559,7 +740,9 @@ void updateBleStateValue(bool notifyClient) {
     stepperPositionHalfSteps,
     stepperCanMove(-1) ? 1 : 0,
     stepperCanMove(1) ? 1 : 0,
-    stepperCentering ? 1 : 0
+    stepperCentering ? 1 : 0,
+    tareInProgress ? 1 : 0,
+    (int)loadCellStatus
   );
 
   stateCharacteristic->setValue(state);
@@ -603,8 +786,21 @@ class CommandCallbacks : public BLECharacteristicCallbacks {
   }
 };
 
+void buildBleDeviceName() {
+  const uint64_t chipId = ESP.getEfuseMac();
+  const unsigned long shortId = (unsigned long)(chipId & 0xFFFFFFULL);
+  snprintf(
+    bleDeviceName,
+    sizeof(bleDeviceName),
+    "%s-%06lX",
+    BLE_DEVICE_NAME_PREFIX,
+    shortId
+  );
+}
+
 void setupBluetooth() {
-  BLEDevice::init(BLE_DEVICE_NAME);
+  buildBleDeviceName();
+  BLEDevice::init(bleDeviceName);
   BLEServer* server = BLEDevice::createServer();
   server->setCallbacks(new ScaleServerCallbacks());
 
@@ -632,7 +828,7 @@ void setupBluetooth() {
   BLEDevice::startAdvertising();
 
   Serial.print("Bluetooth listo: ");
-  Serial.println(BLE_DEVICE_NAME);
+  Serial.println(bleDeviceName);
 }
 
 // =====================================================
@@ -642,7 +838,7 @@ void setup() {
   Serial.begin(115200);
 
   pinMode(BUZZER_PIN, OUTPUT);
-  digitalWrite(BUZZER_PIN, LOW);
+  noTone(BUZZER_PIN);
   pinMode(HUMIDITY_PIN, INPUT_PULLUP);
 
   pinMode(STEPPER_IN1, OUTPUT);
@@ -656,20 +852,18 @@ void setup() {
   setColor(CRGB::Black);
 
   scale.begin(HX_DOUT, HX_SCK);
-  if (!initHX711(4000)) {
-    while (true) {
-      digitalWrite(BUZZER_PIN, LOW);
-      delay(10);
-    }
-  }
+  // Un DOUT desconectado queda en HIGH y no se confunde con una conversión
+  // lista. La detección y la tara inicial continúan luego dentro de loop().
+  pinMode(HX_DOUT, INPUT_PULLUP);
+  scale.set_scale(CAL);
+  loadCellStatusStartedAt = millis();
+  Serial.println("HX711: deteccion no bloqueante iniciada");
 
-  updatePesoNonBlocking();
-  peso_g_last = peso_g_now;
   updateHumidity();
   updateLedIfNeeded();
   setupBluetooth();
 
-  const unsigned long now = millis();
+  unsigned long now = millis();
   lastAutoZero = now;
   tPeso = tSerial = tBle = tLed = tHumidity = now;
 }
@@ -678,7 +872,7 @@ void setup() {
 //                          LOOP
 // =====================================================
 void loop() {
-  const unsigned long now = millis();
+  unsigned long now = millis();
 
   updateStepperMotor(now);
 
@@ -689,14 +883,23 @@ void loop() {
 
   if (tareRequested) {
     tareRequested = false;
+    tareInProgress = true;
+    updateBleStateValue(true);
     performTare();
+    tareInProgress = false;
+    updateBleStateValue(true);
+    // performTare() puede tardar varios segundos. Renueva la referencia de
+    // tiempo para que las comprobaciones siguientes no usen un valor antiguo.
+    now = millis();
   }
 
   if (now - tPeso >= PERIOD_PESO_MS) {
     tPeso = now;
-    updatePesoNonBlocking();
-    updateLastCapture(now);
-    updateAutoZero(now);
+    updatePesoNonBlocking(now);
+    if (loadCellStatus == LOAD_CELL_READY) {
+      updateLastCapture(now);
+      updateAutoZero(now);
+    }
   }
 
   if (now - tLed >= PERIOD_LED_MS) {
@@ -714,9 +917,10 @@ void loop() {
   if (now - tSerial >= PERIOD_SERIAL_MS) {
     tSerial = now;
     Serial.printf(
-      "Peso: %.2f g | Último: %.2f g | Zona: %c | Humedad: %s | Motor: %d (%ld)\n",
+      "Peso: %.2f g | Último: %.2f g | HX711: %d | Zona: %c | Humedad: %s | Motor: %d (%ld)\n",
       peso_g_now,
       peso_g_last,
+      (int)loadCellStatus,
       zoneFromWeight(peso_g_now),
       humidityDetected ? "SI" : "NO",
       stepperRequestedDirection,

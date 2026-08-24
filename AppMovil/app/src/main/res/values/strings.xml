@@ -12,6 +12,12 @@
     <string name="checklist_title">Lista de materiales</string>
     <string name="checklist_description">Confirma que todos los materiales estén disponibles antes de iniciar el simulador.</string>
     <string name="diu_icon_description">Icono de dispositivo intrauterino</string>
+    <string name="sensor_info_description">Ver estado de sensores</string>
+    <string name="equipment_status_title">Estado del equipo</string>
+    <string name="equipment_status_normal">● Normal</string>
+    <string name="equipment_status_attention">● Atención</string>
+    <string name="equipment_status_alert">● Alerta</string>
+    <string name="equipment_status_close">Cerrar</string>
     <string name="checklist_card_title">Materiales para el procedimiento</string>
     <string name="checklist_card_subtitle">Marca cada elemento para continuar</string>
     <string name="material_1">Espéculo</string>

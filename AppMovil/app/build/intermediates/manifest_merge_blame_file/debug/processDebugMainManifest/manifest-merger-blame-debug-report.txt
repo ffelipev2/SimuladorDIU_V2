@@ -1,68 +1,68 @@
 1<?xml version="1.0" encoding="utf-8"?>
 2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
 3    package="com.felipe.endoscopeviewer"
-4    android:versionCode="18"
-5    android:versionName="2.7" >
+4    android:versionCode="20"
+5    android:versionName="2.9" >
 6
 7    <uses-sdk
 8        android:minSdkVersion="23"
 9        android:targetSdkVersion="35" />
 10
 11    <uses-permission android:name="android.permission.CAMERA" />
-11-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:2:5-65
-11-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:2:22-62
+11-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:2:5-65
+11-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:2:22-62
 12    <uses-permission
-12-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:3:5-5:38
+12-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:3:5-5:38
 13        android:name="android.permission.BLUETOOTH"
-13-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:4:9-52
+13-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:4:9-52
 14        android:maxSdkVersion="30" />
-14-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:5:9-35
+14-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:5:9-35
 15    <uses-permission
-15-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:6:5-8:38
+15-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:6:5-8:38
 16        android:name="android.permission.BLUETOOTH_ADMIN"
-16-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:7:9-58
+16-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:7:9-58
 17        android:maxSdkVersion="30" />
-17-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:8:9-35
+17-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:8:9-35
 18    <uses-permission
-18-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:9:5-11:38
+18-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:9:5-11:38
 19        android:name="android.permission.ACCESS_FINE_LOCATION"
-19-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:10:9-63
+19-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:10:9-63
 20        android:maxSdkVersion="30" />
-20-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:11:9-35
+20-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:11:9-35
 21    <uses-permission
-21-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:12:5-14:38
+21-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:12:5-14:38
 22        android:name="android.permission.ACCESS_COARSE_LOCATION"
-22-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:13:9-65
+22-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:13:9-65
 23        android:maxSdkVersion="30" />
-23-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:14:9-35
+23-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:14:9-35
 24    <uses-permission
-24-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:15:5-17:58
+24-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:15:5-17:58
 25        android:name="android.permission.BLUETOOTH_SCAN"
-25-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:16:9-57
+25-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:16:9-57
 26        android:usesPermissionFlags="neverForLocation" />
-26-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:17:9-55
+26-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:17:9-55
 27    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
-27-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:18:5-76
-27-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:18:22-73
+27-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:18:5-76
+27-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:18:22-73
 28
 29    <uses-feature
-29-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:19:5-85
+29-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:19:5-85
 30        android:name="android.hardware.camera"
-30-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:19:19-57
+30-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:19:19-57
 31        android:required="false" />
-31-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:19:58-82
+31-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:19:58-82
 32    <uses-feature
-32-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:20:5-87
+32-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:20:5-87
 33        android:name="android.hardware.usb.host"
-33-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:20:19-59
+33-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:20:19-59
 34        android:required="true" />
-34-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:20:60-84
+34-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:20:60-84
 35    <uses-feature
-35-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:21:5-91
+35-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:21:5-91
 36        android:name="android.hardware.bluetooth_le"
-36-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:21:19-63
+36-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:21:19-63
 37        android:required="false" />
-37-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:21:64-88
+37-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:21:64-88
 38
 39    <permission
 39-->[androidx.core:core:1.13.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\abeb515357a7db3fd22e844d1e55f2be\workspace\transformed\core-1.13.1\AndroidManifest.xml:22:5-24:47
@@ -76,49 +76,49 @@
 43-->[androidx.core:core:1.13.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\abeb515357a7db3fd22e844d1e55f2be\workspace\transformed\core-1.13.1\AndroidManifest.xml:26:22-94
 44
 45    <application
-45-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:22:5-36:19
+45-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:22:5-36:19
 46        android:allowBackup="true"
-46-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:23:9-35
+46-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:23:9-35
 47        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
 47-->[androidx.core:core:1.13.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\abeb515357a7db3fd22e844d1e55f2be\workspace\transformed\core-1.13.1\AndroidManifest.xml:28:18-86
 48        android:debuggable="true"
 49        android:extractNativeLibs="false"
 50        android:icon="@mipmap/ic_launcher"
-50-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:24:9-43
+50-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:24:9-43
 51        android:label="SimGyO-DIU"
-51-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:25:9-35
+51-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:25:9-35
 52        android:roundIcon="@mipmap/ic_launcher"
-52-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:26:9-48
+52-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:26:9-48
 53        android:testOnly="true"
 54        android:theme="@style/Theme.EndoscopeViewer" >
-54-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:27:9-53
+54-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:27:9-53
 55        <activity
-55-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:28:9-75
+55-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:28:9-75
 56            android:name="com.felipe.endoscopeviewer.MainActivity"
-56-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:28:19-47
+56-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:28:19-47
 57            android:exported="false" />
-57-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:28:48-72
+57-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:28:48-72
 58        <activity
-58-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:29:9-88
+58-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:29:9-88
 59            android:name="com.felipe.endoscopeviewer.MaterialChecklistActivity"
-59-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:29:19-60
+59-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:29:19-60
 60            android:exported="false" />
-60-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:29:61-85
+60-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:29:61-85
 61        <activity
-61-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:30:9-35:20
+61-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:30:9-35:20
 62            android:name="com.felipe.endoscopeviewer.SplashActivity"
-62-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:30:19-49
+62-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:30:19-49
 63            android:exported="true" >
-63-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:30:50-73
+63-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:30:50-73
 64            <intent-filter>
-64-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:31:13-34:29
+64-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:31:13-34:29
 65                <action android:name="android.intent.action.MAIN" />
-65-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:32:17-69
-65-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:32:25-66
+65-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:32:17-69
+65-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:32:25-66
 66
 67                <category android:name="android.intent.category.LAUNCHER" />
-67-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:33:17-77
-67-->C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\AndroidManifest.xml:33:27-74
+67-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:33:17-77
+67-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:33:27-74
 68            </intent-filter>
 69        </activity>
 70

@@ -89,12 +89,12 @@
         message="Hardcoded string &quot;Logo SimGyo&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="27"
-            column="17"
-            startOffset="973"
-            endLine="27"
-            endColumn="57"
-            endOffset="1013"/>
+            line="33"
+            column="21"
+            startOffset="1217"
+            endLine="33"
+            endColumn="61"
+            endOffset="1257"/>
     </incident>
 
     <incident
@@ -103,12 +103,12 @@
         message="Hardcoded string &quot;ENDOSCOPIO&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="35"
+            line="56"
             column="17"
-            startOffset="1307"
-            endLine="35"
+            startOffset="2204"
+            endLine="56"
             endColumn="42"
-            endOffset="1332"/>
+            endOffset="2229"/>
     </incident>
 
     <incident
@@ -117,12 +117,12 @@
         message="Hardcoded string &quot;Simulador DIU&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="51"
+            line="72"
             column="21"
-            startOffset="1937"
-            endLine="51"
+            startOffset="2834"
+            endLine="72"
             endColumn="49"
-            endOffset="1965"/>
+            endOffset="2862"/>
     </incident>
 
     <incident
@@ -131,12 +131,12 @@
         message="Hardcoded string &quot;○  SIN CONEXIÓN&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="65"
+            line="86"
             column="21"
-            startOffset="2575"
-            endLine="65"
+            startOffset="3472"
+            endLine="86"
             endColumn="51"
-            endOffset="2605"/>
+            endOffset="3502"/>
     </incident>
 
     <incident
@@ -152,12 +152,12 @@
             value="false"/>
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="80"
+            line="101"
             column="18"
-            startOffset="3163"
-            endLine="80"
+            startOffset="4060"
+            endLine="101"
             endColumn="30"
-            endOffset="3175"/>
+            endOffset="4072"/>
     </incident>
 
     <incident
@@ -166,12 +166,12 @@
         message="Hardcoded string &quot;FUERZA ACTUAL&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="95"
+            line="116"
             column="29"
-            startOffset="3842"
-            endLine="95"
+            startOffset="4739"
+            endLine="116"
             endColumn="57"
-            endOffset="3870"/>
+            endOffset="4767"/>
     </incident>
 
     <incident
@@ -180,12 +180,12 @@
         message="Hardcoded string &quot;0.00 g&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="105"
+            line="126"
             column="29"
-            startOffset="4354"
-            endLine="105"
+            startOffset="5251"
+            endLine="126"
             endColumn="50"
-            endOffset="4375"/>
+            endOffset="5272"/>
     </incident>
 
     <incident
@@ -194,12 +194,12 @@
         message="Hardcoded string &quot;AZUL&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="122"
+            line="143"
             column="29"
-            startOffset="5118"
-            endLine="122"
+            startOffset="6015"
+            endLine="143"
             endColumn="48"
-            endOffset="5137"/>
+            endOffset="6034"/>
     </incident>
 
     <incident
@@ -208,12 +208,12 @@
         message="Hardcoded string &quot;Último: 0.00 g&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="132"
+            line="153"
             column="29"
-            startOffset="5614"
-            endLine="132"
+            startOffset="6511"
+            endLine="153"
             endColumn="58"
-            endOffset="5643"/>
+            endOffset="6540"/>
     </incident>
 
     <incident
@@ -222,56 +222,12 @@
         message="Hardcoded string &quot;•  Conecta el dispositivo ESP32-S3&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="151"
+            line="172"
             column="21"
-            startOffset="6459"
-            endLine="151"
+            startOffset="7356"
+            endLine="172"
             endColumn="70"
-            endOffset="6508"/>
-    </incident>
-
-    <incident
-        id="ButtonStyle"
-        severity="warning"
-        message="Buttons in button bars should be borderless; use `style=&quot;?android:attr/buttonBarButtonStyle&quot;` (and `?android:attr/buttonBarStyle` on the parent)">
-        <fix-composite
-            description="Make borderless">
-            <fix-attribute
-                description="Set style=&quot;?android:attr/buttonBarStyle&quot;"
-                attribute="style"
-                value="?android:attr/buttonBarStyle">
-                <range
-                    file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-                    startOffset="6621"
-                    endOffset="9121"/>
-            </fix-attribute>
-            <fix-attribute
-                description="Set style=&quot;?android:attr/buttonBarButtonStyle&quot;"
-                attribute="style"
-                value="?android:attr/buttonBarButtonStyle">
-                <range
-                    file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-                    startOffset="6867"
-                    endOffset="7919"/>
-            </fix-attribute>
-            <fix-attribute
-                description="Set style=&quot;?android:attr/buttonBarButtonStyle&quot;"
-                attribute="style"
-                value="?android:attr/buttonBarButtonStyle">
-                <range
-                    file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-                    startOffset="7941"
-                    endOffset="9089"/>
-            </fix-attribute>
-        </fix-composite>
-        <location
-            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="161"
-            column="22"
-            startOffset="6868"
-            endLine="161"
-            endColumn="28"
-            endOffset="6874"/>
+            endOffset="7405"/>
     </incident>
 
     <incident
@@ -280,56 +236,12 @@
         message="Hardcoded string &quot;Conectar dispositivo&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="176"
+            line="197"
             column="25"
-            startOffset="7661"
-            endLine="176"
+            startOffset="8558"
+            endLine="197"
             endColumn="60"
-            endOffset="7696"/>
-    </incident>
-
-    <incident
-        id="ButtonStyle"
-        severity="warning"
-        message="Buttons in button bars should be borderless; use `style=&quot;?android:attr/buttonBarButtonStyle&quot;` (and `?android:attr/buttonBarStyle` on the parent)">
-        <fix-composite
-            description="Make borderless">
-            <fix-attribute
-                description="Set style=&quot;?android:attr/buttonBarStyle&quot;"
-                attribute="style"
-                value="?android:attr/buttonBarStyle">
-                <range
-                    file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-                    startOffset="6621"
-                    endOffset="9121"/>
-            </fix-attribute>
-            <fix-attribute
-                description="Set style=&quot;?android:attr/buttonBarButtonStyle&quot;"
-                attribute="style"
-                value="?android:attr/buttonBarButtonStyle">
-                <range
-                    file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-                    startOffset="6867"
-                    endOffset="7919"/>
-            </fix-attribute>
-            <fix-attribute
-                description="Set style=&quot;?android:attr/buttonBarButtonStyle&quot;"
-                attribute="style"
-                value="?android:attr/buttonBarButtonStyle">
-                <range
-                    file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-                    startOffset="7941"
-                    endOffset="9089"/>
-            </fix-attribute>
-        </fix-composite>
-        <location
-            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="182"
-            column="22"
-            startOffset="7942"
-            endLine="182"
-            endColumn="28"
-            endOffset="7948"/>
+            endOffset="8593"/>
     </incident>
 
     <incident
@@ -338,12 +250,12 @@
         message="Hardcoded string &quot;Realizar tara&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="199"
-            column="25"
-            startOffset="8838"
-            endLine="199"
-            endColumn="53"
-            endOffset="8866"/>
+            line="224"
+            column="29"
+            startOffset="9955"
+            endLine="224"
+            endColumn="57"
+            endOffset="9983"/>
     </incident>
 
     <incident
@@ -352,12 +264,12 @@
         message="Hardcoded string &quot;EXTENSIÓN DEL ÚTERO&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="216"
+            line="253"
             column="25"
-            startOffset="9602"
-            endLine="216"
+            startOffset="11363"
+            endLine="253"
             endColumn="59"
-            endOffset="9636"/>
+            endOffset="11397"/>
     </incident>
 
     <incident
@@ -366,12 +278,12 @@
         message="Hardcoded string &quot;Conecta Bluetooth para controlar la extensión&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="230"
+            line="267"
             column="25"
-            startOffset="10261"
-            endLine="230"
+            startOffset="12022"
+            endLine="267"
             endColumn="85"
-            endOffset="10321"/>
+            endOffset="12082"/>
     </incident>
 
     <incident
@@ -380,12 +292,12 @@
         message="Avoid using sizes smaller than `11sp`: `10sp`">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="232"
+            line="269"
             column="25"
-            startOffset="10398"
-            endLine="232"
+            startOffset="12159"
+            endLine="269"
             endColumn="48"
-            endOffset="10421"/>
+            endOffset="12182"/>
     </incident>
 
     <incident
@@ -400,8 +312,8 @@
                 value="?android:attr/buttonBarStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-                    startOffset="10474"
-                    endOffset="13843"/>
+                    startOffset="12235"
+                    endOffset="15604"/>
             </fix-attribute>
             <fix-attribute
                 description="Set style=&quot;?android:attr/buttonBarButtonStyle&quot;"
@@ -409,8 +321,8 @@
                 value="?android:attr/buttonBarButtonStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-                    startOffset="10719"
-                    endOffset="11714"/>
+                    startOffset="12480"
+                    endOffset="13475"/>
             </fix-attribute>
             <fix-attribute
                 description="Set style=&quot;?android:attr/buttonBarButtonStyle&quot;"
@@ -418,8 +330,8 @@
                 value="?android:attr/buttonBarButtonStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-                    startOffset="11736"
-                    endOffset="12794"/>
+                    startOffset="13497"
+                    endOffset="14555"/>
             </fix-attribute>
             <fix-attribute
                 description="Set style=&quot;?android:attr/buttonBarButtonStyle&quot;"
@@ -427,18 +339,18 @@
                 value="?android:attr/buttonBarButtonStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-                    startOffset="12816"
-                    endOffset="13811"/>
+                    startOffset="14577"
+                    endOffset="15572"/>
             </fix-attribute>
         </fix-composite>
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="241"
+            line="278"
             column="22"
-            startOffset="10720"
-            endLine="241"
+            startOffset="12481"
+            endLine="278"
             endColumn="28"
-            endOffset="10726"/>
+            endOffset="12487"/>
     </incident>
 
     <incident
@@ -447,12 +359,12 @@
         message="Hardcoded string &quot;Izquierda&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="255"
+            line="292"
             column="25"
-            startOffset="11467"
-            endLine="255"
+            startOffset="13228"
+            endLine="292"
             endColumn="49"
-            endOffset="11491"/>
+            endOffset="13252"/>
     </incident>
 
     <incident
@@ -467,8 +379,8 @@
                 value="?android:attr/buttonBarStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-                    startOffset="10474"
-                    endOffset="13843"/>
+                    startOffset="12235"
+                    endOffset="15604"/>
             </fix-attribute>
             <fix-attribute
                 description="Set style=&quot;?android:attr/buttonBarButtonStyle&quot;"
@@ -476,8 +388,8 @@
                 value="?android:attr/buttonBarButtonStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-                    startOffset="10719"
-                    endOffset="11714"/>
+                    startOffset="12480"
+                    endOffset="13475"/>
             </fix-attribute>
             <fix-attribute
                 description="Set style=&quot;?android:attr/buttonBarButtonStyle&quot;"
@@ -485,8 +397,8 @@
                 value="?android:attr/buttonBarButtonStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-                    startOffset="11736"
-                    endOffset="12794"/>
+                    startOffset="13497"
+                    endOffset="14555"/>
             </fix-attribute>
             <fix-attribute
                 description="Set style=&quot;?android:attr/buttonBarButtonStyle&quot;"
@@ -494,18 +406,18 @@
                 value="?android:attr/buttonBarButtonStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-                    startOffset="12816"
-                    endOffset="13811"/>
+                    startOffset="14577"
+                    endOffset="15572"/>
             </fix-attribute>
         </fix-composite>
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="261"
+            line="298"
             column="22"
-            startOffset="11737"
-            endLine="261"
+            startOffset="13498"
+            endLine="298"
             endColumn="28"
-            endOffset="11743"/>
+            endOffset="13504"/>
     </incident>
 
     <incident
@@ -514,12 +426,12 @@
         message="Hardcoded string &quot;Centrar eje&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="276"
+            line="313"
             column="25"
-            startOffset="12545"
-            endLine="276"
+            startOffset="14306"
+            endLine="313"
             endColumn="51"
-            endOffset="12571"/>
+            endOffset="14332"/>
     </incident>
 
     <incident
@@ -534,8 +446,8 @@
                 value="?android:attr/buttonBarStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-                    startOffset="10474"
-                    endOffset="13843"/>
+                    startOffset="12235"
+                    endOffset="15604"/>
             </fix-attribute>
             <fix-attribute
                 description="Set style=&quot;?android:attr/buttonBarButtonStyle&quot;"
@@ -543,8 +455,8 @@
                 value="?android:attr/buttonBarButtonStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-                    startOffset="10719"
-                    endOffset="11714"/>
+                    startOffset="12480"
+                    endOffset="13475"/>
             </fix-attribute>
             <fix-attribute
                 description="Set style=&quot;?android:attr/buttonBarButtonStyle&quot;"
@@ -552,8 +464,8 @@
                 value="?android:attr/buttonBarButtonStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-                    startOffset="11736"
-                    endOffset="12794"/>
+                    startOffset="13497"
+                    endOffset="14555"/>
             </fix-attribute>
             <fix-attribute
                 description="Set style=&quot;?android:attr/buttonBarButtonStyle&quot;"
@@ -561,18 +473,18 @@
                 value="?android:attr/buttonBarButtonStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-                    startOffset="12816"
-                    endOffset="13811"/>
+                    startOffset="14577"
+                    endOffset="15572"/>
             </fix-attribute>
         </fix-composite>
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="282"
+            line="319"
             column="22"
-            startOffset="12817"
-            endLine="282"
+            startOffset="14578"
+            endLine="319"
             endColumn="28"
-            endOffset="12823"/>
+            endOffset="14584"/>
     </incident>
 
     <incident
@@ -581,12 +493,12 @@
         message="Hardcoded string &quot;Derecha&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="296"
+            line="333"
             column="25"
-            startOffset="13566"
-            endLine="296"
+            startOffset="15327"
+            endLine="333"
             endColumn="47"
-            endOffset="13588"/>
+            endOffset="15349"/>
     </incident>
 
     <incident
@@ -595,12 +507,12 @@
         message="Hardcoded string &quot;CÁMARA EN VIVO&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="328"
+            line="365"
             column="29"
-            startOffset="14940"
-            endLine="328"
+            startOffset="16701"
+            endLine="365"
             endColumn="58"
-            endOffset="14969"/>
+            endOffset="16730"/>
     </incident>
 
     <incident
@@ -609,12 +521,12 @@
         message="Hardcoded string &quot;Conecta una cámara mediante OTG&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="339"
+            line="376"
             column="29"
-            startOffset="15484"
-            endLine="339"
+            startOffset="17245"
+            endLine="376"
             endColumn="75"
-            endOffset="15530"/>
+            endOffset="17291"/>
     </incident>
 
     <incident
@@ -623,12 +535,12 @@
         message="Hardcoded string &quot;Sin otra cámara&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="354"
+            line="391"
             column="25"
-            startOffset="16274"
-            endLine="354"
+            startOffset="18035"
+            endLine="391"
             endColumn="55"
-            endOffset="16304"/>
+            endOffset="18065"/>
     </incident>
 
     <incident
@@ -637,12 +549,12 @@
         message="Avoid using sizes smaller than `11sp`: `10sp`">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="357"
+            line="394"
             column="25"
-            startOffset="16452"
-            endLine="357"
+            startOffset="18213"
+            endLine="394"
             endColumn="48"
-            endOffset="16475"/>
+            endOffset="18236"/>
     </incident>
 
     <incident
@@ -663,12 +575,12 @@
         </fix-composite>
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="373"
+            line="410"
             column="25"
-            startOffset="17160"
-            endLine="373"
+            startOffset="18921"
+            endLine="410"
             endColumn="71"
-            endOffset="17206"/>
+            endOffset="18967"/>
     </incident>
 
     <incident
@@ -677,12 +589,12 @@
         message="Hardcoded string &quot;Esperando cámara USB&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="377"
+            line="414"
             column="25"
-            startOffset="17382"
-            endLine="377"
+            startOffset="19143"
+            endLine="414"
             endColumn="60"
-            endOffset="17417"/>
+            endOffset="19178"/>
     </incident>
 
     <incident
@@ -691,12 +603,12 @@
         message="Hardcoded string &quot;REGISTROS DEL DISPOSITIVO&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="402"
+            line="439"
             column="25"
-            startOffset="18412"
-            endLine="402"
+            startOffset="20173"
+            endLine="439"
             endColumn="65"
-            endOffset="18452"/>
+            endOffset="20213"/>
     </incident>
 
     <incident
@@ -705,12 +617,12 @@
         message="Hardcoded string &quot;Limpiar&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="417"
+            line="454"
             column="25"
-            startOffset="19201"
-            endLine="417"
+            startOffset="20962"
+            endLine="454"
             endColumn="47"
-            endOffset="19223"/>
+            endOffset="20984"/>
     </incident>
 
     <incident
@@ -725,8 +637,8 @@
                 value="?android:attr/buttonBarStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-                    startOffset="19496"
-                    endOffset="21458"/>
+                    startOffset="21257"
+                    endOffset="23219"/>
             </fix-attribute>
             <fix-attribute
                 description="Set style=&quot;?android:attr/buttonBarButtonStyle&quot;"
@@ -734,8 +646,8 @@
                 value="?android:attr/buttonBarButtonStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-                    startOffset="19741"
-                    endOffset="20547"/>
+                    startOffset="21502"
+                    endOffset="22308"/>
             </fix-attribute>
             <fix-attribute
                 description="Set style=&quot;?android:attr/buttonBarButtonStyle&quot;"
@@ -743,18 +655,18 @@
                 value="?android:attr/buttonBarButtonStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-                    startOffset="20569"
-                    endOffset="21426"/>
+                    startOffset="22330"
+                    endOffset="23187"/>
             </fix-attribute>
         </fix-composite>
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="430"
+            line="467"
             column="22"
-            startOffset="19742"
-            endLine="430"
+            startOffset="21503"
+            endLine="467"
             endColumn="28"
-            endOffset="19748"/>
+            endOffset="21509"/>
     </incident>
 
     <incident
@@ -763,12 +675,12 @@
         message="Hardcoded string &quot;Historial&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="440"
+            line="477"
             column="25"
-            startOffset="20306"
-            endLine="440"
+            startOffset="22067"
+            endLine="477"
             endColumn="49"
-            endOffset="20330"/>
+            endOffset="22091"/>
     </incident>
 
     <incident
@@ -783,8 +695,8 @@
                 value="?android:attr/buttonBarStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-                    startOffset="19496"
-                    endOffset="21458"/>
+                    startOffset="21257"
+                    endOffset="23219"/>
             </fix-attribute>
             <fix-attribute
                 description="Set style=&quot;?android:attr/buttonBarButtonStyle&quot;"
@@ -792,8 +704,8 @@
                 value="?android:attr/buttonBarButtonStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-                    startOffset="19741"
-                    endOffset="20547"/>
+                    startOffset="21502"
+                    endOffset="22308"/>
             </fix-attribute>
             <fix-attribute
                 description="Set style=&quot;?android:attr/buttonBarButtonStyle&quot;"
@@ -801,18 +713,18 @@
                 value="?android:attr/buttonBarButtonStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-                    startOffset="20569"
-                    endOffset="21426"/>
+                    startOffset="22330"
+                    endOffset="23187"/>
             </fix-attribute>
         </fix-composite>
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="446"
+            line="483"
             column="22"
-            startOffset="20570"
-            endLine="446"
+            startOffset="22331"
+            endLine="483"
             endColumn="28"
-            endOffset="20576"/>
+            endOffset="22337"/>
     </incident>
 
     <incident
@@ -821,12 +733,12 @@
         message="Hardcoded string &quot;Umbrales&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="457"
+            line="494"
             column="25"
-            startOffset="21199"
-            endLine="457"
+            startOffset="22960"
+            endLine="494"
             endColumn="48"
-            endOffset="21222"/>
+            endOffset="22983"/>
     </incident>
 
     <incident
@@ -835,12 +747,12 @@
         message="Hardcoded string &quot;Sin registros. Presiona y suelta el dispositivo.&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="470"
+            line="507"
             column="21"
-            startOffset="21770"
-            endLine="470"
+            startOffset="23531"
+            endLine="507"
             endColumn="84"
-            endOffset="21833"/>
+            endOffset="23594"/>
     </incident>
 
     <incident
@@ -1050,12 +962,12 @@
         message="Hardcoded string &quot;○  SIN CONEXIÓN&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="66"
+            line="76"
             column="21"
-            startOffset="2680"
-            endLine="66"
+            startOffset="3180"
+            endLine="76"
             endColumn="51"
-            endOffset="2710"/>
+            endOffset="3210"/>
     </incident>
 
     <incident
@@ -1064,12 +976,12 @@
         message="Avoid using sizes smaller than `11sp`: `10sp`">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="68"
+            line="78"
             column="21"
-            startOffset="2779"
-            endLine="68"
+            startOffset="3279"
+            endLine="78"
             endColumn="44"
-            endOffset="2802"/>
+            endOffset="3302"/>
     </incident>
 
     <incident
@@ -1085,12 +997,12 @@
             value="false"/>
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="72"
+            line="82"
             column="14"
-            startOffset="2893"
-            endLine="72"
+            startOffset="3393"
+            endLine="82"
             endColumn="26"
-            endOffset="2905"/>
+            endOffset="3405"/>
     </incident>
 
     <incident
@@ -1099,12 +1011,12 @@
         message="Hardcoded string &quot;FUERZA ACTUAL&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="104"
+            line="114"
             column="33"
-            startOffset="4350"
-            endLine="104"
+            startOffset="4850"
+            endLine="114"
             endColumn="61"
-            endOffset="4378"/>
+            endOffset="4878"/>
     </incident>
 
     <incident
@@ -1113,12 +1025,12 @@
         message="Avoid using sizes smaller than `11sp`: `10sp`">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="106"
+            line="116"
             column="33"
-            startOffset="4471"
-            endLine="106"
+            startOffset="4971"
+            endLine="116"
             endColumn="56"
-            endOffset="4494"/>
+            endOffset="4994"/>
     </incident>
 
     <incident
@@ -1127,12 +1039,12 @@
         message="Hardcoded string &quot;0.00 g&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="114"
+            line="124"
             column="33"
-            startOffset="4898"
-            endLine="114"
+            startOffset="5398"
+            endLine="124"
             endColumn="54"
-            endOffset="4919"/>
+            endOffset="5419"/>
     </incident>
 
     <incident
@@ -1141,12 +1053,12 @@
         message="Hardcoded string &quot;AZUL&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="125"
+            line="135"
             column="29"
-            startOffset="5420"
-            endLine="125"
+            startOffset="5920"
+            endLine="135"
             endColumn="48"
-            endOffset="5439"/>
+            endOffset="5939"/>
     </incident>
 
     <incident
@@ -1155,12 +1067,12 @@
         message="Hardcoded string &quot;Último: 0.00 g&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="135"
+            line="145"
             column="29"
-            startOffset="5919"
-            endLine="135"
+            startOffset="6419"
+            endLine="145"
             endColumn="58"
-            endOffset="5948"/>
+            endOffset="6448"/>
     </incident>
 
     <incident
@@ -1169,12 +1081,12 @@
         message="Hardcoded string &quot;•  Conecta el dispositivo ESP32-S3&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="151"
+            line="163"
             column="25"
-            startOffset="6666"
-            endLine="151"
+            startOffset="7268"
+            endLine="163"
             endColumn="74"
-            endOffset="6715"/>
+            endOffset="7317"/>
     </incident>
 
     <incident
@@ -1183,56 +1095,12 @@
         message="Avoid using sizes smaller than `11sp`: `10sp`">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="153"
+            line="165"
             column="25"
-            startOffset="6792"
-            endLine="153"
+            startOffset="7394"
+            endLine="165"
             endColumn="48"
-            endOffset="6815"/>
-    </incident>
-
-    <incident
-        id="ButtonStyle"
-        severity="warning"
-        message="Buttons in button bars should be borderless; use `style=&quot;?android:attr/buttonBarButtonStyle&quot;` (and `?android:attr/buttonBarStyle` on the parent)">
-        <fix-composite
-            description="Make borderless">
-            <fix-attribute
-                description="Set style=&quot;?android:attr/buttonBarStyle&quot;"
-                attribute="style"
-                value="?android:attr/buttonBarStyle">
-                <range
-                    file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-                    startOffset="6840"
-                    endOffset="9226"/>
-            </fix-attribute>
-            <fix-attribute
-                description="Set style=&quot;?android:attr/buttonBarButtonStyle&quot;"
-                attribute="style"
-                value="?android:attr/buttonBarButtonStyle">
-                <range
-                    file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-                    startOffset="7105"
-                    endOffset="8083"/>
-            </fix-attribute>
-            <fix-attribute
-                description="Set style=&quot;?android:attr/buttonBarButtonStyle&quot;"
-                attribute="style"
-                value="?android:attr/buttonBarButtonStyle">
-                <range
-                    file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-                    startOffset="8109"
-                    endOffset="9190"/>
-            </fix-attribute>
-        </fix-composite>
-        <location
-            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="161"
-            column="26"
-            startOffset="7106"
-            endLine="161"
-            endColumn="32"
-            endOffset="7112"/>
+            endOffset="7417"/>
     </incident>
 
     <incident
@@ -1241,56 +1109,12 @@
         message="Hardcoded string &quot;Conectar dispositivo&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="173"
+            line="185"
             column="29"
-            startOffset="7809"
-            endLine="173"
+            startOffset="8411"
+            endLine="185"
             endColumn="64"
-            endOffset="7844"/>
-    </incident>
-
-    <incident
-        id="ButtonStyle"
-        severity="warning"
-        message="Buttons in button bars should be borderless; use `style=&quot;?android:attr/buttonBarButtonStyle&quot;` (and `?android:attr/buttonBarStyle` on the parent)">
-        <fix-composite
-            description="Make borderless">
-            <fix-attribute
-                description="Set style=&quot;?android:attr/buttonBarStyle&quot;"
-                attribute="style"
-                value="?android:attr/buttonBarStyle">
-                <range
-                    file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-                    startOffset="6840"
-                    endOffset="9226"/>
-            </fix-attribute>
-            <fix-attribute
-                description="Set style=&quot;?android:attr/buttonBarButtonStyle&quot;"
-                attribute="style"
-                value="?android:attr/buttonBarButtonStyle">
-                <range
-                    file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-                    startOffset="7105"
-                    endOffset="8083"/>
-            </fix-attribute>
-            <fix-attribute
-                description="Set style=&quot;?android:attr/buttonBarButtonStyle&quot;"
-                attribute="style"
-                value="?android:attr/buttonBarButtonStyle">
-                <range
-                    file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-                    startOffset="8109"
-                    endOffset="9190"/>
-            </fix-attribute>
-        </fix-composite>
-        <location
-            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="179"
-            column="26"
-            startOffset="8110"
-            endLine="179"
-            endColumn="32"
-            endOffset="8116"/>
+            endOffset="8446"/>
     </incident>
 
     <incident
@@ -1299,12 +1123,12 @@
         message="Hardcoded string &quot;Realizar tara&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="193"
-            column="29"
-            startOffset="8923"
-            endLine="193"
-            endColumn="57"
-            endOffset="8951"/>
+            line="209"
+            column="33"
+            startOffset="9745"
+            endLine="209"
+            endColumn="61"
+            endOffset="9773"/>
     </incident>
 
     <incident
@@ -1313,12 +1137,12 @@
         message="Hardcoded string &quot;EXTENSIÓN DEL ÚTERO&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="210"
+            line="238"
             column="29"
-            startOffset="9738"
-            endLine="210"
+            startOffset="11247"
+            endLine="238"
             endColumn="63"
-            endOffset="9772"/>
+            endOffset="11281"/>
     </incident>
 
     <incident
@@ -1327,12 +1151,12 @@
         message="Avoid using sizes smaller than `11sp`: `10sp`">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="212"
+            line="240"
             column="29"
-            startOffset="9857"
-            endLine="212"
+            startOffset="11366"
+            endLine="240"
             endColumn="52"
-            endOffset="9880"/>
+            endOffset="11389"/>
     </incident>
 
     <incident
@@ -1341,12 +1165,12 @@
         message="Hardcoded string &quot;Conecta Bluetooth para controlar la extensión&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="224"
+            line="252"
             column="29"
-            startOffset="10448"
-            endLine="224"
+            startOffset="11957"
+            endLine="252"
             endColumn="89"
-            endOffset="10508"/>
+            endOffset="12017"/>
     </incident>
 
     <incident
@@ -1355,12 +1179,12 @@
         message="Avoid using sizes smaller than `11sp`: `9sp`">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="226"
+            line="254"
             column="29"
-            startOffset="10593"
-            endLine="226"
+            startOffset="12102"
+            endLine="254"
             endColumn="51"
-            endOffset="10615"/>
+            endOffset="12124"/>
     </incident>
 
     <incident
@@ -1375,8 +1199,8 @@
                 value="?android:attr/buttonBarStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-                    startOffset="10676"
-                    endOffset="14294"/>
+                    startOffset="12185"
+                    endOffset="15803"/>
             </fix-attribute>
             <fix-attribute
                 description="Set style=&quot;?android:attr/buttonBarButtonStyle&quot;"
@@ -1384,8 +1208,8 @@
                 value="?android:attr/buttonBarButtonStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-                    startOffset="10941"
-                    endOffset="12008"/>
+                    startOffset="12450"
+                    endOffset="13517"/>
             </fix-attribute>
             <fix-attribute
                 description="Set style=&quot;?android:attr/buttonBarButtonStyle&quot;"
@@ -1393,8 +1217,8 @@
                 value="?android:attr/buttonBarButtonStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-                    startOffset="12034"
-                    endOffset="13165"/>
+                    startOffset="13543"
+                    endOffset="14674"/>
             </fix-attribute>
             <fix-attribute
                 description="Set style=&quot;?android:attr/buttonBarButtonStyle&quot;"
@@ -1402,18 +1226,18 @@
                 value="?android:attr/buttonBarButtonStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-                    startOffset="13191"
-                    endOffset="14258"/>
+                    startOffset="14700"
+                    endOffset="15767"/>
             </fix-attribute>
         </fix-composite>
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="235"
+            line="263"
             column="26"
-            startOffset="10942"
-            endLine="235"
+            startOffset="12451"
+            endLine="263"
             endColumn="32"
-            endOffset="10948"/>
+            endOffset="12457"/>
     </incident>
 
     <incident
@@ -1422,12 +1246,12 @@
         message="Hardcoded string &quot;Izquierda&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="249"
+            line="277"
             column="29"
-            startOffset="11745"
-            endLine="249"
+            startOffset="13254"
+            endLine="277"
             endColumn="53"
-            endOffset="11769"/>
+            endOffset="13278"/>
     </incident>
 
     <incident
@@ -1436,12 +1260,12 @@
         message="Avoid using sizes smaller than `11sp`: `10sp`">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="252"
+            line="280"
             column="29"
-            startOffset="11929"
-            endLine="252"
+            startOffset="13438"
+            endLine="280"
             endColumn="52"
-            endOffset="11952"/>
+            endOffset="13461"/>
     </incident>
 
     <incident
@@ -1456,8 +1280,8 @@
                 value="?android:attr/buttonBarStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-                    startOffset="10676"
-                    endOffset="14294"/>
+                    startOffset="12185"
+                    endOffset="15803"/>
             </fix-attribute>
             <fix-attribute
                 description="Set style=&quot;?android:attr/buttonBarButtonStyle&quot;"
@@ -1465,8 +1289,8 @@
                 value="?android:attr/buttonBarButtonStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-                    startOffset="10941"
-                    endOffset="12008"/>
+                    startOffset="12450"
+                    endOffset="13517"/>
             </fix-attribute>
             <fix-attribute
                 description="Set style=&quot;?android:attr/buttonBarButtonStyle&quot;"
@@ -1474,8 +1298,8 @@
                 value="?android:attr/buttonBarButtonStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-                    startOffset="12034"
-                    endOffset="13165"/>
+                    startOffset="13543"
+                    endOffset="14674"/>
             </fix-attribute>
             <fix-attribute
                 description="Set style=&quot;?android:attr/buttonBarButtonStyle&quot;"
@@ -1483,18 +1307,18 @@
                 value="?android:attr/buttonBarButtonStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-                    startOffset="13191"
-                    endOffset="14258"/>
+                    startOffset="14700"
+                    endOffset="15767"/>
             </fix-attribute>
         </fix-composite>
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="255"
+            line="283"
             column="26"
-            startOffset="12035"
-            endLine="255"
+            startOffset="13544"
+            endLine="283"
             endColumn="32"
-            endOffset="12041"/>
+            endOffset="13550"/>
     </incident>
 
     <incident
@@ -1503,12 +1327,12 @@
         message="Hardcoded string &quot;Centrar eje&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="270"
+            line="298"
             column="29"
-            startOffset="12900"
-            endLine="270"
+            startOffset="14409"
+            endLine="298"
             endColumn="55"
-            endOffset="12926"/>
+            endOffset="14435"/>
     </incident>
 
     <incident
@@ -1517,12 +1341,12 @@
         message="Avoid using sizes smaller than `11sp`: `10sp`">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="273"
+            line="301"
             column="29"
-            startOffset="13086"
-            endLine="273"
+            startOffset="14595"
+            endLine="301"
             endColumn="52"
-            endOffset="13109"/>
+            endOffset="14618"/>
     </incident>
 
     <incident
@@ -1537,8 +1361,8 @@
                 value="?android:attr/buttonBarStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-                    startOffset="10676"
-                    endOffset="14294"/>
+                    startOffset="12185"
+                    endOffset="15803"/>
             </fix-attribute>
             <fix-attribute
                 description="Set style=&quot;?android:attr/buttonBarButtonStyle&quot;"
@@ -1546,8 +1370,8 @@
                 value="?android:attr/buttonBarButtonStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-                    startOffset="10941"
-                    endOffset="12008"/>
+                    startOffset="12450"
+                    endOffset="13517"/>
             </fix-attribute>
             <fix-attribute
                 description="Set style=&quot;?android:attr/buttonBarButtonStyle&quot;"
@@ -1555,8 +1379,8 @@
                 value="?android:attr/buttonBarButtonStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-                    startOffset="12034"
-                    endOffset="13165"/>
+                    startOffset="13543"
+                    endOffset="14674"/>
             </fix-attribute>
             <fix-attribute
                 description="Set style=&quot;?android:attr/buttonBarButtonStyle&quot;"
@@ -1564,18 +1388,18 @@
                 value="?android:attr/buttonBarButtonStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-                    startOffset="13191"
-                    endOffset="14258"/>
+                    startOffset="14700"
+                    endOffset="15767"/>
             </fix-attribute>
         </fix-composite>
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="276"
+            line="304"
             column="26"
-            startOffset="13192"
-            endLine="276"
+            startOffset="14701"
+            endLine="304"
             endColumn="32"
-            endOffset="13198"/>
+            endOffset="14707"/>
     </incident>
 
     <incident
@@ -1584,12 +1408,12 @@
         message="Hardcoded string &quot;Derecha&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="290"
+            line="318"
             column="29"
-            startOffset="13997"
-            endLine="290"
+            startOffset="15506"
+            endLine="318"
             endColumn="51"
-            endOffset="14019"/>
+            endOffset="15528"/>
     </incident>
 
     <incident
@@ -1598,12 +1422,12 @@
         message="Avoid using sizes smaller than `11sp`: `10sp`">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="293"
+            line="321"
             column="29"
-            startOffset="14179"
-            endLine="293"
+            startOffset="15688"
+            endLine="321"
             endColumn="52"
-            endOffset="14202"/>
+            endOffset="15711"/>
     </incident>
 
     <incident
@@ -1612,12 +1436,12 @@
         message="Nested weights are bad for performance">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="362"
+            line="390"
             column="25"
-            startOffset="17590"
-            endLine="362"
+            startOffset="19099"
+            endLine="390"
             endColumn="50"
-            endOffset="17615"/>
+            endOffset="19124"/>
     </incident>
 
     <incident
@@ -1626,12 +1450,12 @@
         message="Hardcoded string &quot;CÁMARA EN VIVO&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="323"
+            line="351"
             column="33"
-            startOffset="15516"
-            endLine="323"
+            startOffset="17025"
+            endLine="351"
             endColumn="62"
-            endOffset="15545"/>
+            endOffset="17054"/>
     </incident>
 
     <incident
@@ -1640,12 +1464,12 @@
         message="Hardcoded string &quot;Conecta una cámara mediante OTG&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="334"
+            line="362"
             column="33"
-            startOffset="16100"
-            endLine="334"
+            startOffset="17609"
+            endLine="362"
             endColumn="79"
-            endOffset="16146"/>
+            endOffset="17655"/>
     </incident>
 
     <incident
@@ -1654,12 +1478,12 @@
         message="Avoid using sizes smaller than `11sp`: `9sp`">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="336"
+            line="364"
             column="33"
-            startOffset="16239"
-            endLine="336"
+            startOffset="17748"
+            endLine="364"
             endColumn="55"
-            endOffset="16261"/>
+            endOffset="17770"/>
     </incident>
 
     <incident
@@ -1668,12 +1492,12 @@
         message="Hardcoded string &quot;Sin otra cámara&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="350"
+            line="378"
             column="29"
-            startOffset="16998"
-            endLine="350"
+            startOffset="18507"
+            endLine="378"
             endColumn="59"
-            endOffset="17028"/>
+            endOffset="18537"/>
     </incident>
 
     <incident
@@ -1682,12 +1506,12 @@
         message="Avoid using sizes smaller than `11sp`: `9sp`">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="353"
+            line="381"
             column="29"
-            startOffset="17188"
-            endLine="353"
+            startOffset="18697"
+            endLine="381"
             endColumn="51"
-            endOffset="17210"/>
+            endOffset="18719"/>
     </incident>
 
     <incident
@@ -1708,12 +1532,12 @@
         </fix-composite>
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="370"
+            line="398"
             column="29"
-            startOffset="17998"
-            endLine="370"
+            startOffset="19507"
+            endLine="398"
             endColumn="75"
-            endOffset="18044"/>
+            endOffset="19553"/>
     </incident>
 
     <incident
@@ -1722,12 +1546,12 @@
         message="Hardcoded string &quot;Esperando cámara USB&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="374"
+            line="402"
             column="29"
-            startOffset="18236"
-            endLine="374"
+            startOffset="19745"
+            endLine="402"
             endColumn="64"
-            endOffset="18271"/>
+            endOffset="19780"/>
     </incident>
 
     <incident
@@ -1736,12 +1560,12 @@
         message="Hardcoded string &quot;REGISTROS DEL DISPOSITIVO&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="400"
+            line="428"
             column="25"
-            startOffset="19310"
-            endLine="400"
+            startOffset="20819"
+            endLine="428"
             endColumn="65"
-            endOffset="19350"/>
+            endOffset="20859"/>
     </incident>
 
     <incident
@@ -1750,12 +1574,12 @@
         message="Hardcoded string &quot;Limpiar&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="416"
+            line="444"
             column="25"
-            startOffset="20149"
-            endLine="416"
+            startOffset="21658"
+            endLine="444"
             endColumn="47"
-            endOffset="20171"/>
+            endOffset="21680"/>
     </incident>
 
     <incident
@@ -1764,12 +1588,12 @@
         message="Avoid using sizes smaller than `11sp`: `10sp`">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="419"
+            line="447"
             column="25"
-            startOffset="20319"
-            endLine="419"
+            startOffset="21828"
+            endLine="447"
             endColumn="48"
-            endOffset="20342"/>
+            endOffset="21851"/>
     </incident>
 
     <incident
@@ -1784,8 +1608,8 @@
                 value="?android:attr/buttonBarStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-                    startOffset="20395"
-                    endOffset="22151"/>
+                    startOffset="21904"
+                    endOffset="23660"/>
             </fix-attribute>
             <fix-attribute
                 description="Set style=&quot;?android:attr/buttonBarButtonStyle&quot;"
@@ -1793,8 +1617,8 @@
                 value="?android:attr/buttonBarButtonStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-                    startOffset="20640"
-                    endOffset="21343"/>
+                    startOffset="22149"
+                    endOffset="22852"/>
             </fix-attribute>
             <fix-attribute
                 description="Set style=&quot;?android:attr/buttonBarButtonStyle&quot;"
@@ -1802,18 +1626,18 @@
                 value="?android:attr/buttonBarButtonStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-                    startOffset="21365"
-                    endOffset="22119"/>
+                    startOffset="22874"
+                    endOffset="23628"/>
             </fix-attribute>
         </fix-composite>
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="428"
+            line="456"
             column="22"
-            startOffset="20641"
-            endLine="428"
+            startOffset="22150"
+            endLine="456"
             endColumn="28"
-            endOffset="20647"/>
+            endOffset="22156"/>
     </incident>
 
     <incident
@@ -1822,12 +1646,12 @@
         message="Hardcoded string &quot;Historial&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="437"
+            line="465"
             column="25"
-            startOffset="21151"
-            endLine="437"
+            startOffset="22660"
+            endLine="465"
             endColumn="49"
-            endOffset="21175"/>
+            endOffset="22684"/>
     </incident>
 
     <incident
@@ -1842,8 +1666,8 @@
                 value="?android:attr/buttonBarStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-                    startOffset="20395"
-                    endOffset="22151"/>
+                    startOffset="21904"
+                    endOffset="23660"/>
             </fix-attribute>
             <fix-attribute
                 description="Set style=&quot;?android:attr/buttonBarButtonStyle&quot;"
@@ -1851,8 +1675,8 @@
                 value="?android:attr/buttonBarButtonStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-                    startOffset="20640"
-                    endOffset="21343"/>
+                    startOffset="22149"
+                    endOffset="22852"/>
             </fix-attribute>
             <fix-attribute
                 description="Set style=&quot;?android:attr/buttonBarButtonStyle&quot;"
@@ -1860,18 +1684,18 @@
                 value="?android:attr/buttonBarButtonStyle">
                 <range
                     file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-                    startOffset="21365"
-                    endOffset="22119"/>
+                    startOffset="22874"
+                    endOffset="23628"/>
             </fix-attribute>
         </fix-composite>
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="442"
+            line="470"
             column="22"
-            startOffset="21366"
-            endLine="442"
+            startOffset="22875"
+            endLine="470"
             endColumn="28"
-            endOffset="21372"/>
+            endOffset="22881"/>
     </incident>
 
     <incident
@@ -1880,12 +1704,12 @@
         message="Hardcoded string &quot;Umbrales&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="452"
+            line="480"
             column="25"
-            startOffset="21941"
-            endLine="452"
+            startOffset="23450"
+            endLine="480"
             endColumn="48"
-            endOffset="21964"/>
+            endOffset="23473"/>
     </incident>
 
     <incident
@@ -1894,12 +1718,12 @@
         message="Hardcoded string &quot;Sin registros. Presiona y suelta el dispositivo.&quot;, should use `@string` resource">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="464"
+            line="492"
             column="21"
-            startOffset="22462"
-            endLine="464"
+            startOffset="23971"
+            endLine="492"
             endColumn="84"
-            endOffset="22525"/>
+            endOffset="24034"/>
     </incident>
 
     <incident
@@ -1908,12 +1732,12 @@
         message="Avoid using sizes smaller than `11sp`: `10sp`">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="466"
+            line="494"
             column="21"
-            startOffset="22594"
-            endLine="466"
+            startOffset="24103"
+            endLine="494"
             endColumn="44"
-            endOffset="22617"/>
+            endOffset="24126"/>
     </incident>
 
     <incident
@@ -1976,12 +1800,12 @@
         message="Formatting %d followed by words (&quot;materiales&quot;): This should probably be a plural rather than a string">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/strings.xml"
-            line="24"
+            line="30"
             column="5"
-            startOffset="1650"
-            endLine="24"
+            startOffset="2039"
+            endLine="30"
             endColumn="77"
-            endOffset="1722"/>
+            endOffset="2111"/>
     </incident>
 
     <incident
@@ -2018,12 +1842,12 @@
         message="Do not concatenate text displayed with `setText`. Use resource string with placeholders.">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/felipe/endoscopeviewer/UsbCameraFragment.kt"
-            line="268"
+            line="348"
             column="25"
-            startOffset="10939"
-            endLine="268"
+            startOffset="14132"
+            endLine="348"
             endColumn="98"
-            endOffset="11012"/>
+            endOffset="14205"/>
     </incident>
 
     <incident
@@ -2032,12 +1856,12 @@
         message="String literal in `setText` can not be translated. Use Android resources instead.">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/felipe/endoscopeviewer/UsbCameraFragment.kt"
-            line="268"
+            line="348"
             column="49"
-            startOffset="10963"
-            endLine="268"
+            startOffset="14156"
+            endLine="348"
             endColumn="92"
-            endOffset="11006"/>
+            endOffset="14199"/>
     </incident>
 
     <incident
@@ -2046,12 +1870,12 @@
         message="String literal in `setText` can not be translated. Use Android resources instead.">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/felipe/endoscopeviewer/UsbCameraFragment.kt"
-            line="290"
+            line="372"
             column="34"
-            startOffset="11688"
-            endLine="290"
+            startOffset="15026"
+            endLine="372"
             endColumn="67"
-            endOffset="11721"/>
+            endOffset="15059"/>
     </incident>
 
     <incident
@@ -2060,12 +1884,12 @@
         message="Do not concatenate text displayed with `setText`. Use resource string with placeholders.">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/felipe/endoscopeviewer/UsbCameraFragment.kt"
-            line="503"
+            line="586"
             column="20"
-            startOffset="19015"
-            endLine="503"
+            startOffset="22384"
+            endLine="586"
             endColumn="40"
-            endOffset="19035"/>
+            endOffset="22404"/>
     </incident>
 
     <incident
@@ -2074,12 +1898,12 @@
         message="String literal in `setText` can not be translated. Use Android resources instead.">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/felipe/endoscopeviewer/UsbCameraFragment.kt"
-            line="578"
+            line="661"
             column="41"
-            startOffset="21460"
-            endLine="578"
+            startOffset="24829"
+            endLine="661"
             endColumn="89"
-            endOffset="21508"/>
+            endOffset="24877"/>
     </incident>
 
     <incident
@@ -2088,12 +1912,12 @@
         message="String literal in `setText` can not be translated. Use Android resources instead.">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/felipe/endoscopeviewer/UsbCameraFragment.kt"
-            line="580"
+            line="663"
             column="25"
-            startOffset="21597"
-            endLine="580"
+            startOffset="24966"
+            endLine="663"
             endColumn="57"
-            endOffset="21629"/>
+            endOffset="24998"/>
     </incident>
 
     <incident
@@ -2102,12 +1926,12 @@
         message="String literal in `setText` can not be translated. Use Android resources instead.">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/felipe/endoscopeviewer/UsbCameraFragment.kt"
-            line="608"
+            line="691"
             column="37"
-            startOffset="22599"
-            endLine="608"
+            startOffset="25968"
+            endLine="691"
             endColumn="81"
-            endOffset="22643"/>
+            endOffset="26012"/>
     </incident>
 
     <incident
@@ -2116,68 +1940,124 @@
         message="String literal in `setText` can not be translated. Use Android resources instead.">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/felipe/endoscopeviewer/UsbCameraFragment.kt"
-            line="838"
-            column="45"
-            startOffset="30992"
-            endLine="838"
-            endColumn="90"
-            endOffset="31037"/>
+            line="929"
+            column="28"
+            startOffset="34598"
+            endLine="929"
+            endColumn="38"
+            endOffset="34608"/>
     </incident>
 
     <incident
-        id="DefaultLocale"
+        id="SetTextI18n"
         severity="warning"
-        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead">
+        message="String literal in `setText` can not be translated. Use Android resources instead.">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/felipe/endoscopeviewer/UsbCameraFragment.kt"
-            line="859"
-            column="30"
-            startOffset="31918"
-            endLine="859"
-            endColumn="73"
-            endOffset="31961"/>
+            line="931"
+            column="26"
+            startOffset="34667"
+            endLine="931"
+            endColumn="35"
+            endOffset="34676"/>
     </incident>
 
     <incident
-        id="DefaultLocale"
+        id="SetTextI18n"
         severity="warning"
-        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead">
+        message="String literal in `setText` can not be translated. Use Android resources instead.">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/felipe/endoscopeviewer/UsbCameraFragment.kt"
-            line="859"
-            column="30"
-            startOffset="31918"
-            endLine="859"
-            endColumn="73"
-            endOffset="31961"/>
+            line="953"
+            column="28"
+            startOffset="35509"
+            endLine="953"
+            endColumn="38"
+            endOffset="35519"/>
     </incident>
 
     <incident
-        id="DefaultLocale"
+        id="SetTextI18n"
         severity="warning"
-        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead">
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders.">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/felipe/endoscopeviewer/UsbCameraFragment.kt"
-            line="860"
-            column="27"
-            startOffset="31988"
-            endLine="860"
-            endColumn="75"
-            endOffset="32036"/>
+            line="1224"
+            column="21"
+            startOffset="47382"
+            endLine="1224"
+            endColumn="100"
+            endOffset="47461"/>
     </incident>
 
     <incident
-        id="DefaultLocale"
+        id="SetTextI18n"
         severity="warning"
-        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead">
+        message="String literal in `setText` can not be translated. Use Android resources instead.">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/felipe/endoscopeviewer/UsbCameraFragment.kt"
-            line="860"
-            column="27"
-            startOffset="31988"
-            endLine="860"
-            endColumn="75"
-            endOffset="32036"/>
+            line="1224"
+            column="38"
+            startOffset="47399"
+            endLine="1224"
+            endColumn="42"
+            endOffset="47403"/>
+    </incident>
+
+    <incident
+        id="SetTextI18n"
+        severity="warning"
+        message="String literal in `setText` can not be translated. Use Android resources instead.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/felipe/endoscopeviewer/UsbCameraFragment.kt"
+            line="1224"
+            column="59"
+            startOffset="47420"
+            endLine="1224"
+            endColumn="71"
+            endOffset="47432"/>
+    </incident>
+
+    <incident
+        id="SetTextI18n"
+        severity="warning"
+        message="String literal in `setText` can not be translated. Use Android resources instead.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/felipe/endoscopeviewer/UsbCameraFragment.kt"
+            line="1224"
+            column="94"
+            startOffset="47455"
+            endLine="1224"
+            endColumn="99"
+            endOffset="47460"/>
+    </incident>
+
+    <incident
+        id="SetTextI18n"
+        severity="warning"
+        message="String literal in `setText` can not be translated. Use Android resources instead.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/felipe/endoscopeviewer/UsbCameraFragment.kt"
+            line="1261"
+            column="28"
+            startOffset="48782"
+            endLine="1261"
+            endColumn="39"
+            endOffset="48793"/>
+    </incident>
+
+    <incident
+        id="SetTextI18n"
+        severity="warning"
+        message="String literal in `setText` can not be translated. Use Android resources instead.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/felipe/endoscopeviewer/UsbCameraFragment.kt"
+            line="1358"
+            column="28"
+            startOffset="52231"
+            endLine="1358"
+            endColumn="41"
+            endOffset="52244"/>
     </incident>
 
     <incident
@@ -2186,12 +2066,12 @@
         message="Custom view ``Button`` has `setOnTouchListener` called on it but does not override `performClick`">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/felipe/endoscopeviewer/UsbCameraFragment.kt"
-            line="868"
+            line="1406"
             column="9"
-            startOffset="32314"
-            endLine="888"
+            startOffset="54082"
+            endLine="1426"
             endColumn="10"
-            endOffset="32911"/>
+            endOffset="54679"/>
     </incident>
 
     <incident
@@ -2200,12 +2080,12 @@
         message="String literal in `setText` can not be translated. Use Android resources instead.">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/felipe/endoscopeviewer/UsbCameraFragment.kt"
-            line="893"
+            line="1431"
             column="33"
-            startOffset="33034"
-            endLine="893"
+            startOffset="54802"
+            endLine="1431"
             endColumn="65"
-            endOffset="33066"/>
+            endOffset="54834"/>
     </incident>
 
     <incident
@@ -2214,12 +2094,12 @@
         message="String literal in `setText` can not be translated. Use Android resources instead.">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/felipe/endoscopeviewer/UsbCameraFragment.kt"
-            line="912"
+            line="1450"
             column="80"
-            startOffset="33807"
-            endLine="912"
+            startOffset="55575"
+            endLine="1450"
             endColumn="98"
-            endOffset="33825"/>
+            endOffset="55593"/>
     </incident>
 
     <incident
@@ -2228,12 +2108,26 @@
         message="String literal in `setText` can not be translated. Use Android resources instead.">
         <location
             file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/felipe/endoscopeviewer/UsbCameraFragment.kt"
-            line="917"
+            line="1455"
             column="33"
-            startOffset="33929"
-            endLine="917"
+            startOffset="55697"
+            endLine="1455"
             endColumn="65"
-            endOffset="33961"/>
+            endOffset="55729"/>
+    </incident>
+
+    <incident
+        id="SetTextI18n"
+        severity="warning"
+        message="String literal in `setText` can not be translated. Use Android resources instead.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/felipe/endoscopeviewer/UsbCameraFragment.kt"
+            line="1526"
+            column="21"
+            startOffset="58470"
+            endLine="1526"
+            endColumn="52"
+            endOffset="58501"/>
     </incident>
 
     <incident
@@ -2259,12 +2153,12 @@
     <incident
         id="GradleDependency"
         severity="warning"
-        message="A newer version of androidx.appcompat:appcompat than 1.7.0 is available: 1.7.1">
+        message="A newer version of androidx.appcompat:appcompat than 1.7.0 is available: 1.8.0">
         <fix-replace
-            description="Change to 1.7.1"
+            description="Change to 1.8.0"
             family="Update versions"
             oldString="1.7.0"
-            replacement="1.7.1"
+            replacement="1.8.0"
             priority="0"/>
         <location
             file="${:app*projectDir}/build.gradle.kts"

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/equipment_status_row_background"
+    android:gravity="center_vertical"
+    android:importantForAccessibility="yes"
+    android:minHeight="62dp"
+    android:orientation="horizontal"
+    android:paddingStart="14dp"
+    android:paddingTop="10dp"
+    android:paddingEnd="14dp"
+    android:paddingBottom="10dp">
+
+    <View
+        android:id="@+id/equipmentStatusDot"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:background="@drawable/equipment_status_dot"
+        android:importantForAccessibility="no" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_weight="1"
+        android:importantForAccessibility="no"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/equipmentStatusName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:importantForAccessibility="no"
+            android:textColor="#17213A"
+            android:textSize="14sp"
+            tools:text="Celda de carga" />
+
+        <TextView
+            android:id="@+id/equipmentStatusDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:importantForAccessibility="no"
+            android:textColor="@color/equipment_status_warning"
+            android:textSize="12sp"
+            tools:text="Inicializando" />
+    </LinearLayout>
+
+</LinearLayout>

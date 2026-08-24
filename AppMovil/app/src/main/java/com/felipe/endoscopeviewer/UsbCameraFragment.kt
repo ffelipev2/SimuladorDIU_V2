@@ -2,6 +2,7 @@ package com.felipe.endoscopeviewer
 
 import android.Manifest
 import android.content.Context
+import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.content.res.Configuration
@@ -24,11 +25,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.FrameLayout
+import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.ProgressBar
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.widget.TextViewCompat
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.jiangdg.ausbc.MultiCameraClient
 import com.jiangdg.ausbc.base.MultiCameraFragment
 import com.jiangdg.ausbc.callback.ICameraStateCallBack
@@ -41,6 +47,7 @@ import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlin.math.abs
 import kotlin.math.max
 
 class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateCallBack {
@@ -55,7 +62,9 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
     private lateinit var zoneText: TextView
     private lateinit var forceGauge: ForceGaugeView
     private lateinit var tareButton: Button
+    private lateinit var tareProgress: ProgressBar
     private lateinit var bluetoothButton: Button
+    private lateinit var sensorInfoButton: ImageButton
     private lateinit var motorLeftButton: Button
     private lateinit var motorCenterButton: Button
     private lateinit var motorRightButton: Button
@@ -70,9 +79,49 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
     private lateinit var thresholdsList: LinearLayout
 
     private var bleManager: BleScaleManager? = null
+    private var bleDeviceDialog: AlertDialog? = null
+    private var bleDeviceList: LinearLayout? = null
+    private var bleScanStatus: TextView? = null
     private val motorControlHandler = Handler(Looper.getMainLooper())
+    private val uiHandler = Handler(Looper.getMainLooper())
     private var motorHoldDirection = 0
     private var isBleConnected = false
+    private var latestScaleState: ScaleState? = null
+    private var latestScaleStateAt = 0L
+    private var telemetryMarkedStale = true
+    private var lastCameraError: String? = null
+    private var lastCameraErrorDeviceId: Int? = null
+    private var tareUiActive = false
+    private var tareFirmwareStarted = false
+    private var tareStartedAt = 0L
+    private var legacyTareZeroSamples = 0
+    private val tareTimeout = Runnable {
+        if (tareUiActive) {
+            finishTareUi(
+                success = false,
+                message = "No se recibió la confirmación de tara. Intenta nuevamente."
+            )
+        }
+    }
+    private val resetTareResult = Runnable { resetTareUi() }
+    private val telemetryWatchdog = object : Runnable {
+        override fun run() {
+            if (!isBleConnected) return
+
+            if (!hasRecentTelemetry() && !telemetryMarkedStale) {
+                telemetryMarkedStale = true
+                if (tareUiActive) {
+                    finishTareUi(
+                        success = false,
+                        message = "Tara interrumpida: no llegan datos del simulador."
+                    )
+                }
+                showTelemetryUnavailable()
+                updateSensorInfoIcon()
+            }
+            uiHandler.postDelayed(this, TELEMETRY_WATCHDOG_INTERVAL_MS)
+        }
+    }
     private val motorKeepAlive = object : Runnable {
         override fun run() {
             val direction = motorHoldDirection
@@ -97,7 +146,7 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
         if (permissions.values.all { it }) {
-            bleManager?.startScan()
+            startBluetoothDeviceSelection()
         } else {
             onBleStatus("Se necesitan permisos Bluetooth para conectar el dispositivo.", false)
         }
@@ -116,7 +165,9 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
         zoneText = root.findViewById(R.id.zoneText)
         forceGauge = root.findViewById(R.id.forceGauge)
         tareButton = root.findViewById(R.id.tareButton)
+        tareProgress = root.findViewById(R.id.tareProgress)
         bluetoothButton = root.findViewById(R.id.bluetoothButton)
+        sensorInfoButton = root.findViewById(R.id.sensorInfoButton)
         motorLeftButton = root.findViewById(R.id.motorLeftButton)
         motorCenterButton = root.findViewById(R.id.motorCenterButton)
         motorRightButton = root.findViewById(R.id.motorRightButton)
@@ -145,17 +196,26 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
         bleManager = BleScaleManager(requireContext(), this)
         switchCameraButton.setOnClickListener { selectNextCamera() }
         bluetoothButton.setOnClickListener { connectBluetooth() }
+        sensorInfoButton.setOnClickListener { showSensorStatusDialog() }
         clearHistoryButton.setOnClickListener { clearPressHistory() }
         historyTabButton.setOnClickListener { showHistoryTab() }
         thresholdsTabButton.setOnClickListener { showThresholdsTab() }
         tareButton.setOnClickListener {
+            if (!isBleConnected || tareUiActive || !isLoadCellUsable()) {
+                return@setOnClickListener
+            }
             // Deja de renovar cualquier movimiento antes de pedir la tara.
             // El firmware también detiene el motor al procesar TARE.
             stopMotorControl(sendStop = false)
-            bleStatus.text = if (bleManager?.sendTare() == true) {
-                "Realizando tara... no toques el dispositivo."
+            if (bleManager?.sendTare() == true) {
+                startTareUi()
             } else {
-                "El dispositivo no está conectado."
+                showTareStatus(
+                    "No se pudo iniciar la tara. Revisa la conexión.",
+                    Color.rgb(190, 43, 43),
+                    Color.rgb(255, 244, 244),
+                    Color.rgb(242, 164, 164)
+                )
             }
         }
         configureMotorHoldButton(motorLeftButton, -1)
@@ -166,6 +226,7 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
         renderThresholds()
         showHistoryTab()
         updateZone('B', alarm = false, humidityDetected = false)
+        updateSensorInfoIcon()
         return root
     }
 
@@ -181,6 +242,13 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
 
     override fun clear() {
         stopMotorControl()
+        uiHandler.removeCallbacks(tareTimeout)
+        uiHandler.removeCallbacks(resetTareResult)
+        uiHandler.removeCallbacks(telemetryWatchdog)
+        bleDeviceDialog?.dismiss()
+        bleDeviceDialog = null
+        bleDeviceList = null
+        bleScanStatus = null
         bleManager?.close()
         bleManager = null
         activeCamera?.setCameraStateCallBack(null)
@@ -206,6 +274,8 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
     override fun onCameraConnected(camera: MultiCameraClient.ICamera) {
         val deviceId = camera.getUsbDevice().deviceId
         connectedCameraIds.add(deviceId)
+        lastCameraError = null
+        lastCameraErrorDeviceId = null
         if (selectedDeviceId == null) selectedDeviceId = deviceId
 
         if (selectedDeviceId == deviceId) {
@@ -218,6 +288,10 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
     override fun onCameraDisConnected(camera: MultiCameraClient.ICamera) {
         val deviceId = camera.getUsbDevice().deviceId
         connectedCameraIds.remove(deviceId)
+        if (lastCameraErrorDeviceId == deviceId) {
+            lastCameraError = null
+            lastCameraErrorDeviceId = null
+        }
         if (activeCamera === camera) {
             camera.closeCamera()
             activeCamera = null
@@ -230,6 +304,10 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
     override fun onCameraDetached(camera: MultiCameraClient.ICamera) {
         val deviceId = camera.getUsbDevice().deviceId
         connectedCameraIds.remove(deviceId)
+        if (lastCameraErrorDeviceId == deviceId) {
+            lastCameraError = null
+            lastCameraErrorDeviceId = null
+        }
         camera.closeCamera()
         cameraSlots.remove(deviceId)
 
@@ -263,6 +341,8 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
             when (code) {
                 ICameraStateCallBack.State.OPENED -> {
                     openingDeviceId = null
+                    lastCameraError = null
+                    lastCameraErrorDeviceId = null
                     cameraOverlay.visibility = View.GONE
                     cameraStatus.text =
                         "${sortedCameras().size} cámara(s) detectada(s) · mostrando cámara $slot"
@@ -275,6 +355,8 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
 
                 ICameraStateCallBack.State.ERROR -> {
                     openingDeviceId = null
+                    lastCameraError = msg ?: "revisa la conexión USB"
+                    lastCameraErrorDeviceId = self.getUsbDevice().deviceId
                     showCameraMessage(
                         "No se pudo abrir la cámara $slot: ${msg ?: "revisa la conexión USB"}"
                     )
@@ -409,6 +491,7 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
                     (selectedSlot?.let { " · seleccionada cámara $it" } ?: "")
             }
         }
+        updateSensorInfoIcon()
     }
 
     private fun cameraRequest(): CameraRequest = CameraRequest.Builder()
@@ -823,20 +906,257 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
     private fun dp(value: Float): Int =
         (value * resources.displayMetrics.density).toInt()
 
+    private fun hasRecentTelemetry(): Boolean {
+        if (!isBleConnected || latestScaleState == null || latestScaleStateAt == 0L) return false
+        val maximumAge = if (tareUiActive) {
+            TARE_TELEMETRY_STALE_MS
+        } else {
+            TELEMETRY_STALE_MS
+        }
+        return SystemClock.elapsedRealtime() - latestScaleStateAt <= maximumAge
+    }
+
+    private fun isLoadCellUsable(
+        status: LoadCellStatus? = latestScaleState?.loadCellStatus
+    ): Boolean =
+        hasRecentTelemetry() &&
+            (status == LoadCellStatus.READY || status == LoadCellStatus.UNKNOWN)
+
+    private fun showTelemetryUnavailable() {
+        if (!::currentWeight.isInitialized) return
+
+        currentWeight.text = "--"
+        lastWeight.text = "Último: --"
+        forceGauge.setValue(0f)
+        zoneText.text = "SIN DATOS"
+        zoneText.setTextColor(Color.rgb(176, 99, 0))
+        zoneText.background = GradientDrawable().apply {
+            cornerRadius = resources.displayMetrics.density * 10f
+            setColor(Color.rgb(255, 247, 226))
+        }
+        currentWeight.setTextColor(Color.rgb(176, 99, 0))
+        resetPressTracking()
+        stopMotorControl()
+        tareButton.isEnabled = false
+        motorLeftButton.isEnabled = false
+        motorCenterButton.isEnabled = false
+        motorRightButton.isEnabled = false
+        motorStatus.text = if (isBleConnected) {
+            "Esperando datos actuales del simulador"
+        } else {
+            "Conecta Bluetooth para controlar la extensión"
+        }
+    }
+
+    private fun showLoadCellUnavailable(state: ScaleState) {
+        currentWeight.text = "--"
+        lastWeight.text = "Último: --"
+        forceGauge.setValue(0f)
+
+        if (state.humidityDetected) {
+            updateZone('B', alarm = true, humidityDetected = true)
+            return
+        }
+
+        val initializing = state.loadCellStatus == LoadCellStatus.INITIALIZING
+        val invalid = state.loadCellStatus == LoadCellStatus.INVALID
+        val textColor = if (initializing) Color.rgb(176, 99, 0) else Color.rgb(190, 43, 43)
+        zoneText.text = when {
+            initializing -> "INICIANDO"
+            invalid -> "ERROR DATOS"
+            else -> "SIN CELDA"
+        }
+        zoneText.setTextColor(textColor)
+        zoneText.background = GradientDrawable().apply {
+            cornerRadius = resources.displayMetrics.density * 10f
+            setColor(
+                if (initializing) Color.rgb(255, 247, 226)
+                else Color.rgb(255, 237, 237)
+            )
+        }
+        currentWeight.setTextColor(textColor)
+    }
+
+    private fun updateSensorInfoIcon() {
+        if (!::sensorInfoButton.isInitialized) return
+
+        val loadCellStatus = latestScaleState?.loadCellStatus
+        val telemetryRecent = hasRecentTelemetry()
+        val hasHardwareAlert =
+            !isBleConnected ||
+                (telemetryRecent &&
+                    (loadCellStatus == LoadCellStatus.UNAVAILABLE ||
+                        loadCellStatus == LoadCellStatus.INVALID ||
+                        latestScaleState?.humidityDetected == true)) ||
+                lastCameraError != null
+        val color = when {
+            hasHardwareAlert -> Color.rgb(190, 43, 43)
+            isBleConnected && !telemetryRecent -> Color.rgb(196, 112, 0)
+            loadCellStatus == LoadCellStatus.INITIALIZING -> Color.rgb(196, 112, 0)
+            telemetryRecent && isLoadCellUsable(loadCellStatus) -> Color.rgb(35, 134, 78)
+            else -> Color.rgb(66, 16, 177)
+        }
+        sensorInfoButton.imageTintList = ColorStateList.valueOf(color)
+        sensorInfoButton.contentDescription = when {
+            !isBleConnected -> "Ver estado del equipo; Bluetooth desconectado"
+            hasHardwareAlert -> "Ver estado del equipo; hay una alerta"
+            isBleConnected && !telemetryRecent ->
+                "Ver estado de sensores; no llegan datos actuales"
+            loadCellStatus == LoadCellStatus.INITIALIZING ->
+                "Ver estado de sensores; celda inicializando"
+            loadCellStatus == LoadCellStatus.UNKNOWN ->
+                "Ver estado de sensores; celda con lectura activa"
+            else -> "Ver estado de sensores"
+        }
+    }
+
+    private fun showSensorStatusDialog() {
+        val state = latestScaleState
+        val telemetryRecent = hasRecentTelemetry()
+        val context = requireContext()
+        val normalColor = ContextCompat.getColor(context, R.color.equipment_status_ok)
+        val warningColor = ContextCompat.getColor(context, R.color.equipment_status_warning)
+        val errorColor = ContextCompat.getColor(context, R.color.equipment_status_error)
+
+        val bluetoothStatus = when {
+            telemetryRecent -> EquipmentStatusItem("Bluetooth", "Conectado", normalColor)
+            isBleConnected -> EquipmentStatusItem("Bluetooth", "Esperando datos", warningColor)
+            else -> EquipmentStatusItem("Bluetooth", "Desconectado", errorColor)
+        }
+        val loadCellStatus = when {
+            !telemetryRecent || state == null ->
+                EquipmentStatusItem("Celda de carga", "Sin datos", warningColor)
+            state.loadCellStatus == LoadCellStatus.READY ->
+                EquipmentStatusItem("Celda de carga", "Lista", normalColor)
+            state.loadCellStatus == LoadCellStatus.INITIALIZING ->
+                EquipmentStatusItem("Celda de carga", "Inicializando", warningColor)
+            state.loadCellStatus == LoadCellStatus.UNAVAILABLE ->
+                EquipmentStatusItem("Celda de carga", "No detectada", errorColor)
+            state.loadCellStatus == LoadCellStatus.INVALID ->
+                EquipmentStatusItem("Celda de carga", "Estado inválido", errorColor)
+            else ->
+                EquipmentStatusItem("Celda de carga", "Lectura activa", normalColor)
+        }
+        val humidityStatus = when {
+            !telemetryRecent || state == null ->
+                EquipmentStatusItem("Humedad", "Sin datos", warningColor)
+            state.humidityDetected ->
+                EquipmentStatusItem("Humedad", "Humedad detectada", errorColor)
+            else -> EquipmentStatusItem("Humedad", "Sin humedad", normalColor)
+        }
+
+        val attachedCameras = sortedCameras().size
+        val cameraStatus = when {
+            lastCameraError != null ->
+                EquipmentStatusItem("Cámara USB", "Error detectado", errorColor)
+            activeCamera?.isCameraOpened() == true ->
+                EquipmentStatusItem("Cámara USB", "Activa", normalColor)
+            attachedCameras > 0 ->
+                EquipmentStatusItem("Cámara USB", "Detectada · sin vista", warningColor)
+            else ->
+                EquipmentStatusItem("Cámara USB", "No conectada (opcional)", warningColor)
+        }
+        val motorStatus = when {
+            !telemetryRecent || state == null ->
+                EquipmentStatusItem("Motor", "Sin datos", warningColor)
+            state.motorCentering ->
+                EquipmentStatusItem(
+                    "Motor",
+                    "Centrando · posición ${state.motorPosition}",
+                    normalColor
+                )
+            state.motorDirection < 0 ->
+                EquipmentStatusItem(
+                    "Motor",
+                    "Moviendo a la izquierda · posición ${state.motorPosition}",
+                    normalColor
+                )
+            state.motorDirection > 0 ->
+                EquipmentStatusItem(
+                    "Motor",
+                    "Moviendo a la derecha · posición ${state.motorPosition}",
+                    normalColor
+                )
+            !state.motorCanMoveLeft ->
+                EquipmentStatusItem(
+                    "Motor",
+                    "Límite izquierdo · posición ${state.motorPosition}",
+                    warningColor
+                )
+            !state.motorCanMoveRight ->
+                EquipmentStatusItem(
+                    "Motor",
+                    "Límite derecho · posición ${state.motorPosition}",
+                    warningColor
+                )
+            else ->
+                EquipmentStatusItem(
+                    "Motor",
+                    "Detenido · posición ${state.motorPosition}",
+                    normalColor
+                )
+        }
+
+        val content = layoutInflater.inflate(R.layout.dialog_equipment_status, null)
+        listOf(
+            R.id.bluetoothEquipmentStatusRow to bluetoothStatus,
+            R.id.loadCellEquipmentStatusRow to loadCellStatus,
+            R.id.humidityEquipmentStatusRow to humidityStatus,
+            R.id.cameraEquipmentStatusRow to cameraStatus,
+            R.id.motorEquipmentStatusRow to motorStatus
+        ).forEach { (rowId, status) ->
+            bindEquipmentStatusRow(content.findViewById(rowId), status)
+        }
+
+        MaterialAlertDialogBuilder(context)
+            .setIcon(R.drawable.ic_info_purple)
+            .setTitle(R.string.equipment_status_title)
+            .setView(content)
+            .setPositiveButton(R.string.equipment_status_close, null)
+            .show()
+    }
+
+    private fun bindEquipmentStatusRow(row: View, status: EquipmentStatusItem) {
+        val dot = row.findViewById<View>(R.id.equipmentStatusDot)
+        val name = row.findViewById<TextView>(R.id.equipmentStatusName)
+        val detail = row.findViewById<TextView>(R.id.equipmentStatusDetail)
+
+        dot.backgroundTintList = ColorStateList.valueOf(status.color)
+        name.text = status.name
+        detail.text = status.detail
+        detail.setTextColor(status.color)
+        row.contentDescription = "${status.name}: ${status.detail}"
+    }
+
     override fun onBleStatus(message: String, connected: Boolean) {
         if (!::bleStatus.isInitialized) return
+        val tareWasActive = tareUiActive
         isBleConnected = connected
+        uiHandler.removeCallbacks(telemetryWatchdog)
         if (!connected) {
+            latestScaleState = null
+            latestScaleStateAt = 0L
+            telemetryMarkedStale = true
+            if (tareWasActive) {
+                finishTareUi(
+                    success = false,
+                    message = "Tara interrumpida: se perdió la conexión Bluetooth."
+                )
+            }
             resetPressTracking()
             stopMotorControl(sendStop = false)
+        } else {
+            telemetryMarkedStale = !hasRecentTelemetry()
+            uiHandler.postDelayed(telemetryWatchdog, TELEMETRY_WATCHDOG_INTERVAL_MS)
         }
-        bleStatus.text = message
-        tareButton.isEnabled = connected
-        motorLeftButton.isEnabled = connected
-        motorCenterButton.isEnabled = connected
-        motorRightButton.isEnabled = connected
-        if (!connected) motorStatus.text = "Conecta Bluetooth para controlar la extensión"
-        bluetoothButton.text = if (connected) "Reconectar dispositivo" else "Conectar dispositivo"
+        if (!tareWasActive && !tareUiActive) showNeutralBleStatus(message)
+        if (hasRecentTelemetry()) {
+            latestScaleState?.let(::updateMotorState)
+        } else {
+            showTelemetryUnavailable()
+        }
+        tareButton.isEnabled = connected && !tareUiActive && isLoadCellUsable()
+        bluetoothButton.text = if (connected) "Cambiar dispositivo" else "Seleccionar dispositivo"
         connectionBadge.text = if (connected) "● CONECTADO" else "○ SIN CONEXIÓN"
         val badgeColor = if (connected) Color.rgb(38, 166, 91) else Color.rgb(215, 53, 53)
         connectionBadge.setTextColor(badgeColor)
@@ -852,16 +1172,234 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
                 else Color.rgb(244, 167, 167)
             )
         }
+        updateSensorInfoIcon()
     }
 
     override fun onScaleState(state: ScaleState) {
-        if (!::currentWeight.isInitialized) return
-        currentWeight.text = String.format("%.2f g", state.currentGrams)
-        lastWeight.text = String.format("Último: %.2f g", state.lastGrams)
-        forceGauge.setValue(state.currentGrams)
-        updateZone(state.zone, state.alarm, state.humidityDetected)
+        if (!::currentWeight.isInitialized || !isBleConnected) return
+        latestScaleState = state
+        latestScaleStateAt = SystemClock.elapsedRealtime()
+        telemetryMarkedStale = false
+        if (isLoadCellUsable(state.loadCellStatus)) {
+            currentWeight.text = String.format(Locale.getDefault(), "%.2f g", state.currentGrams)
+            lastWeight.text =
+                String.format(Locale.getDefault(), "Último: %.2f g", state.lastGrams)
+            forceGauge.setValue(state.currentGrams)
+            updateZone(state.zone, state.alarm, state.humidityDetected)
+            trackPress(state.currentGrams)
+        } else {
+            showLoadCellUnavailable(state)
+            resetPressTracking()
+        }
         updateMotorState(state)
-        trackPress(state.currentGrams)
+        updateTareUi(state)
+        tareButton.isEnabled = isBleConnected && !tareUiActive && isLoadCellUsable()
+        updateSensorInfoIcon()
+    }
+
+    override fun onBleDevicesChanged(devices: List<BleDeviceInfo>, scanning: Boolean) {
+        val list = bleDeviceList ?: return
+        val status = bleScanStatus ?: return
+
+        status.text = when {
+            scanning && devices.isEmpty() ->
+                "Buscando dispositivos cercanos…"
+            scanning ->
+                "Buscando… ${devices.size} dispositivo(s) encontrado(s)"
+            devices.isEmpty() ->
+                "No se encontraron dispositivos. Verifica que estén encendidos."
+            else ->
+                "Toca el dispositivo específico que deseas conectar."
+        }
+
+        list.removeAllViews()
+        devices.forEach { device ->
+            val signal = when {
+                device.rssi >= -60 -> "Excelente"
+                device.rssi >= -75 -> "Buena"
+                else -> "Débil"
+            }
+            val option = TextView(requireContext()).apply {
+                text =
+                    "${device.name}\nID: ${device.address}  ·  Señal: $signal (${device.rssi} dBm)"
+                setTextColor(Color.rgb(20, 39, 68))
+                textSize = 14f
+                setPadding(dp(14f), dp(12f), dp(14f), dp(12f))
+                background = GradientDrawable().apply {
+                    cornerRadius = dp(12f).toFloat()
+                    setColor(Color.rgb(250, 249, 253))
+                    setStroke(dp(1f), Color.rgb(211, 205, 224))
+                }
+                isClickable = true
+                isFocusable = true
+                setOnClickListener {
+                    bleManager?.connectToDevice(device)
+                    bleDeviceDialog?.dismiss()
+                }
+            }
+            list.addView(
+                option,
+                LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    bottomMargin = dp(8f)
+                }
+            )
+        }
+    }
+
+    private fun startTareUi() {
+        uiHandler.removeCallbacks(tareTimeout)
+        uiHandler.removeCallbacks(resetTareResult)
+        tareUiActive = true
+        tareFirmwareStarted = false
+        legacyTareZeroSamples = 0
+        tareStartedAt = SystemClock.elapsedRealtime()
+
+        tareProgress.visibility = View.VISIBLE
+        tareButton.text = "Realizando…"
+        tareButton.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
+        tareButton.isEnabled = false
+        showTareStatus(
+            "Tara en proceso · no toques el dispositivo",
+            Color.rgb(75, 18, 181),
+            Color.rgb(247, 243, 255),
+            Color.rgb(205, 184, 243)
+        )
+        uiHandler.postDelayed(tareTimeout, TARE_TIMEOUT_MS)
+    }
+
+    private fun updateTareUi(state: ScaleState) {
+        if (!isLoadCellUsable(state.loadCellStatus)) {
+            if (tareUiActive) {
+                finishTareUi(
+                    success = false,
+                    message = if (state.loadCellStatus == LoadCellStatus.INITIALIZING) {
+                        "La celda se está inicializando. Espera antes de realizar la tara."
+                    } else if (state.loadCellStatus == LoadCellStatus.INVALID) {
+                        "No se puede realizar la tara: estado HX711 inválido."
+                    } else {
+                        "No se puede realizar la tara: HX711 no detectado."
+                    }
+                )
+            }
+            return
+        }
+
+        if (state.tareInProgress) {
+            if (!tareUiActive) startTareUi()
+            tareFirmwareStarted = true
+            return
+        }
+        if (!tareUiActive) return
+
+        if (state.hasTareStatus) {
+            if (tareFirmwareStarted) {
+                finishTareUi(
+                    success = true,
+                    message = "✓ Tara completada correctamente"
+                )
+            }
+            return
+        }
+
+        // Compatibilidad con una versión anterior del firmware sin estado de tara.
+        if (SystemClock.elapsedRealtime() - tareStartedAt < LEGACY_TARE_MIN_MS) return
+        val isZero =
+            abs(state.currentGrams) <= TARE_ZERO_CONFIRM_G &&
+                abs(state.lastGrams) <= TARE_ZERO_CONFIRM_G
+        legacyTareZeroSamples = if (isZero) legacyTareZeroSamples + 1 else 0
+        if (legacyTareZeroSamples >= LEGACY_TARE_ZERO_SAMPLES) {
+            finishTareUi(
+                success = true,
+                message = "✓ Tara completada correctamente"
+            )
+        }
+    }
+
+    private fun finishTareUi(success: Boolean, message: String) {
+        if (!tareUiActive) return
+        tareUiActive = false
+        tareFirmwareStarted = false
+        uiHandler.removeCallbacks(tareTimeout)
+
+        tareProgress.visibility = View.GONE
+        tareButton.setCompoundDrawablesRelativeWithIntrinsicBounds(
+            R.drawable.ic_scale_purple,
+            0,
+            0,
+            0
+        )
+        tareButton.text = if (success) "✓ Tara completada" else "Reintentar tara"
+        tareButton.isEnabled = isBleConnected && !success && isLoadCellUsable()
+
+        if (success) {
+            showTareStatus(
+                message,
+                Color.rgb(35, 134, 78),
+                Color.rgb(240, 251, 244),
+                Color.rgb(155, 222, 178)
+            )
+            uiHandler.postDelayed(resetTareResult, TARE_RESULT_DISPLAY_MS)
+        } else {
+            showTareStatus(
+                message,
+                Color.rgb(190, 43, 43),
+                Color.rgb(255, 244, 244),
+                Color.rgb(242, 164, 164)
+            )
+        }
+    }
+
+    private fun resetTareUi() {
+        if (!::tareButton.isInitialized || tareUiActive) return
+        tareProgress.visibility = View.GONE
+        tareButton.text = "Realizar tara"
+        tareButton.setCompoundDrawablesRelativeWithIntrinsicBounds(
+            R.drawable.ic_scale_purple,
+            0,
+            0,
+            0
+        )
+        tareButton.isEnabled = isBleConnected && isLoadCellUsable()
+        if (isBleConnected) {
+            val message = when {
+                isLoadCellUsable() -> "Dispositivo conectado · listo"
+                !hasRecentTelemetry() -> "Dispositivo conectado · sin telemetría actual"
+                latestScaleState?.loadCellStatus == LoadCellStatus.INITIALIZING ->
+                    "Dispositivo conectado · HX711 inicializando"
+                latestScaleState?.loadCellStatus == LoadCellStatus.UNAVAILABLE ->
+                    "Dispositivo conectado · HX711 no disponible"
+                latestScaleState?.loadCellStatus == LoadCellStatus.INVALID ->
+                    "Dispositivo conectado · estado HX711 inválido"
+                else -> "Dispositivo conectado · revisa el diagnóstico"
+            }
+            showNeutralBleStatus(message)
+        }
+    }
+
+    private fun showNeutralBleStatus(message: String) {
+        bleStatus.text = message
+        bleStatus.setTextColor(Color.rgb(104, 112, 141))
+        bleStatus.background = null
+        bleStatus.setPadding(0, 0, 0, 0)
+    }
+
+    private fun showTareStatus(
+        message: String,
+        textColor: Int,
+        backgroundColor: Int,
+        strokeColor: Int
+    ) {
+        bleStatus.text = message
+        bleStatus.setTextColor(textColor)
+        bleStatus.setPadding(dp(10f), dp(6f), dp(10f), dp(6f))
+        bleStatus.background = GradientDrawable().apply {
+            cornerRadius = dp(10f).toFloat()
+            setColor(backgroundColor)
+            setStroke(dp(1f), strokeColor)
+        }
     }
 
     private fun configureMotorHoldButton(button: Button, direction: Int) {
@@ -966,10 +1504,87 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
                 PackageManager.PERMISSION_GRANTED
         }
         if (missing.isEmpty()) {
-            bleManager?.startScan()
+            startBluetoothDeviceSelection()
         } else {
             bluetoothPermissionLauncher.launch(missing.toTypedArray())
         }
+    }
+
+    private fun startBluetoothDeviceSelection() {
+        showBluetoothDeviceDialog()
+        bleManager?.startScan()
+    }
+
+    private fun showBluetoothDeviceDialog() {
+        bleDeviceDialog?.dismiss()
+
+        val content = LinearLayout(requireContext()).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(dp(20f), dp(4f), dp(20f), 0)
+        }
+        val status = TextView(requireContext()).apply {
+            text = "Buscando dispositivos cercanos…"
+            setTextColor(Color.rgb(104, 112, 141))
+            textSize = 13f
+            setPadding(0, dp(4f), 0, dp(12f))
+        }
+        val list = LinearLayout(requireContext()).apply {
+            orientation = LinearLayout.VERTICAL
+        }
+        val scroll = ScrollView(requireContext()).apply {
+            isFillViewport = true
+            addView(
+                list,
+                FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                    FrameLayout.LayoutParams.WRAP_CONTENT
+                )
+            )
+        }
+        content.addView(
+            status,
+            LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+        )
+        content.addView(
+            scroll,
+            LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                dp(280f)
+            )
+        )
+
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Seleccionar dispositivo")
+            .setView(content)
+            .setPositiveButton("Buscar de nuevo", null)
+            .setNegativeButton("Cancelar", null)
+            .create()
+
+        bleDeviceList = list
+        bleScanStatus = status
+        bleDeviceDialog = dialog
+
+        dialog.setOnShowListener {
+            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
+                bleManager?.startScan()
+            }
+            dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener {
+                dialog.dismiss()
+            }
+        }
+        dialog.setOnDismissListener {
+            bleManager?.cancelScan()
+            if (bleDeviceDialog === dialog) {
+                bleDeviceDialog = null
+                bleDeviceList = null
+                bleScanStatus = null
+            }
+        }
+        dialog.show()
+        onBleDevicesChanged(emptyList(), scanning = true)
     }
 
     private fun updateZone(zone: Char, alarm: Boolean, humidityDetected: Boolean) {
@@ -1011,10 +1626,24 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
         val zone: Char
     )
 
+    private data class EquipmentStatusItem(
+        val name: String,
+        val detail: String,
+        val color: Int
+    )
+
     companion object {
         const val TAG = "usb-camera-viewer"
         private const val CAMERA_SWITCH_DELAY_MS = 700L
         private const val MOTOR_KEEP_ALIVE_MS = 250L
+        private const val TELEMETRY_STALE_MS = 2_500L
+        private const val TARE_TELEMETRY_STALE_MS = 10_000L
+        private const val TELEMETRY_WATCHDOG_INTERVAL_MS = 500L
+        private const val TARE_TIMEOUT_MS = 15_000L
+        private const val TARE_RESULT_DISPLAY_MS = 3_000L
+        private const val LEGACY_TARE_MIN_MS = 1_200L
+        private const val TARE_ZERO_CONFIRM_G = 0.20f
+        private const val LEGACY_TARE_ZERO_SAMPLES = 2
         private const val PRESS_START_GRAMS = 1f
         private const val PRESS_RELEASE_GRAMS = 0.5f
         private const val PRESS_RELEASE_TIME_MS = 250L

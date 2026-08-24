@@ -1378,6 +1378,11 @@ color dim_foreground_disabled_material_dark
 color dim_foreground_disabled_material_light
 color dim_foreground_material_dark
 color dim_foreground_material_light
+color equipment_status_error
+color equipment_status_ok
+color equipment_status_row_background
+color equipment_status_row_border
+color equipment_status_warning
 color error_color_material_dark
 color error_color_material_light
 color foreground_material_dark
@@ -2976,6 +2981,8 @@ drawable design_password_eye
 drawable design_snackbar_background
 drawable divider_light
 drawable effect_none
+drawable equipment_status_dot
+drawable equipment_status_row_background
 drawable ic_arrow_back_black_24
 drawable ic_arrow_left_purple
 drawable ic_arrow_right_primary
@@ -2995,6 +3002,7 @@ drawable ic_clock_black_24dp
 drawable ic_diu_launcher_foreground
 drawable ic_email_purple
 drawable ic_history_blue
+drawable ic_info_purple
 drawable ic_keyboard_black_24dp
 drawable ic_link_white
 drawable ic_m3_chip_check
@@ -3184,10 +3192,12 @@ id beginning
 id bleStatusText
 id blocking
 id bluetoothButton
+id bluetoothEquipmentStatusRow
 id bottom
 id bounce
 id buttonPanel
 id cache_measures
+id cameraEquipmentStatusRow
 id cameraStatusText
 id cameraViewContainer
 id cancel_button
@@ -3264,6 +3274,9 @@ id end
 id endToStart
 id enterAlways
 id enterAlwaysCollapsed
+id equipmentStatusDetail
+id equipmentStatusDot
+id equipmentStatusName
 id escape
 id exitUntilCollapsed
 id expand_activities_button
@@ -3307,6 +3320,7 @@ id historyTabButton
 id home
 id homeAsUp
 id honorRequest
+id humidityEquipmentStatusRow
 id icon
 id icon_group
 id ifRoom
@@ -3332,6 +3346,7 @@ id line3
 id linear
 id listMode
 id list_item
+id loadCellEquipmentStatusRow
 id m3_side_sheet
 id marquee
 id masked
@@ -3376,6 +3391,7 @@ id month_navigation_previous
 id month_title
 id motion_base
 id motorCenterButton
+id motorEquipmentStatusRow
 id motorLeftButton
 id motorRightButton
 id motorStatusText
@@ -3488,6 +3504,7 @@ id search_voice_btn
 id select_dialog_listview
 id selected
 id selection_type
+id sensorInfoButton
 id shortcut
 id showCustom
 id showHome
@@ -3539,6 +3556,7 @@ id tag_unhandled_key_event_manager
 id tag_unhandled_key_listeners
 id tag_window_insets_animation_callback
 id tareButton
+id tareProgress
 id text
 id text2
 id textEnd
@@ -3731,6 +3749,7 @@ layout design_navigation_menu_item
 layout design_text_input_end_icon
 layout design_text_input_start_icon
 layout dialog_camera
+layout dialog_equipment_status
 layout fragment_usb_camera
 layout ime_base_split_test_activity
 layout ime_secondary_split_test_activity
@@ -3796,6 +3815,7 @@ layout select_dialog_item_material
 layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
 layout support_simple_spinner_dropdown_item
+layout view_equipment_status_row
 mipmap ic_launcher
 plurals mtrl_badge_content_description
 raw base_fragment
@@ -3863,6 +3883,11 @@ string clear_text_end_icon_content_description
 string contact_email
 string contact_email_description
 string diu_icon_description
+string equipment_status_alert
+string equipment_status_attention
+string equipment_status_close
+string equipment_status_normal
+string equipment_status_title
 string error_a11y_label
 string error_icon_content_description
 string exposed_dropdown_menu_content_description
@@ -3992,6 +4017,7 @@ string searchbar_scrolling_view_behavior
 string searchview_clear_text_content_description
 string searchview_navigation_content_description
 string select
+string sensor_info_description
 string side_sheet_accessibility_pane_title
 string side_sheet_behavior
 string splash_description

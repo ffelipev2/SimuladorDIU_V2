@@ -2,6 +2,11 @@ R_DEF: Internal format may change without notice
 local
 color button_outline_text
 color button_primary_text
+color equipment_status_error
+color equipment_status_ok
+color equipment_status_row_background
+color equipment_status_row_border
+color equipment_status_warning
 color launcher_background
 color material_checkbox_tint
 color teal_400
@@ -13,6 +18,8 @@ drawable camera_background
 drawable camera_background_v2
 drawable checklist_item_background
 drawable divider_light
+drawable equipment_status_dot
+drawable equipment_status_row_background
 drawable ic_arrow_left_purple
 drawable ic_arrow_right_primary
 drawable ic_arrow_right_purple
@@ -23,6 +30,7 @@ drawable ic_clipboard_green
 drawable ic_diu_launcher_foreground
 drawable ic_email_purple
 drawable ic_history_blue
+drawable ic_info_purple
 drawable ic_link_white
 drawable ic_scale_purple
 drawable ic_thresholds_gray
@@ -38,6 +46,8 @@ drawable tab_selected_background
 drawable tab_unselected_background
 id bleStatusText
 id bluetoothButton
+id bluetoothEquipmentStatusRow
+id cameraEquipmentStatusRow
 id cameraStatusText
 id cameraViewContainer
 id checklistRoot
@@ -45,13 +55,18 @@ id clearHistoryButton
 id connectionBadge
 id contactEmailText
 id currentWeightText
+id equipmentStatusDetail
+id equipmentStatusDot
+id equipmentStatusName
 id forceGauge
 id fragmentContainer
 id historyContent
 id historyList
 id historySelectedText
 id historyTabButton
+id humidityEquipmentStatusRow
 id lastWeightText
+id loadCellEquipmentStatusRow
 id material1Check
 id material2Check
 id material3Check
@@ -61,13 +76,16 @@ id material6Check
 id materialNextButton
 id materialProgressText
 id motorCenterButton
+id motorEquipmentStatusRow
 id motorLeftButton
 id motorRightButton
 id motorStatusText
+id sensorInfoButton
 id splashRoot
 id statusText
 id switchCameraButton
 id tareButton
+id tareProgress
 id thresholdsContent
 id thresholdsList
 id thresholdsTabButton
@@ -76,7 +94,9 @@ id zoneText
 layout activity_main
 layout activity_material_checklist
 layout activity_splash
+layout dialog_equipment_status
 layout fragment_usb_camera
+layout view_equipment_status_row
 mipmap ic_launcher
 string app_name
 string checklist_card_subtitle
@@ -88,6 +108,11 @@ string checklist_title
 string contact_email
 string contact_email_description
 string diu_icon_description
+string equipment_status_alert
+string equipment_status_attention
+string equipment_status_close
+string equipment_status_normal
+string equipment_status_title
 string logo_description
 string material_1
 string material_2
@@ -97,6 +122,7 @@ string material_5
 string material_6
 string material_progress
 string material_progress_initial
+string sensor_info_description
 string splash_description
 string splash_product_name
 string splash_tagline

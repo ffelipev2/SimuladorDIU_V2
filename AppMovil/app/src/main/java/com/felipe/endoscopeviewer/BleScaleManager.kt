@@ -19,6 +19,14 @@ import android.os.ParcelUuid
 import java.nio.charset.StandardCharsets
 import java.util.UUID
 
+enum class LoadCellStatus {
+    UNAVAILABLE,
+    INITIALIZING,
+    READY,
+    UNKNOWN,
+    INVALID
+}
+
 data class ScaleState(
     val currentGrams: Float,
     val lastGrams: Float,
@@ -29,12 +37,22 @@ data class ScaleState(
     val motorPosition: Long,
     val motorCanMoveLeft: Boolean,
     val motorCanMoveRight: Boolean,
-    val motorCentering: Boolean
+    val motorCentering: Boolean,
+    val tareInProgress: Boolean,
+    val hasTareStatus: Boolean,
+    val loadCellStatus: LoadCellStatus
+)
+
+data class BleDeviceInfo(
+    val name: String,
+    val address: String,
+    val rssi: Int
 )
 
 interface BleScaleListener {
     fun onBleStatus(message: String, connected: Boolean)
     fun onScaleState(state: ScaleState)
+    fun onBleDevicesChanged(devices: List<BleDeviceInfo>, scanning: Boolean)
 }
 
 @SuppressLint("MissingPermission")
@@ -50,62 +68,88 @@ class BleScaleManager(
     private var gatt: BluetoothGatt? = null
     private var commandCharacteristic: BluetoothGattCharacteristic? = null
     private var scanning = false
+    private var connectionReady = false
+    private var selectedDeviceName: String? = null
+    private val discoveredDevices = linkedMapOf<String, BleDeviceInfo>()
 
     private val scanTimeout = Runnable {
         if (!scanning) return@Runnable
         adapter?.bluetoothLeScanner?.stopScan(scanCallback)
         scanning = false
-        publishStatus("No se encontró el dispositivo. Comprueba que el ESP32 esté encendido.", false)
+        publishDevices(scanning = false)
+        if (discoveredDevices.isEmpty()) {
+            publishStatus(
+                "No se encontraron dispositivos. Comprueba que estén encendidos.",
+                connectionReady
+            )
+        } else {
+            publishStatus(
+                "Selecciona el dispositivo que deseas conectar.",
+                connectionReady
+            )
+        }
     }
 
     private val scanCallback = object : ScanCallback() {
         override fun onScanResult(callbackType: Int, result: ScanResult) {
-            val advertisedServices = result.scanRecord?.serviceUuids.orEmpty()
-            val advertisedName = result.scanRecord?.deviceName
-            val isScale = advertisedServices.contains(ParcelUuid(SERVICE_UUID)) ||
-                advertisedName in DEVICE_NAMES
-            if (!isScale) return
+            registerScanResult(result)
+        }
 
-            stopScan()
-            publishStatus("Dispositivo encontrado. Conectando...", false)
-            gatt?.close()
-            gatt = result.device.connectGatt(
-                appContext,
-                false,
-                gattCallback,
-                BluetoothDevice.TRANSPORT_LE
-            )
+        override fun onBatchScanResults(results: MutableList<ScanResult>) {
+            results.forEach(::registerScanResult)
         }
 
         override fun onScanFailed(errorCode: Int) {
+            if (!scanning) return
             scanning = false
-            publishStatus("Error al buscar Bluetooth ($errorCode).", false)
+            publishDevices(scanning = false)
+            publishStatus("Error al buscar Bluetooth ($errorCode).", connectionReady)
         }
     }
 
     private val gattCallback = object : BluetoothGattCallback() {
+        private fun isCurrentConnection(gatt: BluetoothGatt): Boolean =
+            this@BleScaleManager.gatt === gatt
+
         override fun onConnectionStateChange(gatt: BluetoothGatt, status: Int, newState: Int) {
+            if (!isCurrentConnection(gatt)) {
+                gatt.close()
+                return
+            }
+
             if (status == BluetoothGatt.GATT_SUCCESS &&
                 newState == BluetoothProfile.STATE_CONNECTED
             ) {
-                publishStatus("Bluetooth conectado. Preparando datos...", false)
+                publishGattStatus(
+                    gatt,
+                    "${deviceName(gatt.device.address)} conectado. Preparando datos...",
+                    false
+                )
                 gatt.requestConnectionPriority(BluetoothGatt.CONNECTION_PRIORITY_HIGH)
                 if (!gatt.requestMtu(185)) gatt.discoverServices()
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 commandCharacteristic = null
-                publishStatus("Dispositivo Bluetooth desconectado.", false)
+                connectionReady = false
+                publishGattStatus(
+                    gatt,
+                    "${deviceName(gatt.device.address)} desconectado.",
+                    false
+                )
+                this@BleScaleManager.gatt = null
+                selectedDeviceName = null
                 gatt.close()
-                if (this@BleScaleManager.gatt === gatt) this@BleScaleManager.gatt = null
             }
         }
 
         override fun onMtuChanged(gatt: BluetoothGatt, mtu: Int, status: Int) {
+            if (!isCurrentConnection(gatt)) return
             gatt.discoverServices()
         }
 
         override fun onServicesDiscovered(gatt: BluetoothGatt, status: Int) {
+            if (!isCurrentConnection(gatt)) return
             if (status != BluetoothGatt.GATT_SUCCESS) {
-                publishStatus("No se pudieron leer los servicios Bluetooth.", false)
+                publishGattStatus(gatt, "No se pudieron leer los servicios Bluetooth.", false)
                 return
             }
 
@@ -113,14 +157,22 @@ class BleScaleManager(
             val stateCharacteristic = service?.getCharacteristic(STATE_UUID)
             commandCharacteristic = service?.getCharacteristic(COMMAND_UUID)
             if (stateCharacteristic == null || commandCharacteristic == null) {
-                publishStatus("El ESP32 no tiene el firmware Bluetooth esperado.", false)
+                publishGattStatus(
+                    gatt,
+                    "El ESP32 no tiene el firmware Bluetooth esperado.",
+                    false
+                )
                 return
             }
 
             gatt.setCharacteristicNotification(stateCharacteristic, true)
             val descriptor = stateCharacteristic.getDescriptor(CLIENT_CONFIG_UUID)
             if (descriptor == null) {
-                publishStatus("No fue posible activar los datos en tiempo real.", false)
+                publishGattStatus(
+                    gatt,
+                    "No fue posible activar los datos en tiempo real.",
+                    false
+                )
                 return
             }
 
@@ -142,10 +194,13 @@ class BleScaleManager(
             descriptor: BluetoothGattDescriptor,
             status: Int
         ) {
+            if (!isCurrentConnection(gatt)) return
             if (status == BluetoothGatt.GATT_SUCCESS) {
-                publishStatus("Dispositivo conectado", true)
+                connectionReady = true
+                publishGattStatus(gatt, "${deviceName(gatt.device.address)} conectado", true)
             } else {
-                publishStatus("Falló la suscripción a los datos ($status).", false)
+                connectionReady = false
+                publishGattStatus(gatt, "Falló la suscripción a los datos ($status).", false)
             }
         }
 
@@ -154,9 +209,10 @@ class BleScaleManager(
             gatt: BluetoothGatt,
             characteristic: BluetoothGattCharacteristic
         ) {
+            if (!isCurrentConnection(gatt)) return
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
                 @Suppress("DEPRECATION")
-                parseState(characteristic.value)
+                parseState(gatt, characteristic.value)
             }
         }
 
@@ -165,7 +221,8 @@ class BleScaleManager(
             characteristic: BluetoothGattCharacteristic,
             value: ByteArray
         ) {
-            parseState(value)
+            if (!isCurrentConnection(gatt)) return
+            parseState(gatt, value)
         }
     }
 
@@ -179,18 +236,85 @@ class BleScaleManager(
             return
         }
 
-        closeConnection()
+        stopScan()
         val scanner = adapter?.bluetoothLeScanner
         if (scanner == null) {
             publishStatus("Bluetooth BLE no está disponible.", false)
             return
         }
 
+        discoveredDevices.clear()
         scanning = true
-        publishStatus("Buscando el dispositivo por Bluetooth...", false)
+        publishDevices(scanning = true)
+        publishStatus("Buscando dispositivos SimGyO por Bluetooth...", connectionReady)
         scanner.startScan(scanCallback)
         mainHandler.removeCallbacks(scanTimeout)
         mainHandler.postDelayed(scanTimeout, SCAN_TIMEOUT_MS)
+    }
+
+    fun connectToDevice(device: BleDeviceInfo) {
+        val currentAdapter = adapter
+        if (currentAdapter == null || currentAdapter.isEnabled != true) {
+            publishStatus("Bluetooth no está disponible o está desactivado.", false)
+            return
+        }
+
+        val remoteDevice = try {
+            currentAdapter.getRemoteDevice(device.address)
+        } catch (_: IllegalArgumentException) {
+            publishStatus("El identificador Bluetooth seleccionado no es válido.", false)
+            return
+        }
+
+        stopScan()
+        closeConnection()
+        selectedDeviceName = device.name
+        publishStatus("Conectando a ${device.name}...", false)
+        gatt = remoteDevice.connectGatt(
+            appContext,
+            false,
+            gattCallback,
+            BluetoothDevice.TRANSPORT_LE
+        )
+    }
+
+    fun cancelScan() {
+        if (!scanning) return
+        stopScan()
+        publishDevices(scanning = false)
+        if (connectionReady) {
+            publishStatus("${selectedDeviceName ?: "Dispositivo SimGyO"} conectado", true)
+        } else {
+            publishStatus("Selección Bluetooth cancelada.", false)
+        }
+    }
+
+    private fun registerScanResult(result: ScanResult) {
+        if (!scanning) return
+
+        val advertisedServices = result.scanRecord?.serviceUuids.orEmpty()
+        val advertisedName = result.scanRecord?.deviceName
+        val isSimGyoDevice =
+            advertisedServices.contains(ParcelUuid(SERVICE_UUID)) ||
+                advertisedName in LEGACY_DEVICE_NAMES ||
+                DEVICE_NAME_PREFIXES.any { prefix ->
+                    advertisedName?.startsWith(prefix, ignoreCase = true) == true
+                }
+        if (!isSimGyoDevice) return
+
+        val address = result.device.address
+        val name = advertisedName
+            ?: result.device.name
+            ?: "SimGyO-DIU"
+        val info = BleDeviceInfo(
+            name = name,
+            address = address,
+            rssi = result.rssi
+        )
+        if (discoveredDevices[address] != info) {
+            discoveredDevices[address] = info
+            publishDevices(scanning = true)
+        }
     }
 
     fun sendTare(): Boolean = sendCommand(
@@ -243,12 +367,15 @@ class BleScaleManager(
 
     private fun closeConnection() {
         commandCharacteristic = null
-        gatt?.disconnect()
-        gatt?.close()
+        connectionReady = false
+        val previousGatt = gatt
         gatt = null
+        previousGatt?.disconnect()
+        previousGatt?.close()
+        selectedDeviceName = null
     }
 
-    private fun parseState(value: ByteArray) {
+    private fun parseState(sourceGatt: BluetoothGatt, value: ByteArray) {
         val fields = value.toString(StandardCharsets.UTF_8).trim().split(',')
         if (fields.size < 5 || fields[0] != "S") return
 
@@ -262,7 +389,17 @@ class BleScaleManager(
         val motorCanMoveLeft = fields.getOrNull(8)?.let { it == "1" } ?: true
         val motorCanMoveRight = fields.getOrNull(9)?.let { it == "1" } ?: true
         val motorCentering = fields.getOrNull(10) == "1"
+        val hasTareStatus = fields.size > 11
+        val tareInProgress = fields.getOrNull(11) == "1"
+        val loadCellStatus = when (fields.getOrNull(12)) {
+            null -> LoadCellStatus.UNKNOWN
+            "0" -> LoadCellStatus.UNAVAILABLE
+            "1" -> LoadCellStatus.INITIALIZING
+            "2" -> LoadCellStatus.READY
+            else -> LoadCellStatus.INVALID
+        }
         mainHandler.post {
+            if (gatt !== sourceGatt) return@post
             listener.onScaleState(
                 ScaleState(
                     currentGrams = current,
@@ -274,7 +411,10 @@ class BleScaleManager(
                     motorPosition = motorPosition,
                     motorCanMoveLeft = motorCanMoveLeft,
                     motorCanMoveRight = motorCanMoveRight,
-                    motorCentering = motorCentering
+                    motorCentering = motorCentering,
+                    tareInProgress = tareInProgress,
+                    hasTareStatus = hasTareStatus,
+                    loadCellStatus = loadCellStatus
                 )
             )
         }
@@ -284,8 +424,29 @@ class BleScaleManager(
         mainHandler.post { listener.onBleStatus(message, connected) }
     }
 
+    private fun publishGattStatus(
+        sourceGatt: BluetoothGatt,
+        message: String,
+        connected: Boolean
+    ) {
+        mainHandler.post {
+            if (gatt === sourceGatt || (!connected && gatt == null)) {
+                listener.onBleStatus(message, connected)
+            }
+        }
+    }
+
+    private fun publishDevices(scanning: Boolean) {
+        val devices = discoveredDevices.values.sortedByDescending { it.rssi }
+        mainHandler.post { listener.onBleDevicesChanged(devices, scanning) }
+    }
+
+    private fun deviceName(address: String): String =
+        discoveredDevices[address]?.name ?: selectedDeviceName ?: "Dispositivo SimGyO"
+
     companion object {
-        private val DEVICE_NAMES = setOf("CeldaCarga-S3", "CeldaCarga-C3")
+        private val LEGACY_DEVICE_NAMES = setOf("CeldaCarga-S3", "CeldaCarga-C3")
+        private val DEVICE_NAME_PREFIXES = setOf("SimGyO-DIU-", "CeldaCarga-")
         private const val SCAN_TIMEOUT_MS = 12_000L
         private val SERVICE_UUID = UUID.fromString("4fafc201-1fb5-459e-8fcc-c5c9c331914b")
         private val STATE_UUID = UUID.fromString("beb5483e-36e1-4688-b7f5-ea07361b26a8")

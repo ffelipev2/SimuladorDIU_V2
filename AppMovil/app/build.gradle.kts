@@ -11,8 +11,8 @@ android {
         applicationId = "com.felipe.endoscopeviewer"
         minSdk = 23
         targetSdk = 35
-        versionCode = 18
-        versionName = "2.7"
+        versionCode = 20
+        versionName = "2.9"
     }
 
     // Mantiene Java y Kotlin en el mismo objetivo, aunque Android Studio use JDK 21.

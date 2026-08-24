@@ -1,6 +1,6 @@
 <lint-module
     format="1"
-    dir="C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app"
+    dir="C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app"
     name=":app"
     type="APP"
     maven="EndoscopeViewer:app:unspecified"

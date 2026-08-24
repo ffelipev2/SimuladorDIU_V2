@@ -228,12 +228,12 @@
         <fix-data minSdk="ffffffffffc00000" requiresApi="ffffffffc0000000"/>
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_usb_camera.xml"
-            line="367"
+            line="404"
             column="21"
-            startOffset="16895"
-            endLine="367"
+            startOffset="18656"
+            endLine="404"
             endColumn="49"
-            endOffset="16923"/>
+            endOffset="18684"/>
         <map>
             <api-levels id="minSdk"
                 value="ffffffffffc00000"/>
@@ -252,12 +252,12 @@
         <fix-data minSdk="ffffffffffc00000" requiresApi="ffffffffc0000000"/>
         <location
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout-land/fragment_usb_camera.xml"
-            line="364"
+            line="392"
             column="25"
-            startOffset="17713"
-            endLine="364"
+            startOffset="19222"
+            endLine="392"
             endColumn="53"
-            endOffset="17741"/>
+            endOffset="19250"/>
         <map>
             <api-levels id="minSdk"
                 value="ffffffffffc00000"/>

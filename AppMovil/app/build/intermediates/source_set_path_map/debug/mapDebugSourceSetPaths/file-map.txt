@@ -34,10 +34,10 @@ com.felipe.endoscopeviewer.app-core-runtime-2.2.0-32 C:\Users\Felipe\.gradle\cac
 com.felipe.endoscopeviewer.app-camera-lifecycle-1.4.0-33 C:\Users\Felipe\.gradle\caches\9.3.0\transforms\d2393218cbec304500e7496fbf3bda35\workspace\transformed\camera-lifecycle-1.4.0\res
 com.felipe.endoscopeviewer.app-camera-core-1.4.0-34 C:\Users\Felipe\.gradle\caches\9.3.0\transforms\edd65a9a3e0463bbdc856692fd54df94\workspace\transformed\camera-core-1.4.0\res
 com.felipe.endoscopeviewer.app-drawerlayout-1.1.1-35 C:\Users\Felipe\.gradle\caches\9.3.0\transforms\f86b399fb558fb6633e62878ec59d031\workspace\transformed\drawerlayout-1.1.1\res
-com.felipe.endoscopeviewer.app-pngs-36 C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\build\generated\res\pngs\debug
-com.felipe.endoscopeviewer.app-resValues-37 C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\build\generated\res\resValues\debug
-com.felipe.endoscopeviewer.app-packageDebugResources-38 C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
-com.felipe.endoscopeviewer.app-packageDebugResources-39 C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
-com.felipe.endoscopeviewer.app-debug-40 C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\build\intermediates\merged_res\debug\mergeDebugResources
-com.felipe.endoscopeviewer.app-debug-41 C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\debug\res
-com.felipe.endoscopeviewer.app-main-42 C:\Users\Felipe\Desktop\ProyectoDIU\AppMovil\app\src\main\res
+com.felipe.endoscopeviewer.app-pngs-36 C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\build\generated\res\pngs\debug
+com.felipe.endoscopeviewer.app-resValues-37 C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\build\generated\res\resValues\debug
+com.felipe.endoscopeviewer.app-packageDebugResources-38 C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
+com.felipe.endoscopeviewer.app-packageDebugResources-39 C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
+com.felipe.endoscopeviewer.app-debug-40 C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\build\intermediates\merged_res\debug\mergeDebugResources
+com.felipe.endoscopeviewer.app-debug-41 C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\debug\res
+com.felipe.endoscopeviewer.app-main-42 C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\res

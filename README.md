@@ -20,8 +20,9 @@ SimuladorDIU/
 │   ├── gradlew / gradlew.bat         Gradle Wrapper
 │   └── README.md                     Información específica de la app
 ├── celda_de_carga5/
-│   ├── celda_de_carga5.ino           Firmware BLE para ESP32-S3
-│   └── data/                          Interfaz web antigua, no usada por BLE
+│   └── celda_de_carga5.ino           Firmware BLE para ESP32-S3
+├── calibracion_hx711/
+│   └── calibracion_hx711.ino          Calibración guiada desde Monitor Serie
 └── README.md                         Este documento
 ```
 
@@ -34,11 +35,17 @@ SimuladorDIU/
 - Checklist obligatorio de seis materiales antes de ingresar al simulador:
   espéculo, solución y aplicador antiséptico, pinza Pozzi, histerómetro,
   tijeras curvas afiladas y los guantes requeridos.
-- Conexión directa al ESP32-S3 por Bluetooth Low Energy; no requiere una red
-  Wi-Fi ni emparejamiento previo desde los ajustes de Android.
+- Conexión directa al ESP32-S3 exclusivamente por Bluetooth Low Energy; no
+  requiere una red Wi-Fi ni emparejamiento previo desde los ajustes de Android.
+- Selector manual de dispositivos cercanos, mostrando nombre único, dirección
+  Bluetooth e intensidad de señal antes de conectar.
 - Visualización en tiempo real de fuerza actual, última fuerza, zona de color,
-  humedad y alarma.
-- Tara remota desde la aplicación.
+  humedad y alarma; con el firmware actual, si el HX711 está no disponible o
+  inicializando, la fuerza se muestra como `--`.
+- Tara remota con indicador de progreso y confirmación explícita al finalizar;
+  el control se deshabilita mientras el HX711 no esté listo.
+- Icono de información con filas visuales para BLE, HX711, humedad, cámaras USB
+  y motor; cada fila usa verde, amarillo o rojo junto con un estado breve.
 - Control de la extensión del útero hacia la izquierda y derecha, además del
   retorno al centro lógico.
 - Visualización de una o dos cámaras USB UVC conectadas mediante OTG.
@@ -48,16 +55,18 @@ SimuladorDIU/
 
 ### Firmware ESP32-S3
 
-- Lectura de una celda de carga mediante HX711.
+- Detección e inicialización no bloqueante del HX711, con recuperación
+  automática si el módulo se conecta o vuelve a responder.
 - Comunicación BLE con notificaciones de estado y recepción de comandos.
 - Control no bloqueante de un motor 28BYJ-48 mediante ULN2003.
 - Límites lógicos de movimiento y detención automática si se pierde la
   conexión o dejan de llegar comandos.
 - Tara precisa, autozero, captura de último valor estable y seguimiento de
   picos de fuerza.
-- Indicador WS2812B por zona, buzzer de alarma y sensor digital de humedad.
-- No utiliza pantalla I2C, potenciómetro, botón físico de tara, Wi-Fi ni
-  LittleFS.
+- Indicador WS2812B por zona, buzzer pasivo de alarma y sensor digital de
+  humedad.
+- Comunicación exclusivamente por BLE, sin servidor web ni LittleFS.
+- No utiliza pantalla I2C, potenciómetro ni botón físico de tara.
 
 ## Requisitos
 
@@ -70,7 +79,7 @@ SimuladorDIU/
 - Bluetooth Low Energy.
 - USB Host/OTG para usar la cámara endoscópica.
 
-La aplicación actual corresponde a la versión **2.7** (`versionCode 18`).
+La aplicación actual corresponde a la versión **2.9** (`versionCode 20`).
 
 ### Para el firmware
 
@@ -86,7 +95,7 @@ La aplicación actual corresponde a la versión **2.7** (`versionCode 18`).
 - Celda de carga con módulo HX711.
 - Motor paso a paso 28BYJ-48 con controlador ULN2003.
 - Un LED direccionable WS2812B.
-- Buzzer.
+- Buzzer pasivo.
 - Sensor digital de humedad HW-08 o equivalente con salida D0.
 - Teléfono o tablet Android con BLE.
 - Cámara endoscópica USB UVC y adaptador USB OTG, si se utilizará video.
@@ -119,20 +128,43 @@ GPIO del ESP32.
    el puerto serie correcto.
 4. Revisa el pinout y coloca físicamente el eje en el centro antes de encender.
 5. Compila y carga el firmware.
-6. Abre el monitor serie a `115200` baudios para comprobar el inicio del HX711
-   y la publicidad BLE.
+6. Abre el monitor serie a `115200` baudios. La publicidad BLE debe comenzar
+   aunque el HX711 no responda; el monitor informa si está inicializando, listo
+   o no disponible.
 
-El factor de calibración de la celda se encuentra en el firmware:
+Para obtener el factor de calibración utiliza primero el sketch independiente
+[`calibracion_hx711/calibracion_hx711.ino`](./calibracion_hx711/calibracion_hx711.ino):
+
+1. Cárgalo en el ESP32-S3 con la celda y el HX711 conectados.
+2. Abre el Monitor Serie a `115200` baudios.
+3. Sigue la guía para realizar la tara y coloca una masa de valor conocido.
+4. Escribe el valor de la masa en gramos.
+5. Copia la línea `float CAL = ...;` que entrega el monitor al firmware
+   principal.
+
+El sketch de calibración es una herramienta independiente y sí requiere que el
+HX711 esté conectado, ya que no tiene otra función. No se ejecuta junto con el
+firmware operativo ni afecta al arranque no bloqueante del simulador.
+
+El factor utilizado por el firmware se encuentra en:
 
 ```cpp
-float CAL = 1040.6f;
+float CAL = 207.395996f;
 ```
 
 Este valor depende de la celda, el montaje y la orientación. Debe recalibrarse
 si las mediciones no corresponden a masas conocidas.
 
-La carpeta [`celda_de_carga5/data`](./celda_de_carga5/data/) pertenece a la
-versión Wi-Fi anterior y no es utilizada por el firmware BLE actual.
+Para la celda actual de 10 kg, el firmware aplica una mediana móvil de tres
+lecturas y una zona cero con histéresis. Permanece en 0,00 g mientras el ruido
+no supere 0,80 g y vuelve a bloquear el cero al bajar de 0,55 g. Estos límites
+se configuran con ZERO_UNLOCK_G y ZERO_RELOCK_G.
+
+La detección del HX711 no bloquea el arranque. El firmware inicia BLE, el motor
+y la lectura de humedad aunque la celda no esté disponible. Al detectar el
+HX711 toma muestras para calcular la tara inicial; por eso la celda debe quedar
+sin carga mientras su estado sea `inicializando`. Si el módulo deja de responder
+y luego se recupera, la detección y esa tara inicial se repiten automáticamente.
 
 ## Instalación de la aplicación
 
@@ -168,16 +200,27 @@ AppMovil/app/build/outputs/apk/debug/app-debug.apk
 
 ## Uso básico
 
-1. Enciende el prototipo con el eje físicamente centrado.
+1. Enciende el prototipo con el eje físicamente centrado y la celda de carga
+   libre de fuerza mientras termina su inicialización.
 2. Abre SimGyO-DIU y pulsa **Siguiente** en la pantalla inicial.
 3. Confirma los seis materiales del checklist y vuelve a pulsar **Siguiente**.
-4. En la pantalla **Simulador DIU**, pulsa **Conectar dispositivo**.
-5. Con el dispositivo libre de carga, pulsa **Realizar tara** y espera la
-   confirmación.
-6. Mantén pulsado **Izquierda** o **Derecha** para controlar la extensión.
+4. En la pantalla **Simulador DIU**, pulsa **Seleccionar dispositivo** y elige
+   el simulador específico de la lista.
+5. Pulsa el icono de información para revisar BLE, HX711, humedad, cámaras y
+   motor. Espera a que el HX711 indique **Listo** antes de medir.
+6. Si necesitas repetir la tara, deja el dispositivo libre de carga, pulsa
+   **Realizar tara** y espera la confirmación.
+7. Mantén pulsado **Izquierda** o **Derecha** para controlar la extensión.
    Suelta el botón para detener el movimiento.
-7. Usa **Centrar eje** para regresar a la posición lógica inicial.
-8. Conecta la cámara endoscópica mediante OTG para activar la vista USB.
+8. Usa **Centrar eje** para regresar a la posición lógica inicial.
+9. Conecta la cámara endoscópica mediante OTG para activar la vista USB.
+
+Con el firmware actual, si el HX711 informa **No disponible** o
+**Inicializando**, la app muestra `--` en lugar de una fuerza válida y
+deshabilita la tara. BLE, el diagnóstico, las cámaras, la lectura de humedad y
+el control del motor continúan disponibles. Con firmware antiguo sin el campo
+de diagnóstico, la app conserva la lectura y la tara por compatibilidad y
+muestra **Lectura activa** en verde mientras recibe telemetría válida.
 
 ## Indicadores de fuerza
 
@@ -191,6 +234,13 @@ AppMovil/app/build/outputs/apk/debug/app-debug.apk
 La humedad detectada también activa la alarma. La escala gráfica de la app se
 muestra hasta `120+ g`.
 
+Cuando el HX711 está inicializando o no disponible, no se generan registros ni
+alarmas de fuerza. La lectura y la alarma de humedad siguen funcionando.
+
+El buzzer pasivo conectado a GPIO 6 recibe una señal de `2400 Hz` en intervalos
+de 200 ms mientras la alarma está activa. La frecuencia se puede ajustar con
+`BUZZER_FREQUENCY_HZ` sin cambiar el pin.
+
 Un registro de presión comienza al alcanzar `1 g` y termina cuando la fuerza
 permanece en `0,5 g` o menos durante 250 ms. Los registros se guardan únicamente
 en el almacenamiento privado de la aplicación y pueden borrarse desde la misma
@@ -198,8 +248,23 @@ interfaz.
 
 ## Protocolo Bluetooth Low Energy
 
-El ESP32 anuncia el nombre `CeldaCarga-S3`. Ese nombre se conserva por
-compatibilidad interna aunque la interfaz muestre la palabra **dispositivo**.
+Cada ESP32 anuncia automáticamente un nombre como `SimGyO-DIU-A1B2C3`. Los
+seis caracteres finales se obtienen del identificador de la placa y permiten
+diferenciar físicamente varios simuladores. La app conserva compatibilidad con
+firmware anterior que anuncie `CeldaCarga-S3` o `CeldaCarga-C3`.
+
+### Uso con varios dispositivos
+
+- La app no se conecta al primer equipo detectado. El usuario debe elegirlo en
+  la lista; la señal en dBm ayuda a reconocer el equipo más cercano.
+- Conviene colocar una etiqueta física en cada simulador con el sufijo de su
+  nombre Bluetooth, por ejemplo `A1B2C3`.
+- Cada teléfono debe conceder sus propios permisos de Bluetooth. No se requiere
+  emparejar manualmente desde los ajustes de Android.
+- Se recomienda un teléfono o tablet activo por simulador. Un equipo conectado
+  deja de anunciarse normalmente, evitando que otro usuario lo seleccione.
+- Para distribuir actualizaciones de la app, deben conservarse el mismo
+  `applicationId`, la misma clave de firma y un `versionCode` creciente.
 
 | Elemento | UUID | Propiedades |
 |---|---|---|
@@ -226,11 +291,28 @@ una renovación durante 800 ms o si se desconecta Bluetooth.
 El firmware envía una línea CSV con este formato:
 
 ```text
-S,peso,ultimo,zona,alarma,humedad,direccion,posicion,puedeIzq,puedeDer,centrando
+S,peso,ultimo,zona,alarma,humedad,direccion,posicion,puedeIzq,puedeDer,centrando,tara,hx711
 ```
 
 Los valores booleanos se representan con `0` o `1`; la dirección utiliza
 `-1`, `0` o `1`, y la posición corresponde al conteo lógico de medios pasos.
+El campo `tara` vale `1` mientras el ESP32 está realizando la tara y cambia a
+`0` al finalizar. La app utiliza esa transición para mostrar el progreso y
+confirmar el resultado. El campo final `hx711` representa el estado de la celda:
+`0` significa **no disponible**, `1` **inicializando** y `2` **listo**. La app
+acepta mensajes de firmware anterior que no incluyan este último campo y en ese
+caso permite la lectura y la tara por compatibilidad y muestra **Lectura
+activa** en verde. Si el campo existe pero contiene otro valor, la app lo trata
+como inválido y bloquea fuerza y tara.
+
+El estado **listo** confirma que el firmware recibe conversiones del HX711; no
+puede garantizar por sí solo la integridad mecánica de la celda ni detectar
+todos los fallos de su puente o cableado.
+
+El campo `humedad` comunica únicamente la lectura digital de D0 (`1` cuando se
+detecta humedad). Esa señal no ofrece autodiagnóstico: con la conexión actual no
+es posible distinguir por software entre una condición seca y el cable D0
+desconectado.
 
 ## Seguridad del movimiento
 
@@ -248,8 +330,8 @@ pruebas.
 
 ### La app no encuentra el dispositivo
 
-- Comprueba que el ESP32 muestre `Bluetooth listo: CeldaCarga-S3` en el monitor
-  serie.
+- Comprueba que el ESP32 muestre un nombre como
+  `Bluetooth listo: SimGyO-DIU-A1B2C3` en el monitor serie.
 - Activa Bluetooth y concede los permisos solicitados por Android.
 - En Android 11 o anterior también puede ser necesario activar ubicación para
   el escaneo BLE.
@@ -261,6 +343,17 @@ pruebas.
 - Realiza la tara sin tocar ni cargar el dispositivo.
 - Recalibra el valor `CAL` con una masa conocida.
 - Verifica que la estructura no esté aplicando una precarga permanente.
+
+### La app muestra `--` o HX711 no disponible
+
+- Abre el icono de información y revisa el estado detallado de la celda.
+- Comprueba DOUT (GPIO 4), SCK (GPIO 5), alimentación y GND del HX711.
+- El simulador continúa conectado por BLE y permite usar el motor, las cámaras y
+  la lectura de humedad; solamente se suspenden la fuerza, su alarma, el
+  historial asociado y la tara.
+- Después de corregir la conexión, deja la celda sin carga. El firmware la
+  detectará, mostrará **Inicializando**, realizará la tara inicial y cambiará a
+  **Listo** sin reiniciar el ESP32.
 
 ### El eje no centra correctamente
 
@@ -278,8 +371,8 @@ pruebas.
 ## Archivos principales
 
 - [Firmware ESP32-S3](./celda_de_carga5/celda_de_carga5.ino)
+- [Calibración guiada del HX711](./calibracion_hx711/calibracion_hx711.ino)
 - [Gestor BLE de Android](./AppMovil/app/src/main/java/com/felipe/endoscopeviewer/BleScaleManager.kt)
 - [Interfaz principal](./AppMovil/app/src/main/java/com/felipe/endoscopeviewer/UsbCameraFragment.kt)
 - [Pantalla inicial](./AppMovil/app/src/main/java/com/felipe/endoscopeviewer/SplashActivity.kt)
 - [Checklist de materiales](./AppMovil/app/src/main/java/com/felipe/endoscopeviewer/MaterialChecklistActivity.kt)
-
