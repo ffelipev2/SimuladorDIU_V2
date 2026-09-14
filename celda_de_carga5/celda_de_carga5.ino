@@ -168,6 +168,8 @@ volatile int stepperBleDirection = 0;
 volatile unsigned long stepperBleUntil = 0;
 volatile int stepperRequestedDirection = 0;
 volatile bool stepperCentering = false;
+volatile bool stepperTargetActive = false;
+volatile long stepperTargetPosition = 0;
 int stepperPatternIndex = 0;
 unsigned long tStepperUs = 0;
 
@@ -200,6 +202,7 @@ bool stepperCanMove(int direction) {
 void setBleStepperDirection(int direction, unsigned long now) {
   // Cualquier orden manual reemplaza un centrado que estuviera en curso.
   stepperCentering = false;
+  stepperTargetActive = false;
   direction = normalizeStepperDirection(direction);
   if (direction != 0 && !stepperCanMove(direction)) direction = 0;
 
@@ -210,12 +213,28 @@ void setBleStepperDirection(int direction, unsigned long now) {
 void startStepperCentering() {
   stepperBleDirection = 0;
   stepperBleUntil = 0;
+  stepperTargetActive = false;
   stepperCentering = stepperPositionHalfSteps != 0;
   if (!stepperCentering) stepperRequestedDirection = 0;
 }
 
+// Posiciona el simulador en pasos medios respecto del centro. Se centra antes
+// de comenzar, para que la selección de un caso sea siempre reproducible.
+void startStepperClinicalCase(long targetPosition) {
+  stepperBleDirection = 0;
+  stepperBleUntil = 0;
+  stepperTargetPosition = constrain(
+    targetPosition,
+    STEPPER_LEFT_LIMIT_HALFSTEPS,
+    STEPPER_RIGHT_LIMIT_HALFSTEPS
+  );
+  stepperTargetActive = true;
+  stepperCentering = stepperPositionHalfSteps != 0;
+}
+
 void stopStepper() {
   stepperCentering = false;
+  stepperTargetActive = false;
   stepperBleDirection = 0;
   stepperBleUntil = 0;
   stepperRequestedDirection = 0;
@@ -230,6 +249,10 @@ void updateStepperCommand(unsigned long now) {
     if (stepperPositionHalfSteps < 0) direction = 1;
     else if (stepperPositionHalfSteps > 0) direction = -1;
     else stepperCentering = false;
+  } else if (bleConnected && stepperTargetActive) {
+    if (stepperPositionHalfSteps < stepperTargetPosition) direction = 1;
+    else if (stepperPositionHalfSteps > stepperTargetPosition) direction = -1;
+    else stepperTargetActive = false;
   } else {
     const bool commandAlive =
       bleConnected && stepperBleDirection != 0 && (long)(stepperBleUntil - now) > 0;
@@ -239,6 +262,7 @@ void updateStepperCommand(unsigned long now) {
   if (direction != 0 && !stepperCanMove(direction)) {
     direction = 0;
     stepperCentering = false;
+    stepperTargetActive = false;
     stepperBleDirection = 0;
     stepperBleUntil = 0;
   }
@@ -722,7 +746,7 @@ void updateBuzzer(unsigned long now) {
 // =====================================================
 // Estado: S,peso,ultimo,zona,alarma,humedad,direccion,posicion,puedeIzq,puedeDer,centrando,tara,hx711
 // hx711: 0 = no disponible, 1 = inicializando, 2 = listo.
-// Comandos aceptados: TARE, MOTOR,-1|0|1 y CENTER
+// Comandos aceptados: TARE, MOTOR,-1|0|1, CENTER y CASE,pasos.
 void updateBleStateValue(bool notifyClient) {
   if (stateCharacteristic == nullptr) return;
 
@@ -776,6 +800,11 @@ class CommandCallbacks : public BLECharacteristicCallbacks {
 
     if (command == "CENTER") {
       startStepperCentering();
+      return;
+    }
+
+    if (command.startsWith("CASE,")) {
+      startStepperClinicalCase(command.substring(5).toInt());
       return;
     }
 

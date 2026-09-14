@@ -1,4 +1,4 @@
-# Visor Endoscopio Android
+# SimGYODIU — Aplicación Android
 
 App nativa Android para:
 
@@ -6,17 +6,18 @@ App nativa Android para:
 - conectarse por Bluetooth Low Energy al prototipo con ESP32-S3;
 - mostrar fuerza actual, última fuerza, zona, humedad y alarma;
 - ejecutar la tara desde el teléfono;
-- controlar la extensión del útero hacia izquierda o derecha manteniendo presionado el botón;
+- guiar el caso clínico seleccionado y conservar la conexión BLE hasta el simulador;
 - guardar el historial local de presiones y mostrar los umbrales;
 - consultar desde un icono de información el estado de BLE, HX711, humedad,
   cámaras USB y motor.
 
-La versión 2.9 incorpora la identidad visual SimGyo, una pantalla inicial sin
-avance automático, un enlace de contacto por correo y una lista de preparación
-previa al simulador. El botón **Siguiente** del checklist se habilita solamente
-después de confirmar los seis materiales clínicos. En tablets verticales se
-conserva la composición vertical del teléfono, ampliando y distribuyendo los
-bloques para aprovechar toda la altura disponible.
+La versión actual incorpora la identidad **SimGYODIU**, icono amarillo y un
+flujo clínico guiado: selección de profundidad uterina, evaluación previa,
+confirmación de humedad, checklist de materiales, preparación de pinzamiento,
+tara visible y simulador. El eje se posiciona automáticamente según el caso y
+la conexión BLE se conserva entre estas pantallas. Bajo la cámara se debe
+seleccionar un valor medido de 4 a 15 y completar Cargar el DIU, Fijar
+medición, Liberar, Retiro Exitoso y Cortar Hilos para abrir el resumen final.
 Al realizar la tara, la interfaz muestra un indicador de progreso, bloquea
 temporalmente el botón y confirma de forma visible si el proceso terminó o si
 fue interrumpido.

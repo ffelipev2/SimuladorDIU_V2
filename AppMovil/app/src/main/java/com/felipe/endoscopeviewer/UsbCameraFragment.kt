@@ -3,6 +3,7 @@ package com.felipe.endoscopeviewer
 import android.Manifest
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.content.res.Configuration
@@ -19,16 +20,18 @@ import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.view.Gravity
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.ScrollView
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -64,11 +67,11 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
     private lateinit var tareButton: Button
     private lateinit var tareProgress: ProgressBar
     private lateinit var bluetoothButton: Button
+    private lateinit var measuredValueSpinner: Spinner
+    private lateinit var procedureChecks: List<CheckBox>
+    private lateinit var procedureProgress: TextView
+    private lateinit var procedureNextButton: Button
     private lateinit var sensorInfoButton: ImageButton
-    private lateinit var motorLeftButton: Button
-    private lateinit var motorCenterButton: Button
-    private lateinit var motorRightButton: Button
-    private lateinit var motorStatus: TextView
     private lateinit var historyList: LinearLayout
     private lateinit var historySelectedText: TextView
     private lateinit var clearHistoryButton: Button
@@ -82,9 +85,7 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
     private var bleDeviceDialog: AlertDialog? = null
     private var bleDeviceList: LinearLayout? = null
     private var bleScanStatus: TextView? = null
-    private val motorControlHandler = Handler(Looper.getMainLooper())
     private val uiHandler = Handler(Looper.getMainLooper())
-    private var motorHoldDirection = 0
     private var isBleConnected = false
     private var latestScaleState: ScaleState? = null
     private var latestScaleStateAt = 0L
@@ -95,6 +96,7 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
     private var tareFirmwareStarted = false
     private var tareStartedAt = 0L
     private var legacyTareZeroSamples = 0
+    private var measuredValue: Int? = null
     private val tareTimeout = Runnable {
         if (tareUiActive) {
             finishTareUi(
@@ -120,14 +122,6 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
                 updateSensorInfoIcon()
             }
             uiHandler.postDelayed(this, TELEMETRY_WATCHDOG_INTERVAL_MS)
-        }
-    }
-    private val motorKeepAlive = object : Runnable {
-        override fun run() {
-            val direction = motorHoldDirection
-            if (direction == 0) return
-            bleManager?.sendMotor(direction)
-            motorControlHandler.postDelayed(this, MOTOR_KEEP_ALIVE_MS)
         }
     }
     private val cameraSlots = mutableMapOf<Int, Int>()
@@ -167,11 +161,17 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
         tareButton = root.findViewById(R.id.tareButton)
         tareProgress = root.findViewById(R.id.tareProgress)
         bluetoothButton = root.findViewById(R.id.bluetoothButton)
+        measuredValueSpinner = root.findViewById(R.id.measuredValueSpinner)
+        procedureChecks = listOf(
+            root.findViewById(R.id.loadDiuCheck),
+            root.findViewById(R.id.fixMeasurementCheck),
+            root.findViewById(R.id.releaseCheck),
+            root.findViewById(R.id.successfulRemovalCheck),
+            root.findViewById(R.id.cutThreadsCheck)
+        )
+        procedureProgress = root.findViewById(R.id.procedureProgressText)
+        procedureNextButton = root.findViewById(R.id.procedureNextButton)
         sensorInfoButton = root.findViewById(R.id.sensorInfoButton)
-        motorLeftButton = root.findViewById(R.id.motorLeftButton)
-        motorCenterButton = root.findViewById(R.id.motorCenterButton)
-        motorRightButton = root.findViewById(R.id.motorRightButton)
-        motorStatus = root.findViewById(R.id.motorStatusText)
         historyList = root.findViewById(R.id.historyList)
         historySelectedText = root.findViewById(R.id.historySelectedText)
         clearHistoryButton = root.findViewById(R.id.clearHistoryButton)
@@ -185,15 +185,31 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
             switchCameraButton,
             bluetoothButton,
             tareButton,
-            motorLeftButton,
-            motorCenterButton,
-            motorRightButton,
             clearHistoryButton,
             historyTabButton,
             thresholdsTabButton
         ).forEach { it.backgroundTintList = null }
 
-        bleManager = BleScaleManager(requireContext(), this)
+        bleManager = BleConnectionStore.acquire(requireContext(), this)
+        measuredValueSpinner.adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            listOf("Selecciona un valor") + (4..15).map(Int::toString)
+        ).apply {
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+        measuredValueSpinner.setSelection(0, false)
+        measuredValueSpinner.setOnItemSelectedListener(object : android.widget.AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: android.widget.AdapterView<*>, view: View?, position: Int, id: Long) {
+                measuredValue = if (position == 0) null else position + 3
+                updateProcedureState()
+            }
+            override fun onNothingSelected(parent: android.widget.AdapterView<*>) = Unit
+        })
+        procedureChecks.forEach { checkBox ->
+            checkBox.setOnCheckedChangeListener { _, _ -> updateProcedureState() }
+        }
+        procedureNextButton.setOnClickListener { finishProcedure() }
         switchCameraButton.setOnClickListener { selectNextCamera() }
         bluetoothButton.setOnClickListener { connectBluetooth() }
         sensorInfoButton.setOnClickListener { showSensorStatusDialog() }
@@ -206,7 +222,6 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
             }
             // Deja de renovar cualquier movimiento antes de pedir la tara.
             // El firmware también detiene el motor al procesar TARE.
-            stopMotorControl(sendStop = false)
             if (bleManager?.sendTare() == true) {
                 startTareUi()
             } else {
@@ -218,14 +233,12 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
                 )
             }
         }
-        configureMotorHoldButton(motorLeftButton, -1)
-        configureMotorHoldButton(motorRightButton, 1)
-        motorCenterButton.setOnClickListener { centerMotor() }
         loadPressHistory()
         renderPressHistory()
         renderThresholds()
         showHistoryTab()
         updateZone('B', alarm = false, humidityDetected = false)
+        updateProcedureState()
         updateSensorInfoIcon()
         return root
     }
@@ -235,13 +248,7 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
         if (::cameraStatus.isInitialized) updateCameraControls()
     }
 
-    override fun onPause() {
-        stopMotorControl()
-        super.onPause()
-    }
-
     override fun clear() {
-        stopMotorControl()
         uiHandler.removeCallbacks(tareTimeout)
         uiHandler.removeCallbacks(resetTareResult)
         uiHandler.removeCallbacks(telemetryWatchdog)
@@ -249,11 +256,35 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
         bleDeviceDialog = null
         bleDeviceList = null
         bleScanStatus = null
-        bleManager?.close()
+        BleConnectionStore.close()
         bleManager = null
         activeCamera?.setCameraStateCallBack(null)
         activeCamera = null
         super.clear()
+    }
+
+    private fun updateProcedureState() {
+        if (!::procedureProgress.isInitialized) return
+        val checkedCount = procedureChecks.count { it.isChecked }
+        val hasMeasuredValue = measuredValue != null
+        procedureProgress.text = when {
+            !hasMeasuredValue -> "$checkedCount de ${procedureChecks.size} pasos listos · selecciona el valor medido"
+            else -> "$checkedCount de ${procedureChecks.size} pasos listos · valor medido: $measuredValue"
+        }
+        procedureNextButton.isEnabled = hasMeasuredValue && checkedCount == procedureChecks.size
+    }
+
+    private fun finishProcedure() {
+        val value = measuredValue ?: return
+        ProcedureSummaryStore.saveMeasuredValue(requireContext(), value)
+        procedureChecks.forEach { checkBox ->
+            ProcedureSummaryStore.saveAction(
+                requireContext(),
+                checkBox.text.toString(),
+                checkBox.isChecked
+            )
+        }
+        startActivity(Intent(requireContext(), ProcedureSummaryActivity::class.java))
     }
 
     override fun generateCamera(ctx: Context, device: UsbDevice): MultiCameraClient.ICamera {
@@ -936,16 +967,7 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
         }
         currentWeight.setTextColor(Color.rgb(176, 99, 0))
         resetPressTracking()
-        stopMotorControl()
         tareButton.isEnabled = false
-        motorLeftButton.isEnabled = false
-        motorCenterButton.isEnabled = false
-        motorRightButton.isEnabled = false
-        motorStatus.text = if (isBleConnected) {
-            "Esperando datos actuales del simulador"
-        } else {
-            "Conecta Bluetooth para controlar la extensión"
-        }
     }
 
     private fun showLoadCellUnavailable(state: ScaleState) {
@@ -1144,15 +1166,12 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
                 )
             }
             resetPressTracking()
-            stopMotorControl(sendStop = false)
         } else {
             telemetryMarkedStale = !hasRecentTelemetry()
             uiHandler.postDelayed(telemetryWatchdog, TELEMETRY_WATCHDOG_INTERVAL_MS)
         }
         if (!tareWasActive && !tareUiActive) showNeutralBleStatus(message)
-        if (hasRecentTelemetry()) {
-            latestScaleState?.let(::updateMotorState)
-        } else {
+        if (!hasRecentTelemetry()) {
             showTelemetryUnavailable()
         }
         tareButton.isEnabled = connected && !tareUiActive && isLoadCellUsable()
@@ -1191,7 +1210,6 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
             showLoadCellUnavailable(state)
             resetPressTracking()
         }
-        updateMotorState(state)
         updateTareUi(state)
         tareButton.isEnabled = isBleConnected && !tareUiActive && isLoadCellUsable()
         updateSensorInfoIcon()
@@ -1402,97 +1420,6 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
         }
     }
 
-    private fun configureMotorHoldButton(button: Button, direction: Int) {
-        button.setOnTouchListener { view, event ->
-            when (event.actionMasked) {
-                MotionEvent.ACTION_DOWN -> {
-                    startMotorControl(direction)
-                    true
-                }
-
-                MotionEvent.ACTION_UP -> {
-                    stopMotorControl()
-                    view.performClick()
-                    true
-                }
-
-                MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_OUTSIDE -> {
-                    stopMotorControl()
-                    true
-                }
-
-                else -> true
-            }
-        }
-    }
-
-    private fun startMotorControl(direction: Int) {
-        if (!isBleConnected) {
-            motorStatus.text = "El dispositivo no está conectado"
-            return
-        }
-
-        motorHoldDirection = direction.coerceIn(-1, 1)
-        motorControlHandler.removeCallbacks(motorKeepAlive)
-        bleManager?.sendMotor(motorHoldDirection)
-        motorControlHandler.postDelayed(motorKeepAlive, MOTOR_KEEP_ALIVE_MS)
-        motorStatus.text = if (motorHoldDirection < 0) {
-            "Moviendo a la izquierda..."
-        } else {
-            "Moviendo a la derecha..."
-        }
-    }
-
-    private fun stopMotorControl(sendStop: Boolean = true) {
-        motorControlHandler.removeCallbacks(motorKeepAlive)
-        motorHoldDirection = 0
-        if (sendStop && isBleConnected) bleManager?.sendMotor(0)
-        if (::motorStatus.isInitialized && isBleConnected) motorStatus.text = "Extensión detenida"
-    }
-
-    private fun centerMotor() {
-        if (!isBleConnected) {
-            motorStatus.text = "El dispositivo no está conectado"
-            return
-        }
-
-        stopMotorControl(sendStop = false)
-        motorStatus.text = if (bleManager?.sendCenter() == true) {
-            "Centrando eje..."
-        } else {
-            "No se pudo enviar la orden de centrado"
-        }
-    }
-
-    private fun updateMotorState(state: ScaleState) {
-        if (!::motorStatus.isInitialized) return
-
-        val reachedHeldLimit =
-            (motorHoldDirection < 0 && !state.motorCanMoveLeft) ||
-                (motorHoldDirection > 0 && !state.motorCanMoveRight)
-        if (reachedHeldLimit) stopMotorControl()
-
-        motorLeftButton.isEnabled = isBleConnected && state.motorCanMoveLeft
-        motorCenterButton.isEnabled =
-            isBleConnected && !state.motorCentering && state.motorPosition != 0L
-        motorRightButton.isEnabled = isBleConnected && state.motorCanMoveRight
-        motorStatus.text = when {
-            state.motorCentering ->
-                "Centrando eje · posición ${state.motorPosition}"
-            !state.motorCanMoveLeft ->
-                "Límite izquierdo · posición ${state.motorPosition}"
-            !state.motorCanMoveRight ->
-                "Límite derecho · posición ${state.motorPosition}"
-            state.motorDirection < 0 ->
-                "Moviendo a la izquierda · posición ${state.motorPosition}"
-            state.motorDirection > 0 ->
-                "Moviendo a la derecha · posición ${state.motorPosition}"
-            state.motorPosition == 0L ->
-                "Eje centrado · posición 0"
-            else -> "Extensión detenida · posición ${state.motorPosition}"
-        }
-    }
-
     private fun connectBluetooth() {
         val requiredPermissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             arrayOf(Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_CONNECT)
@@ -1635,7 +1562,6 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
     companion object {
         const val TAG = "usb-camera-viewer"
         private const val CAMERA_SWITCH_DELAY_MS = 700L
-        private const val MOTOR_KEEP_ALIVE_MS = 250L
         private const val TELEMETRY_STALE_MS = 2_500L
         private const val TARE_TELEMETRY_STALE_MS = 10_000L
         private const val TELEMETRY_WATCHDOG_INTERVAL_MS = 500L

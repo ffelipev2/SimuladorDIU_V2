@@ -58,7 +58,7 @@ interface BleScaleListener {
 @SuppressLint("MissingPermission")
 class BleScaleManager(
     context: Context,
-    private val listener: BleScaleListener
+    private var listener: BleScaleListener
 ) {
     private val appContext = context.applicationContext
     private val mainHandler = Handler(Looper.getMainLooper())
@@ -70,6 +70,10 @@ class BleScaleManager(
     private var scanning = false
     private var connectionReady = false
     private var selectedDeviceName: String? = null
+    private var selectedDevice: BluetoothDevice? = null
+    private var connectionAttempts = 0
+    private var lastStatus: Pair<String, Boolean>? = null
+    private var lastScaleState: ScaleState? = null
     private val discoveredDevices = linkedMapOf<String, BleDeviceInfo>()
 
     private val scanTimeout = Runnable {
@@ -88,6 +92,18 @@ class BleScaleManager(
                 connectionReady
             )
         }
+    }
+
+    // Algunos teléfonos fallan el primer enlace GATT aunque el dispositivo
+    // sea visible. Reintentamos una vez sin obligar al usuario a tocarlo otra vez.
+    private val connectionTimeout = Runnable {
+        if (connectionReady || gatt == null) return@Runnable
+        val device = selectedDevice ?: return@Runnable
+        if (connectionAttempts >= MAX_CONNECTION_ATTEMPTS) {
+            publishStatus("No se pudo completar la conexión Bluetooth.", false)
+            return@Runnable
+        }
+        restartConnection(device)
     }
 
     private val scanCallback = object : ScanCallback() {
@@ -128,16 +144,26 @@ class BleScaleManager(
                 gatt.requestConnectionPriority(BluetoothGatt.CONNECTION_PRIORITY_HIGH)
                 if (!gatt.requestMtu(185)) gatt.discoverServices()
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+                val deviceToRetry = selectedDevice
+                val shouldRetry =
+                    !connectionReady &&
+                        deviceToRetry != null &&
+                        connectionAttempts < MAX_CONNECTION_ATTEMPTS
                 commandCharacteristic = null
                 connectionReady = false
-                publishGattStatus(
-                    gatt,
-                    "${deviceName(gatt.device.address)} desconectado.",
-                    false
-                )
+                lastScaleState = null
                 this@BleScaleManager.gatt = null
-                selectedDeviceName = null
                 gatt.close()
+                if (shouldRetry) {
+                    mainHandler.postDelayed(
+                        { deviceToRetry?.let(::restartConnection) },
+                        RETRY_DELAY_MS
+                    )
+                } else {
+                    selectedDeviceName = null
+                    selectedDevice = null
+                    publishStatus("${deviceName(gatt.device.address)} desconectado.", false)
+                }
             }
         }
 
@@ -197,6 +223,8 @@ class BleScaleManager(
             if (!isCurrentConnection(gatt)) return
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 connectionReady = true
+                connectionAttempts = 0
+                mainHandler.removeCallbacks(connectionTimeout)
                 publishGattStatus(gatt, "${deviceName(gatt.device.address)} conectado", true)
             } else {
                 connectionReady = false
@@ -252,6 +280,15 @@ class BleScaleManager(
         mainHandler.postDelayed(scanTimeout, SCAN_TIMEOUT_MS)
     }
 
+    /** Permite entregar una conexión activa a la siguiente pantalla. */
+    fun setListener(listener: BleScaleListener) {
+        this.listener = listener
+        mainHandler.post {
+            lastStatus?.let { (message, connected) -> listener.onBleStatus(message, connected) }
+            lastScaleState?.let(listener::onScaleState)
+        }
+    }
+
     fun connectToDevice(device: BleDeviceInfo) {
         val currentAdapter = adapter
         if (currentAdapter == null || currentAdapter.isEnabled != true) {
@@ -269,13 +306,10 @@ class BleScaleManager(
         stopScan()
         closeConnection()
         selectedDeviceName = device.name
+        selectedDevice = remoteDevice
+        connectionAttempts = 0
         publishStatus("Conectando a ${device.name}...", false)
-        gatt = remoteDevice.connectGatt(
-            appContext,
-            false,
-            gattCallback,
-            BluetoothDevice.TRANSPORT_LE
-        )
+        openGattConnection(remoteDevice)
     }
 
     fun cancelScan() {
@@ -332,6 +366,15 @@ class BleScaleManager(
         writeType = BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT
     )
 
+    /**
+     * Centra el eje y, cuando termina, lo desplaza a una posición absoluta.
+     * El firmware limita el valor para que nunca sobrepase el recorrido seguro.
+     */
+    fun sendClinicalCasePosition(targetHalfSteps: Long): Boolean = sendCommand(
+        command = "CASE,$targetHalfSteps",
+        writeType = BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT
+    )
+
     private fun sendCommand(command: String, writeType: Int): Boolean {
         val characteristic = commandCharacteristic ?: return false
         val currentGatt = gatt ?: return false
@@ -366,13 +409,40 @@ class BleScaleManager(
     }
 
     private fun closeConnection() {
+        mainHandler.removeCallbacks(connectionTimeout)
         commandCharacteristic = null
         connectionReady = false
+        lastScaleState = null
         val previousGatt = gatt
         gatt = null
         previousGatt?.disconnect()
         previousGatt?.close()
         selectedDeviceName = null
+        selectedDevice = null
+        connectionAttempts = 0
+    }
+
+    private fun openGattConnection(device: BluetoothDevice) {
+        connectionAttempts++
+        gatt = device.connectGatt(
+            appContext,
+            false,
+            gattCallback,
+            BluetoothDevice.TRANSPORT_LE
+        )
+        mainHandler.removeCallbacks(connectionTimeout)
+        mainHandler.postDelayed(connectionTimeout, CONNECTION_TIMEOUT_MS)
+    }
+
+    private fun restartConnection(device: BluetoothDevice) {
+        val previousGatt = gatt
+        gatt = null
+        commandCharacteristic = null
+        connectionReady = false
+        previousGatt?.disconnect()
+        previousGatt?.close()
+        publishStatus("Reintentando conexión con ${selectedDeviceName ?: "el dispositivo"}...", false)
+        openGattConnection(device)
     }
 
     private fun parseState(sourceGatt: BluetoothGatt, value: ByteArray) {
@@ -400,27 +470,29 @@ class BleScaleManager(
         }
         mainHandler.post {
             if (gatt !== sourceGatt) return@post
+            lastScaleState = ScaleState(
+                currentGrams = current,
+                lastGrams = last,
+                zone = zone,
+                alarm = alarm,
+                humidityDetected = humidityDetected,
+                motorDirection = motorDirection,
+                motorPosition = motorPosition,
+                motorCanMoveLeft = motorCanMoveLeft,
+                motorCanMoveRight = motorCanMoveRight,
+                motorCentering = motorCentering,
+                tareInProgress = tareInProgress,
+                hasTareStatus = hasTareStatus,
+                loadCellStatus = loadCellStatus
+            )
             listener.onScaleState(
-                ScaleState(
-                    currentGrams = current,
-                    lastGrams = last,
-                    zone = zone,
-                    alarm = alarm,
-                    humidityDetected = humidityDetected,
-                    motorDirection = motorDirection,
-                    motorPosition = motorPosition,
-                    motorCanMoveLeft = motorCanMoveLeft,
-                    motorCanMoveRight = motorCanMoveRight,
-                    motorCentering = motorCentering,
-                    tareInProgress = tareInProgress,
-                    hasTareStatus = hasTareStatus,
-                    loadCellStatus = loadCellStatus
-                )
+                lastScaleState ?: return@post
             )
         }
     }
 
     private fun publishStatus(message: String, connected: Boolean) {
+        lastStatus = message to connected
         mainHandler.post { listener.onBleStatus(message, connected) }
     }
 
@@ -431,6 +503,7 @@ class BleScaleManager(
     ) {
         mainHandler.post {
             if (gatt === sourceGatt || (!connected && gatt == null)) {
+                lastStatus = message to connected
                 listener.onBleStatus(message, connected)
             }
         }
@@ -448,6 +521,9 @@ class BleScaleManager(
         private val LEGACY_DEVICE_NAMES = setOf("CeldaCarga-S3", "CeldaCarga-C3")
         private val DEVICE_NAME_PREFIXES = setOf("SimGyO-DIU-", "CeldaCarga-")
         private const val SCAN_TIMEOUT_MS = 12_000L
+        private const val CONNECTION_TIMEOUT_MS = 8_000L
+        private const val RETRY_DELAY_MS = 350L
+        private const val MAX_CONNECTION_ATTEMPTS = 2
         private val SERVICE_UUID = UUID.fromString("4fafc201-1fb5-459e-8fcc-c5c9c331914b")
         private val STATE_UUID = UUID.fromString("beb5483e-36e1-4688-b7f5-ea07361b26a8")
         private val COMMAND_UUID = UUID.fromString("e3223119-9445-4e96-a4a1-85358c4046a2")

@@ -11,6 +11,34 @@ Bluetooth Low Energy (BLE).
 
 Contacto: [simgyo25@gmail.com](mailto:simgyo25@gmail.com)
 
+## Flujo clínico actual de la app
+
+La aplicación se identifica como **SimGYODIU** y utiliza un icono con fondo
+amarillo. El entrenamiento guiado actual sigue esta secuencia:
+
+1. Bienvenida y selección del caso clínico: **5 cm**, **8 cm** o **12 cm**.
+   Los casos se habilitan únicamente tras conectar el ESP32 por BLE. El caso
+   elegido se confirma visualmente y el firmware centra el eje para luego
+   posicionarlo de forma proporcional: 12 cm queda en el centro, 8 cm usa una
+   apertura intermedia y 5 cm la apertura máxima.
+2. Evaluación previa: descarte de embarazo/contraindicaciones y examen
+   bimanual.
+3. Preparación con espéculo, limpieza antiséptica y confirmación de la alarma
+   de humedad.
+4. Checklist obligatorio de materiales.
+5. Preparación de pinzamiento y tracción, confirmación del sonido de la pinza
+   y tara visible antes de ingresar al simulador.
+6. Simulador DIU: la conexión BLE se conserva entre las pantallas, se muestra
+   fuerza, cámara USB, estado de sensores, selector de **valor medido** (4 a
+   15) y el checklist final: cargar el DIU, fijar medición, liberar, retiro
+   exitoso y cortar hilos.
+7. Resumen final con valor medido, diferencia frente a la profundidad elegida
+   y el estado de cada confirmación registrada durante el procedimiento.
+
+La búsqueda BLE reintenta automáticamente una vez cuando el primer enlace
+GATT no termina de establecerse, evitando tener que seleccionar dos veces el
+mismo dispositivo.
+
 ## Estructura del proyecto
 
 ```text
@@ -46,8 +74,10 @@ SimuladorDIU/
   el control se deshabilita mientras el HX711 no esté listo.
 - Icono de información con filas visuales para BLE, HX711, humedad, cámaras USB
   y motor; cada fila usa verde, amarillo o rojo junto con un estado breve.
-- Control de la extensión del útero hacia la izquierda y derecha, además del
-  retorno al centro lógico.
+- Selección de caso clínico que ordena al firmware centrar y posicionar el
+  eje mediante el comando BLE `CASE,pasos`.
+- Flujo de preparación clínica con confirmaciones de humedad, pinza, tara y
+  checklist final antes del resumen del procedimiento.
 - Visualización de una o dos cámaras USB UVC conectadas mediante OTG.
 - Historial local de hasta 50 registros de presión, con fecha, fuerza máxima y
   zona alcanzada.
@@ -281,6 +311,7 @@ firmware anterior que anuncie `CeldaCarga-S3` o `CeldaCarga-C3`.
 | `MOTOR,0` | Detiene y desenergiza el motor |
 | `MOTOR,1` | Mueve hacia la derecha |
 | `CENTER` | Regresa a la posición lógica 0 |
+| `CASE,pasos` | Centra el eje y lo posiciona en el número de medios pasos indicado |
 
 Mientras se mantiene pulsado un control de movimiento, la app renueva el
 comando aproximadamente cada 250 ms. El firmware detiene el motor si no recibe

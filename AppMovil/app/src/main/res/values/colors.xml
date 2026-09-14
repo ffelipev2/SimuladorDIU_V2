@@ -1,6 +1,6 @@
 <resources>
     <color name="teal_400">#20C997</color>
-    <color name="launcher_background">#42109F</color>
+    <color name="launcher_background">#F7C948</color>
     <color name="equipment_status_ok">#237A43</color>
     <color name="equipment_status_warning">#9A5B00</color>
     <color name="equipment_status_error">#B4232F</color>

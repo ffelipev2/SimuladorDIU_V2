@@ -22,11 +22,16 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="SimGyO-DIU"
+        android:label="SimGYODIU"
         android:roundIcon="@mipmap/ic_launcher"
         android:theme="@style/Theme.EndoscopeViewer">
         <activity android:name=".MainActivity" android:exported="false" />
         <activity android:name=".MaterialChecklistActivity" android:exported="false" />
+        <activity android:name=".ClinicalCaseActivity" android:exported="false" />
+        <activity android:name=".PreProcedureCheckActivity" android:exported="false" />
+        <activity android:name=".SpeculumPreparationActivity" android:exported="false" />
+        <activity android:name=".ClampPreparationActivity" android:exported="false" />
+        <activity android:name=".ProcedureSummaryActivity" android:exported="false" />
         <activity android:name=".SplashActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
