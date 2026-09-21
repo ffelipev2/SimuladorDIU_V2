@@ -244,97 +244,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="EXTENSIÓN DEL ÚTERO"
+                        android:text="VALOR MEDIDO"
                         android:textColor="#5E6480"
                         android:textSize="12sp"
                         android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/motorStatusText"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:gravity="end"
-                        android:maxLines="1"
-                        android:text="Conecta Bluetooth para controlar la extensión"
-                        android:textColor="#737994"
-                        android:textSize="10sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="62dp"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/motorLeftButton"
-                        android:layout_width="0dp"
-                        android:layout_height="62dp"
-                        android:layout_weight="1"
+                    <Spinner
+                        android:id="@+id/measuredValueSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:layout_marginTop="8dp"
                         android:background="@drawable/button_outline"
-                        android:backgroundTint="@null"
-                        android:drawableTop="@drawable/ic_arrow_left_purple"
-                        android:drawablePadding="1dp"
-                        android:enabled="false"
-                        android:gravity="center"
-                        android:minWidth="0dp"
-                        android:padding="3dp"
-                        android:stateListAnimator="@null"
-                        android:text="Izquierda"
-                        android:textAllCaps="false"
-                        android:textColor="@color/button_outline_text"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-                    <Button
-                        android:id="@+id/motorCenterButton"
-                        android:layout_width="0dp"
-                        android:layout_height="62dp"
-                        android:layout_marginHorizontal="10dp"
-                        android:layout_weight="0.9"
-                        android:background="@drawable/button_primary"
-                        android:backgroundTint="@null"
-                        android:drawableTop="@drawable/ic_center_axis"
-                        android:drawablePadding="1dp"
-                        android:enabled="false"
-                        android:gravity="center"
-                        android:minWidth="0dp"
-                        android:padding="3dp"
-                        android:stateListAnimator="@null"
-                        android:text="Centrar eje"
-                        android:textAllCaps="false"
-                        android:textColor="@color/button_primary_text"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-                    <Button
-                        android:id="@+id/motorRightButton"
-                        android:layout_width="0dp"
-                        android:layout_height="62dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/button_outline"
-                        android:backgroundTint="@null"
-                        android:drawableTop="@drawable/ic_arrow_right_purple"
-                        android:drawablePadding="1dp"
-                        android:enabled="false"
-                        android:gravity="center"
-                        android:minWidth="0dp"
-                        android:padding="3dp"
-                        android:stateListAnimator="@null"
-                        android:text="Derecha"
-                        android:textAllCaps="false"
-                        android:textColor="@color/button_outline_text"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:paddingStart="14dp"
+                        android:paddingEnd="14dp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -415,6 +342,104 @@
                         android:textColor="#575E7D"
                         android:textSize="14sp" />
                 </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:background="@drawable/checklist_item_background"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="CHECKLIST DEL PROCEDIMIENTO"
+                        android:textColor="#102641"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <CheckBox
+                        android:id="@+id/loadDiuCheck"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="10dp"
+                        android:buttonTint="@color/material_checkbox_tint"
+                        android:gravity="center_vertical"
+                        android:text="Cargar el DIU"
+                        android:textColor="#263851"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <CheckBox
+                        android:id="@+id/fixMeasurementCheck"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:buttonTint="@color/material_checkbox_tint"
+                        android:gravity="center_vertical"
+                        android:text="Fijar medición"
+                        android:textColor="#263851"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <CheckBox
+                        android:id="@+id/releaseCheck"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:buttonTint="@color/material_checkbox_tint"
+                        android:gravity="center_vertical"
+                        android:text="Liberar"
+                        android:textColor="#263851"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <CheckBox
+                        android:id="@+id/successfulRemovalCheck"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:buttonTint="@color/material_checkbox_tint"
+                        android:gravity="center_vertical"
+                        android:text="Retiro Exitoso"
+                        android:textColor="#263851"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <CheckBox
+                        android:id="@+id/cutThreadsCheck"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:buttonTint="@color/material_checkbox_tint"
+                        android:gravity="center_vertical"
+                        android:text="Cortar Hilos"
+                        android:textColor="#263851"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/procedureProgressText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center"
+                        android:textColor="#69708F"
+                        android:textSize="12sp" />
+
+                    <Button
+                        android:id="@+id/procedureNextButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:layout_marginTop="14dp"
+                        android:background="@drawable/button_primary"
+                        android:backgroundTint="@null"
+                        android:drawableEnd="@drawable/ic_arrow_right_primary"
+                        android:drawablePadding="8dp"
+                        android:enabled="false"
+                        android:text="Siguiente"
+                        android:textAllCaps="false"
+                        android:textColor="@color/button_primary_text"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout

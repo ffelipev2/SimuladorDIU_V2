@@ -32,6 +32,10 @@
         "source": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-main-42:\\drawable\\checklist_item_background.xml"
     },
     {
+        "merged": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-debug-40:\\layout_activity_clamp_preparation.xml.flat",
+        "source": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-main-42:\\layout\\activity_clamp_preparation.xml"
+    },
+    {
         "merged": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-debug-40:\\color_button_outline_text.xml.flat",
         "source": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-main-42:\\color\\button_outline_text.xml"
     },
@@ -56,20 +60,20 @@
         "source": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-main-42:\\drawable\\panel_background.xml"
     },
     {
-        "merged": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-debug-40:\\layout-sw600dp-port_activity_splash.xml.flat",
-        "source": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-main-42:\\layout-sw600dp-port\\activity_splash.xml"
+        "merged": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-debug-40:\\drawable_button_case_option.xml.flat",
+        "source": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-main-42:\\drawable\\button_case_option.xml"
     },
     {
-        "merged": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-debug-40:\\drawable_button_primary.xml.flat",
-        "source": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-main-42:\\drawable\\button_primary.xml"
+        "merged": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-debug-40:\\layout-sw600dp-port_activity_splash.xml.flat",
+        "source": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-main-42:\\layout-sw600dp-port\\activity_splash.xml"
     },
     {
         "merged": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-debug-40:\\drawable_ic_diu_launcher_foreground.xml.flat",
         "source": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-main-42:\\drawable\\ic_diu_launcher_foreground.xml"
     },
     {
-        "merged": "com.felipe.endoscopeviewer.app-debug-40:/layout_view_equipment_status_row.xml.flat",
-        "source": "com.felipe.endoscopeviewer.app-main-42:/layout/view_equipment_status_row.xml"
+        "merged": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-debug-40:\\drawable_button_primary.xml.flat",
+        "source": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-main-42:\\drawable\\button_primary.xml"
     },
     {
         "merged": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-debug-40:\\drawable_tab_unselected_background.xml.flat",
@@ -88,12 +92,12 @@
         "source": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-main-42:\\drawable\\divider_light.xml"
     },
     {
-        "merged": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-debug-40:\\drawable_icon_blue_background.xml.flat",
-        "source": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-main-42:\\drawable\\icon_blue_background.xml"
-    },
-    {
         "merged": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-debug-40:\\drawable_ic_trash_white.xml.flat",
         "source": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-main-42:\\drawable\\ic_trash_white.xml"
+    },
+    {
+        "merged": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-debug-40:\\drawable_icon_blue_background.xml.flat",
+        "source": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-main-42:\\drawable\\icon_blue_background.xml"
     },
     {
         "merged": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-debug-40:\\drawable_ic_link_white.xml.flat",
@@ -108,6 +112,10 @@
         "source": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-main-42:\\color\\button_primary_text.xml"
     },
     {
+        "merged": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-debug-40:\\layout_activity_clinical_case.xml.flat",
+        "source": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-main-42:\\layout\\activity_clinical_case.xml"
+    },
+    {
         "merged": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-debug-40:\\layout_activity_main.xml.flat",
         "source": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-main-42:\\layout\\activity_main.xml"
     },
@@ -116,12 +124,12 @@
         "source": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-main-42:\\layout\\activity_material_checklist.xml"
     },
     {
-        "merged": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-debug-40:\\drawable_ic_clipboard_green.xml.flat",
-        "source": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-main-42:\\drawable\\ic_clipboard_green.xml"
-    },
-    {
         "merged": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-debug-40:\\layout-land_activity_splash.xml.flat",
         "source": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-main-42:\\layout-land\\activity_splash.xml"
+    },
+    {
+        "merged": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-debug-40:\\drawable_ic_clipboard_green.xml.flat",
+        "source": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-main-42:\\drawable\\ic_clipboard_green.xml"
     },
     {
         "merged": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-debug-40:\\drawable_equipment_status_row_background.xml.flat",
@@ -130,6 +138,10 @@
     {
         "merged": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-debug-40:\\drawable_ic_email_purple.xml.flat",
         "source": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-main-42:\\drawable\\ic_email_purple.xml"
+    },
+    {
+        "merged": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-debug-40:\\layout_activity_pre_procedure_check.xml.flat",
+        "source": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-main-42:\\layout\\activity_pre_procedure_check.xml"
     },
     {
         "merged": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-debug-40:\\mipmap-anydpi_ic_launcher.xml.flat",
@@ -192,6 +204,14 @@
         "source": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-main-42:\\layout-land\\activity_material_checklist.xml"
     },
     {
+        "merged": "com.felipe.endoscopeviewer.app-debug-40:/layout_fragment_usb_camera.xml.flat",
+        "source": "com.felipe.endoscopeviewer.app-main-42:/layout/fragment_usb_camera.xml"
+    },
+    {
+        "merged": "com.felipe.endoscopeviewer.app-debug-40:/layout_activity_procedure_summary.xml.flat",
+        "source": "com.felipe.endoscopeviewer.app-main-42:/layout/activity_procedure_summary.xml"
+    },
+    {
         "merged": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-debug-40:\\layout_fragment_usb_camera.xml.flat",
         "source": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-main-42:\\layout\\fragment_usb_camera.xml"
     },
@@ -202,5 +222,9 @@
     {
         "merged": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-debug-40:\\drawable_panel_background_v2.xml.flat",
         "source": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-main-42:\\drawable\\panel_background_v2.xml"
+    },
+    {
+        "merged": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-debug-40:\\layout_activity_speculum_preparation.xml.flat",
+        "source": "C:\\Users\\Felipe\\.gradle\\daemon\\9.3.0\\com.felipe.endoscopeviewer.app-main-42:\\layout\\activity_speculum_preparation.xml"
     }
 ]

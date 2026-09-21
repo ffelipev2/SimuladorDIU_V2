@@ -48,7 +48,7 @@
         android:debuggable="true"
         android:extractNativeLibs="false"
         android:icon="@mipmap/ic_launcher"
-        android:label="SimGyO-DIU"
+        android:label="SimGYODIU"
         android:roundIcon="@mipmap/ic_launcher"
         android:testOnly="true"
         android:theme="@style/Theme.EndoscopeViewer" >
@@ -57,6 +57,21 @@
             android:exported="false" />
         <activity
             android:name="com.felipe.endoscopeviewer.MaterialChecklistActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.felipe.endoscopeviewer.ClinicalCaseActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.felipe.endoscopeviewer.PreProcedureCheckActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.felipe.endoscopeviewer.SpeculumPreparationActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.felipe.endoscopeviewer.ClampPreparationActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.felipe.endoscopeviewer.ProcedureSummaryActivity"
             android:exported="false" />
         <activity
             android:name="com.felipe.endoscopeviewer.SplashActivity"

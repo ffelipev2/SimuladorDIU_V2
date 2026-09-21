@@ -1,8 +1,8 @@
-#Fri Aug 21 13:16:48 CLT 2026
-base.0=C\:\\Users\\Felipe\\Desktop\\SimuladorDIU\\AppMovil\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
-base.1=C\:\\Users\\Felipe\\Desktop\\SimuladorDIU\\AppMovil\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
-base.2=C\:\\Users\\Felipe\\Desktop\\SimuladorDIU\\AppMovil\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\2\\classes.dex
-base.3=C\:\\Users\\Felipe\\Desktop\\SimuladorDIU\\AppMovil\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes2.dex
+#Mon Sep 14 11:34:35 CLST 2026
+base.0=C\:\\Users\\Felipe\\Desktop\\SimuladorDIU_V2\\AppMovil\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
+base.1=C\:\\Users\\Felipe\\Desktop\\SimuladorDIU_V2\\AppMovil\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
+base.2=C\:\\Users\\Felipe\\Desktop\\SimuladorDIU_V2\\AppMovil\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\2\\classes.dex
+base.3=C\:\\Users\\Felipe\\Desktop\\SimuladorDIU_V2\\AppMovil\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes2.dex
 path.0=classes.dex
 path.1=0/classes.dex
 path.2=2/classes.dex

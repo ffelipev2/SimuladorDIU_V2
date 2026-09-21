@@ -9,60 +9,60 @@
 9        android:targetSdkVersion="35" />
 10
 11    <uses-permission android:name="android.permission.CAMERA" />
-11-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:2:5-65
-11-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:2:22-62
+11-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:2:5-65
+11-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:2:22-62
 12    <uses-permission
-12-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:3:5-5:38
+12-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:3:5-5:38
 13        android:name="android.permission.BLUETOOTH"
-13-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:4:9-52
+13-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:4:9-52
 14        android:maxSdkVersion="30" />
-14-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:5:9-35
+14-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:5:9-35
 15    <uses-permission
-15-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:6:5-8:38
+15-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:6:5-8:38
 16        android:name="android.permission.BLUETOOTH_ADMIN"
-16-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:7:9-58
+16-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:7:9-58
 17        android:maxSdkVersion="30" />
-17-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:8:9-35
+17-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:8:9-35
 18    <uses-permission
-18-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:9:5-11:38
+18-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:9:5-11:38
 19        android:name="android.permission.ACCESS_FINE_LOCATION"
-19-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:10:9-63
+19-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:10:9-63
 20        android:maxSdkVersion="30" />
-20-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:11:9-35
+20-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:11:9-35
 21    <uses-permission
-21-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:12:5-14:38
+21-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:12:5-14:38
 22        android:name="android.permission.ACCESS_COARSE_LOCATION"
-22-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:13:9-65
+22-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:13:9-65
 23        android:maxSdkVersion="30" />
-23-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:14:9-35
+23-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:14:9-35
 24    <uses-permission
-24-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:15:5-17:58
+24-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:15:5-17:58
 25        android:name="android.permission.BLUETOOTH_SCAN"
-25-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:16:9-57
+25-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:16:9-57
 26        android:usesPermissionFlags="neverForLocation" />
-26-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:17:9-55
+26-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:17:9-55
 27    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
-27-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:18:5-76
-27-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:18:22-73
+27-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:18:5-76
+27-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:18:22-73
 28
 29    <uses-feature
-29-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:19:5-85
+29-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:19:5-85
 30        android:name="android.hardware.camera"
-30-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:19:19-57
+30-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:19:19-57
 31        android:required="false" />
-31-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:19:58-82
+31-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:19:58-82
 32    <uses-feature
-32-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:20:5-87
+32-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:20:5-87
 33        android:name="android.hardware.usb.host"
-33-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:20:19-59
+33-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:20:19-59
 34        android:required="true" />
-34-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:20:60-84
+34-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:20:60-84
 35    <uses-feature
-35-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:21:5-91
+35-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:21:5-91
 36        android:name="android.hardware.bluetooth_le"
-36-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:21:19-63
+36-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:21:19-63
 37        android:required="false" />
-37-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:21:64-88
+37-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:21:64-88
 38
 39    <permission
 39-->[androidx.core:core:1.13.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\abeb515357a7db3fd22e844d1e55f2be\workspace\transformed\core-1.13.1\AndroidManifest.xml:22:5-24:47
@@ -76,133 +76,163 @@
 43-->[androidx.core:core:1.13.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\abeb515357a7db3fd22e844d1e55f2be\workspace\transformed\core-1.13.1\AndroidManifest.xml:26:22-94
 44
 45    <application
-45-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:22:5-36:19
+45-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:22:5-41:19
 46        android:allowBackup="true"
-46-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:23:9-35
+46-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:23:9-35
 47        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
 47-->[androidx.core:core:1.13.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\abeb515357a7db3fd22e844d1e55f2be\workspace\transformed\core-1.13.1\AndroidManifest.xml:28:18-86
 48        android:debuggable="true"
 49        android:extractNativeLibs="false"
 50        android:icon="@mipmap/ic_launcher"
-50-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:24:9-43
-51        android:label="SimGyO-DIU"
-51-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:25:9-35
+50-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:24:9-43
+51        android:label="SimGYODIU"
+51-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:25:9-34
 52        android:roundIcon="@mipmap/ic_launcher"
-52-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:26:9-48
+52-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:26:9-48
 53        android:testOnly="true"
 54        android:theme="@style/Theme.EndoscopeViewer" >
-54-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:27:9-53
+54-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:27:9-53
 55        <activity
-55-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:28:9-75
+55-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:28:9-75
 56            android:name="com.felipe.endoscopeviewer.MainActivity"
-56-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:28:19-47
+56-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:28:19-47
 57            android:exported="false" />
-57-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:28:48-72
+57-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:28:48-72
 58        <activity
-58-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:29:9-88
+58-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:29:9-88
 59            android:name="com.felipe.endoscopeviewer.MaterialChecklistActivity"
-59-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:29:19-60
+59-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:29:19-60
 60            android:exported="false" />
-60-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:29:61-85
+60-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:29:61-85
 61        <activity
-61-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:30:9-35:20
-62            android:name="com.felipe.endoscopeviewer.SplashActivity"
-62-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:30:19-49
-63            android:exported="true" >
-63-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:30:50-73
-64            <intent-filter>
-64-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:31:13-34:29
-65                <action android:name="android.intent.action.MAIN" />
-65-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:32:17-69
-65-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:32:25-66
-66
-67                <category android:name="android.intent.category.LAUNCHER" />
-67-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:33:17-77
-67-->C:\Users\Felipe\Desktop\SimuladorDIU\AppMovil\app\src\main\AndroidManifest.xml:33:27-74
-68            </intent-filter>
-69        </activity>
-70
-71        <service
-71-->[androidx.camera:camera-camera2:1.4.0] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\24d8008b27b68d4f6106f90757d09456\workspace\transformed\camera-camera2-1.4.0\AndroidManifest.xml:24:9-33:19
-72            android:name="androidx.camera.core.impl.MetadataHolderService"
-72-->[androidx.camera:camera-camera2:1.4.0] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\24d8008b27b68d4f6106f90757d09456\workspace\transformed\camera-camera2-1.4.0\AndroidManifest.xml:25:13-75
-73            android:enabled="false"
-73-->[androidx.camera:camera-camera2:1.4.0] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\24d8008b27b68d4f6106f90757d09456\workspace\transformed\camera-camera2-1.4.0\AndroidManifest.xml:26:13-36
-74            android:exported="false" >
-74-->[androidx.camera:camera-camera2:1.4.0] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\24d8008b27b68d4f6106f90757d09456\workspace\transformed\camera-camera2-1.4.0\AndroidManifest.xml:27:13-37
-75            <meta-data
-75-->[androidx.camera:camera-camera2:1.4.0] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\24d8008b27b68d4f6106f90757d09456\workspace\transformed\camera-camera2-1.4.0\AndroidManifest.xml:30:13-32:89
-76                android:name="androidx.camera.core.impl.MetadataHolderService.DEFAULT_CONFIG_PROVIDER"
-76-->[androidx.camera:camera-camera2:1.4.0] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\24d8008b27b68d4f6106f90757d09456\workspace\transformed\camera-camera2-1.4.0\AndroidManifest.xml:31:17-103
-77                android:value="androidx.camera.camera2.Camera2Config$DefaultProvider" />
-77-->[androidx.camera:camera-camera2:1.4.0] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\24d8008b27b68d4f6106f90757d09456\workspace\transformed\camera-camera2-1.4.0\AndroidManifest.xml:32:17-86
-78        </service>
-79
-80        <provider
-80-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\95780f02b2275237aa6108cd7760d99c\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
-81            android:name="androidx.startup.InitializationProvider"
-81-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\95780f02b2275237aa6108cd7760d99c\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
-82            android:authorities="com.felipe.endoscopeviewer.androidx-startup"
-82-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\95780f02b2275237aa6108cd7760d99c\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
-83            android:exported="false" >
-83-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\95780f02b2275237aa6108cd7760d99c\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
-84            <meta-data
-84-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\95780f02b2275237aa6108cd7760d99c\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
-85                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-85-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\95780f02b2275237aa6108cd7760d99c\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
-86                android:value="androidx.startup" />
-86-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\95780f02b2275237aa6108cd7760d99c\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
-87            <meta-data
-87-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\23c2303162c167c103c9cda3a36522d0\workspace\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:29:13-31:52
-88                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-88-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\23c2303162c167c103c9cda3a36522d0\workspace\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:30:17-78
-89                android:value="androidx.startup" />
-89-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\23c2303162c167c103c9cda3a36522d0\workspace\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:31:17-49
+61-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:30:9-83
+62            android:name="com.felipe.endoscopeviewer.ClinicalCaseActivity"
+62-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:30:19-55
+63            android:exported="false" />
+63-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:30:56-80
+64        <activity
+64-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:31:9-88
+65            android:name="com.felipe.endoscopeviewer.PreProcedureCheckActivity"
+65-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:31:19-60
+66            android:exported="false" />
+66-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:31:61-85
+67        <activity
+67-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:32:9-90
+68            android:name="com.felipe.endoscopeviewer.SpeculumPreparationActivity"
+68-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:32:19-62
+69            android:exported="false" />
+69-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:32:63-87
+70        <activity
+70-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:33:9-87
+71            android:name="com.felipe.endoscopeviewer.ClampPreparationActivity"
+71-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:33:19-59
+72            android:exported="false" />
+72-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:33:60-84
+73        <activity
+73-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:34:9-87
+74            android:name="com.felipe.endoscopeviewer.ProcedureSummaryActivity"
+74-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:34:19-59
+75            android:exported="false" />
+75-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:34:60-84
+76        <activity
+76-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:35:9-40:20
+77            android:name="com.felipe.endoscopeviewer.SplashActivity"
+77-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:35:19-49
+78            android:exported="true" >
+78-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:35:50-73
+79            <intent-filter>
+79-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:36:13-39:29
+80                <action android:name="android.intent.action.MAIN" />
+80-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:37:17-69
+80-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:37:25-66
+81
+82                <category android:name="android.intent.category.LAUNCHER" />
+82-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:38:17-77
+82-->C:\Users\Felipe\Desktop\SimuladorDIU_V2\AppMovil\app\src\main\AndroidManifest.xml:38:27-74
+83            </intent-filter>
+84        </activity>
+85
+86        <service
+86-->[androidx.camera:camera-camera2:1.4.0] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\24d8008b27b68d4f6106f90757d09456\workspace\transformed\camera-camera2-1.4.0\AndroidManifest.xml:24:9-33:19
+87            android:name="androidx.camera.core.impl.MetadataHolderService"
+87-->[androidx.camera:camera-camera2:1.4.0] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\24d8008b27b68d4f6106f90757d09456\workspace\transformed\camera-camera2-1.4.0\AndroidManifest.xml:25:13-75
+88            android:enabled="false"
+88-->[androidx.camera:camera-camera2:1.4.0] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\24d8008b27b68d4f6106f90757d09456\workspace\transformed\camera-camera2-1.4.0\AndroidManifest.xml:26:13-36
+89            android:exported="false" >
+89-->[androidx.camera:camera-camera2:1.4.0] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\24d8008b27b68d4f6106f90757d09456\workspace\transformed\camera-camera2-1.4.0\AndroidManifest.xml:27:13-37
 90            <meta-data
-90-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:29:13-31:52
-91                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
-91-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:30:17-85
-92                android:value="androidx.startup" />
-92-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:31:17-49
-93        </provider>
+90-->[androidx.camera:camera-camera2:1.4.0] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\24d8008b27b68d4f6106f90757d09456\workspace\transformed\camera-camera2-1.4.0\AndroidManifest.xml:30:13-32:89
+91                android:name="androidx.camera.core.impl.MetadataHolderService.DEFAULT_CONFIG_PROVIDER"
+91-->[androidx.camera:camera-camera2:1.4.0] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\24d8008b27b68d4f6106f90757d09456\workspace\transformed\camera-camera2-1.4.0\AndroidManifest.xml:31:17-103
+92                android:value="androidx.camera.camera2.Camera2Config$DefaultProvider" />
+92-->[androidx.camera:camera-camera2:1.4.0] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\24d8008b27b68d4f6106f90757d09456\workspace\transformed\camera-camera2-1.4.0\AndroidManifest.xml:32:17-86
+93        </service>
 94
-95        <receiver
-95-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:34:9-52:20
-96            android:name="androidx.profileinstaller.ProfileInstallReceiver"
-96-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:35:13-76
-97            android:directBootAware="false"
-97-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:36:13-44
-98            android:enabled="true"
-98-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:37:13-35
-99            android:exported="true"
-99-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:38:13-36
-100            android:permission="android.permission.DUMP" >
-100-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:39:13-57
-101            <intent-filter>
-101-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:40:13-42:29
-102                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
-102-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:17-91
-102-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:25-88
-103            </intent-filter>
-104            <intent-filter>
-104-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:43:13-45:29
-105                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
-105-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:17-85
-105-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:25-82
-106            </intent-filter>
-107            <intent-filter>
-107-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:46:13-48:29
-108                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
-108-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:17-88
-108-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:25-85
-109            </intent-filter>
-110            <intent-filter>
-110-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:49:13-51:29
-111                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
-111-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:17-95
-111-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:25-92
-112            </intent-filter>
-113        </receiver>
-114    </application>
-115
-116</manifest>
+95        <provider
+95-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\95780f02b2275237aa6108cd7760d99c\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
+96            android:name="androidx.startup.InitializationProvider"
+96-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\95780f02b2275237aa6108cd7760d99c\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
+97            android:authorities="com.felipe.endoscopeviewer.androidx-startup"
+97-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\95780f02b2275237aa6108cd7760d99c\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
+98            android:exported="false" >
+98-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\95780f02b2275237aa6108cd7760d99c\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
+99            <meta-data
+99-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\95780f02b2275237aa6108cd7760d99c\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
+100                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+100-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\95780f02b2275237aa6108cd7760d99c\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
+101                android:value="androidx.startup" />
+101-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\95780f02b2275237aa6108cd7760d99c\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
+102            <meta-data
+102-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\23c2303162c167c103c9cda3a36522d0\workspace\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:29:13-31:52
+103                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+103-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\23c2303162c167c103c9cda3a36522d0\workspace\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:30:17-78
+104                android:value="androidx.startup" />
+104-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\23c2303162c167c103c9cda3a36522d0\workspace\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:31:17-49
+105            <meta-data
+105-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:29:13-31:52
+106                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+106-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:30:17-85
+107                android:value="androidx.startup" />
+107-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:31:17-49
+108        </provider>
+109
+110        <receiver
+110-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:34:9-52:20
+111            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+111-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:35:13-76
+112            android:directBootAware="false"
+112-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:36:13-44
+113            android:enabled="true"
+113-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:37:13-35
+114            android:exported="true"
+114-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:38:13-36
+115            android:permission="android.permission.DUMP" >
+115-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:39:13-57
+116            <intent-filter>
+116-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:40:13-42:29
+117                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+117-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:17-91
+117-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:25-88
+118            </intent-filter>
+119            <intent-filter>
+119-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:43:13-45:29
+120                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+120-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:17-85
+120-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:25-82
+121            </intent-filter>
+122            <intent-filter>
+122-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:46:13-48:29
+123                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+123-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:17-88
+123-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:25-85
+124            </intent-filter>
+125            <intent-filter>
+125-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:49:13-51:29
+126                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+126-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:17-95
+126-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Felipe\.gradle\caches\9.3.0\transforms\89db838c835554f984765d2fc4287670\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:25-92
+127            </intent-filter>
+128        </receiver>
+129    </application>
+130
+131</manifest>
