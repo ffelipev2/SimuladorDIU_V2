@@ -41,8 +41,12 @@ class MaterialChecklistActivity : AppCompatActivity() {
         nextButton.setOnClickListener {
             if (!materialChecks.all { it.isChecked }) return@setOnClickListener
             ProcedureSummaryStore.saveAction(this, "Materiales", completed = true)
+            AppDiagnostics.record("Lista de materiales completada")
             startActivity(Intent(this, ClampPreparationActivity::class.java))
-            finish()
+        }
+        findViewById<Button>(R.id.previousButton).also { previousButton ->
+            placeBackButtonBelowNext(previousButton, nextButton)
+            previousButton.setOnClickListener { finish() }
         }
         updateChecklistState()
     }

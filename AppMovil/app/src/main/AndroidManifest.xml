@@ -20,12 +20,16 @@
     <uses-feature android:name="android.hardware.usb.host" android:required="false" />
     <uses-feature android:name="android.hardware.bluetooth_le" android:required="false" />
     <application
+        android:name=".SimGyoApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="SimGYODIU"
         android:roundIcon="@mipmap/ic_launcher"
         android:theme="@style/Theme.EndoscopeViewer">
-        <activity android:name=".MainActivity" android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="false" />
         <activity android:name=".MaterialChecklistActivity" android:exported="false" />
         <activity android:name=".ClinicalCaseActivity" android:exported="false" />
         <activity android:name=".PreProcedureCheckActivity" android:exported="false" />

@@ -1,5 +1,6 @@
 package com.felipe.endoscopeviewer
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
@@ -42,7 +43,17 @@ class ProcedureSummaryActivity : AppCompatActivity() {
                 ProcedureSummaryStore.actionCompleted(this, action)
             )
         }
-        findViewById<Button>(R.id.summaryFinishButton).setOnClickListener { finish() }
+        findViewById<Button>(R.id.summaryFinishButton).setOnClickListener {
+            AppDiagnostics.record("Procedimiento finalizado; cerrando Bluetooth y regresando al inicio")
+            BleConnectionStore.close()
+            ProcedureSummaryStore.clear(this)
+            ClinicalCaseStore.clear(this)
+            startActivity(
+                Intent(this, SplashActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
+            )
+        }
     }
 
     private fun addStatus(container: LinearLayout, label: String, detail: String, completed: Boolean) {

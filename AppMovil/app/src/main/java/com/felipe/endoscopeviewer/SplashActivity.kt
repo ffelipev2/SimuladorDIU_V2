@@ -18,8 +18,8 @@ class SplashActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.welcomeNextButton).setOnClickListener {
+            AppDiagnostics.record("Inicio completado; abriendo seleccion de caso")
             startActivity(Intent(this, ClinicalCaseActivity::class.java))
-            finish()
         }
     }
 }

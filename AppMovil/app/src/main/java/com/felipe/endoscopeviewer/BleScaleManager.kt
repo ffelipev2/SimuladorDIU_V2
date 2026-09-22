@@ -376,11 +376,19 @@ class BleScaleManager(
     )
 
     private fun sendCommand(command: String, writeType: Int): Boolean {
-        val characteristic = commandCharacteristic ?: return false
-        val currentGatt = gatt ?: return false
+        val characteristic = commandCharacteristic
+        if (characteristic == null) {
+            AppDiagnostics.record("No se envio el comando BLE $command: sin caracteristica disponible")
+            return false
+        }
+        val currentGatt = gatt
+        if (currentGatt == null) {
+            AppDiagnostics.record("No se envio el comando BLE $command: sin conexion GATT")
+            return false
+        }
         val payload = command.toByteArray(StandardCharsets.UTF_8)
 
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        val sent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             currentGatt.writeCharacteristic(
                 characteristic,
                 payload,
@@ -394,9 +402,12 @@ class BleScaleManager(
             @Suppress("DEPRECATION")
             currentGatt.writeCharacteristic(characteristic)
         }
+        AppDiagnostics.record("Comando BLE $command: ${if (sent) "enviado" else "rechazado"}")
+        return sent
     }
 
     fun close() {
+        AppDiagnostics.record("Conexion Bluetooth cerrada")
         stopScan()
         closeConnection()
         mainHandler.removeCallbacksAndMessages(null)
@@ -493,6 +504,7 @@ class BleScaleManager(
 
     private fun publishStatus(message: String, connected: Boolean) {
         lastStatus = message to connected
+        AppDiagnostics.record("Bluetooth ${if (connected) "conectado" else "estado"}: $message")
         mainHandler.post { listener.onBleStatus(message, connected) }
     }
 
@@ -504,6 +516,7 @@ class BleScaleManager(
         mainHandler.post {
             if (gatt === sourceGatt || (!connected && gatt == null)) {
                 lastStatus = message to connected
+                AppDiagnostics.record("Bluetooth ${if (connected) "conectado" else "estado"}: $message")
                 listener.onBleStatus(message, connected)
             }
         }

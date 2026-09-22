@@ -51,6 +51,18 @@ class ClinicalCaseActivity : AppCompatActivity(), BleScaleListener {
         else Toast.makeText(this, "Se requieren permisos Bluetooth para conectar.", Toast.LENGTH_LONG).show()
     }
 
+    private val diagnosticsExportLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        val uri = result.data?.data ?: return@registerForActivityResult
+        val exported = AppDiagnostics.exportTo(this, uri)
+        Toast.makeText(
+            this,
+            if (exported) "Registros guardados correctamente." else "No se pudieron guardar los registros.",
+            Toast.LENGTH_LONG
+        ).show()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_clinical_case)
@@ -79,16 +91,26 @@ class ClinicalCaseActivity : AppCompatActivity(), BleScaleListener {
         }
         nextButton.setOnClickListener {
             keepBleConnection = true
+            AppDiagnostics.record("Caso clinico confirmado; avanzando a evaluacion previa")
             startActivity(Intent(this, PreProcedureCheckActivity::class.java))
-            finish()
+        }
+        findViewById<Button>(R.id.previousButton).also { previousButton ->
+            placeBackButtonBelowNext(previousButton, nextButton)
+            previousButton.setOnClickListener { finish() }
         }
         updateCaseButtons()
         updateSensorInfoIcon()
     }
 
+    override fun onResume() {
+        super.onResume()
+        // Al volver a esta pantalla, el boton Volver debe cerrar la conexion.
+        keepBleConnection = false
+    }
+
     override fun onDestroy() {
         bleDeviceDialog?.dismiss()
-        if (!keepBleConnection) BleConnectionStore.close()
+        if (isFinishing && !keepBleConnection) BleConnectionStore.close()
         super.onDestroy()
     }
 
@@ -336,8 +358,14 @@ class ClinicalCaseActivity : AppCompatActivity(), BleScaleListener {
             .setIcon(R.drawable.ic_info_purple)
             .setTitle(R.string.equipment_status_title)
             .setView(content)
+            .setNeutralButton("Guardar registros") { _, _ -> exportDiagnostics() }
             .setPositiveButton(R.string.equipment_status_close, null)
             .show()
+    }
+
+    private fun exportDiagnostics() {
+        AppDiagnostics.record("Se solicito exportar registros desde Estado del equipo")
+        diagnosticsExportLauncher.launch(AppDiagnostics.createExportIntent())
     }
 
     private fun dp(value: Int): Int = (value * resources.displayMetrics.density).roundToLong().toInt()

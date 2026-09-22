@@ -25,8 +25,12 @@ class SpeculumPreparationActivity : AppCompatActivity() {
             val answer = if (findViewById<RadioGroup>(R.id.humidityAlarmRadioGroup).checkedRadioButtonId ==
                 R.id.humidityAlarmYes) "Sí" else "No"
             ProcedureSummaryStore.saveHumidityAnswer(this, answer)
+            AppDiagnostics.record("Preparacion de especulo completada")
             startActivity(Intent(this, MaterialChecklistActivity::class.java))
-            finish()
+        }
+        findViewById<Button>(R.id.previousButton).also { previousButton ->
+            placeBackButtonBelowNext(previousButton, nextButton)
+            previousButton.setOnClickListener { finish() }
         }
     }
 }

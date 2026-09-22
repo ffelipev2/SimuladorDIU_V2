@@ -42,11 +42,15 @@ class ClampPreparationActivity : AppCompatActivity(), BleScaleListener {
         findViewById<RadioGroup>(R.id.clampSoundRadioGroup)
             .setOnCheckedChangeListener { _, checkedId -> nextButton.isEnabled = checkedId != -1 }
         nextButton.setOnClickListener { beginTare() }
+        findViewById<Button>(R.id.previousButton).also { previousButton ->
+            placeBackButtonBelowNext(previousButton, nextButton)
+            previousButton.setOnClickListener { finish() }
+        }
     }
 
     override fun onDestroy() {
         handler.removeCallbacksAndMessages(null)
-        if (!handoffBleConnection) BleConnectionStore.close()
+        if (isFinishing && !handoffBleConnection) BleConnectionStore.close()
         super.onDestroy()
     }
 
@@ -60,6 +64,7 @@ class ClampPreparationActivity : AppCompatActivity(), BleScaleListener {
             return
         }
         tareStarted = true
+        AppDiagnostics.record("Tara iniciada desde preparacion de pinzamiento")
         tareObservedInFirmware = false
         nextButton.isEnabled = false
         nextButton.text = "Realizando tara…"
@@ -94,6 +99,7 @@ class ClampPreparationActivity : AppCompatActivity(), BleScaleListener {
         tareProgress.visibility = View.GONE
         tareStatus.text = "✓ Tara completada correctamente"
         nextButton.text = "Continuando…"
+        AppDiagnostics.record("Tara completada; abriendo simulacion")
         handler.postDelayed({
             handoffBleConnection = true
             startActivity(Intent(this, MainActivity::class.java))
@@ -102,6 +108,7 @@ class ClampPreparationActivity : AppCompatActivity(), BleScaleListener {
     }
 
     private fun showTareFailure(message: String) {
+        AppDiagnostics.record("Tara fallida: $message")
         tareStarted = false
         tareObservedInFirmware = false
         handler.removeCallbacks(tareTimeout)

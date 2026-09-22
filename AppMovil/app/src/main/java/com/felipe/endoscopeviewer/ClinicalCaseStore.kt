@@ -18,4 +18,11 @@ object ClinicalCaseStore {
         val preferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
         return preferences.takeIf { it.contains(CASE_CM_KEY) }?.getInt(CASE_CM_KEY, 0)
     }
+
+    fun clear(context: Context) {
+        context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
+            .edit()
+            .clear()
+            .apply()
+    }
 }

@@ -166,10 +166,26 @@
                 android:textSize="13sp" />
 
             <Button
+                android:id="@+id/previousButton"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/button_primary"
+                android:backgroundTint="@null"
+                android:drawableStart="@drawable/ic_arrow_left_purple"
+                android:drawablePadding="8dp"
+                android:drawableTint="@android:color/white"
+                android:text="Volver"
+                android:textAllCaps="false"
+                android:textColor="@color/button_primary_text"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <Button
                 android:id="@+id/caseNextButton"
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
-                android:layout_marginTop="18dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/button_primary"
                 android:backgroundTint="@null"
                 android:drawableEnd="@drawable/ic_arrow_right_primary"

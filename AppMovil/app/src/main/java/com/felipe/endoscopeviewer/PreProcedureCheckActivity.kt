@@ -16,9 +16,14 @@ class PreProcedureCheckActivity : AppCompatActivity() {
             view.setPadding(bars.left, bars.top, bars.right, bars.bottom)
             insets
         }
-        findViewById<Button>(R.id.preProcedureNextButton).setOnClickListener {
+        val nextButton = findViewById<Button>(R.id.preProcedureNextButton)
+        nextButton.setOnClickListener {
+            AppDiagnostics.record("Evaluacion previa completada")
             startActivity(Intent(this, SpeculumPreparationActivity::class.java))
-            finish()
+        }
+        findViewById<Button>(R.id.previousButton).also { previousButton ->
+            placeBackButtonBelowNext(previousButton, nextButton)
+            previousButton.setOnClickListener { finish() }
         }
     }
 }

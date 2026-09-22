@@ -23,6 +23,10 @@ object ProcedureSummaryStore {
     fun actionCompleted(context: Context, action: String): Boolean =
         preferences(context).getBoolean(ACTION_PREFIX + action, false)
 
+    fun clear(context: Context) {
+        preferences(context).edit().clear().apply()
+    }
+
     private fun preferences(context: Context) =
         context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
 

@@ -33,6 +33,7 @@ import android.widget.ProgressBar
 import android.widget.ScrollView
 import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -44,6 +45,7 @@ import com.jiangdg.ausbc.callback.ICameraStateCallBack
 import com.jiangdg.ausbc.camera.CameraUVC
 import com.jiangdg.ausbc.camera.bean.CameraRequest
 import com.jiangdg.ausbc.render.env.RotateType
+import com.jiangdg.ausbc.utils.CameraUtils.isUsbCamera
 import com.jiangdg.ausbc.widget.AspectRatioSurfaceView
 import org.json.JSONArray
 import org.json.JSONObject
@@ -58,6 +60,7 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
     private lateinit var cameraOverlay: TextView
     private lateinit var cameraStatus: TextView
     private lateinit var switchCameraButton: Button
+    private lateinit var refreshCameraButton: ImageButton
     private lateinit var bleStatus: TextView
     private lateinit var connectionBadge: TextView
     private lateinit var currentWeight: TextView
@@ -67,10 +70,12 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
     private lateinit var tareButton: Button
     private lateinit var tareProgress: ProgressBar
     private lateinit var bluetoothButton: Button
-    private lateinit var measuredValueSpinner: Spinner
-    private lateinit var procedureChecks: List<CheckBox>
-    private lateinit var procedureProgress: TextView
-    private lateinit var procedureNextButton: Button
+    // Se conservan opcionales para que el fragmento tolere futuras variantes
+    // de interfaz sin fallar durante su inicializacion.
+    private var measuredValueSpinner: Spinner? = null
+    private var procedureChecks: List<CheckBox> = emptyList()
+    private var procedureProgress: TextView? = null
+    private var procedureNextButton: Button? = null
     private lateinit var sensorInfoButton: ImageButton
     private lateinit var historyList: LinearLayout
     private lateinit var historySelectedText: TextView
@@ -146,12 +151,26 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
         }
     }
 
+    private val diagnosticsExportLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        val uri = result.data?.data ?: return@registerForActivityResult
+        val currentContext = context ?: return@registerForActivityResult
+        val exported = AppDiagnostics.exportTo(currentContext, uri)
+        Toast.makeText(
+            currentContext,
+            if (exported) "Registros guardados correctamente." else "No se pudieron guardar los registros.",
+            Toast.LENGTH_LONG
+        ).show()
+    }
+
     override fun getRootView(inflater: LayoutInflater, container: ViewGroup?): View {
         val root = inflater.inflate(R.layout.fragment_usb_camera, container, false)
         cameraContainer = root.findViewById(R.id.cameraViewContainer)
         cameraOverlay = root.findViewById(R.id.cameraStatusText)
         cameraStatus = root.findViewById(R.id.statusText)
         switchCameraButton = root.findViewById(R.id.switchCameraButton)
+        refreshCameraButton = root.findViewById(R.id.refreshCameraButton)
         bleStatus = root.findViewById(R.id.bleStatusText)
         connectionBadge = root.findViewById(R.id.connectionBadge)
         currentWeight = root.findViewById(R.id.currentWeightText)
@@ -162,7 +181,7 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
         tareProgress = root.findViewById(R.id.tareProgress)
         bluetoothButton = root.findViewById(R.id.bluetoothButton)
         measuredValueSpinner = root.findViewById(R.id.measuredValueSpinner)
-        procedureChecks = listOf(
+        procedureChecks = listOfNotNull(
             root.findViewById(R.id.loadDiuCheck),
             root.findViewById(R.id.fixMeasurementCheck),
             root.findViewById(R.id.releaseCheck),
@@ -181,6 +200,10 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
         thresholdsContent = root.findViewById(R.id.thresholdsContent)
         thresholdsList = root.findViewById(R.id.thresholdsList)
 
+        // Cada nueva simulacion comienza sin una medicion preseleccionada.
+        measuredValue = null
+        procedureChecks.forEach { it.isChecked = false }
+
         listOf(
             switchCameraButton,
             bluetoothButton,
@@ -191,26 +214,35 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
         ).forEach { it.backgroundTintList = null }
 
         bleManager = BleConnectionStore.acquire(requireContext(), this)
-        measuredValueSpinner.adapter = ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_spinner_item,
-            listOf("Selecciona un valor") + (4..15).map(Int::toString)
-        ).apply {
-            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        }
-        measuredValueSpinner.setSelection(0, false)
-        measuredValueSpinner.setOnItemSelectedListener(object : android.widget.AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: android.widget.AdapterView<*>, view: View?, position: Int, id: Long) {
-                measuredValue = if (position == 0) null else position + 3
-                updateProcedureState()
+        measuredValueSpinner?.apply {
+            adapter = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                listOf("Seleccionar un valor") + (4..15).map(Int::toString)
+            ).apply {
+                setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             }
-            override fun onNothingSelected(parent: android.widget.AdapterView<*>) = Unit
-        })
+            setSelection(0, false)
+            onItemSelectedListener = object : android.widget.AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: android.widget.AdapterView<*>,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    measuredValue = if (position == 0) null else position + 3
+                    updateProcedureState()
+                }
+
+                override fun onNothingSelected(parent: android.widget.AdapterView<*>) = Unit
+            }
+        }
         procedureChecks.forEach { checkBox ->
             checkBox.setOnCheckedChangeListener { _, _ -> updateProcedureState() }
         }
-        procedureNextButton.setOnClickListener { finishProcedure() }
+        procedureNextButton?.setOnClickListener { finishProcedure() }
         switchCameraButton.setOnClickListener { selectNextCamera() }
+        refreshCameraButton.setOnClickListener { refreshCameraDetection() }
         bluetoothButton.setOnClickListener { connectBluetooth() }
         sensorInfoButton.setOnClickListener { showSensorStatusDialog() }
         clearHistoryButton.setOnClickListener { clearPressHistory() }
@@ -240,6 +272,10 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
         updateZone('B', alarm = false, humidityDetected = false)
         updateProcedureState()
         updateSensorInfoIcon()
+        AppDiagnostics.record(
+            "Vista de simulacion creada en " +
+                if (isWideLandscape()) "horizontal de tablet" else "vista estandar"
+        )
         return root
     }
 
@@ -264,14 +300,14 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
     }
 
     private fun updateProcedureState() {
-        if (!::procedureProgress.isInitialized) return
+        val progress = procedureProgress ?: return
         val checkedCount = procedureChecks.count { it.isChecked }
         val hasMeasuredValue = measuredValue != null
-        procedureProgress.text = when {
+        progress.text = when {
             !hasMeasuredValue -> "$checkedCount de ${procedureChecks.size} pasos listos · selecciona el valor medido"
             else -> "$checkedCount de ${procedureChecks.size} pasos listos · valor medido: $measuredValue"
         }
-        procedureNextButton.isEnabled = hasMeasuredValue && checkedCount == procedureChecks.size
+        procedureNextButton?.isEnabled = hasMeasuredValue && checkedCount == procedureChecks.size
     }
 
     private fun finishProcedure() {
@@ -388,6 +424,7 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
                     openingDeviceId = null
                     lastCameraError = msg ?: "revisa la conexión USB"
                     lastCameraErrorDeviceId = self.getUsbDevice().deviceId
+                    AppDiagnostics.record("Error de camara USB $slot: ${lastCameraError}")
                     showCameraMessage(
                         "No se pudo abrir la cámara $slot: ${msg ?: "revisa la conexión USB"}"
                     )
@@ -431,6 +468,54 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
         }, CAMERA_SWITCH_DELAY_MS)
     }
 
+    /**
+     * Revisa los dispositivos USB ya conectados. Es útil si Android no envió
+     * el evento de conexión al enchufar la cámara antes de abrir la simulación.
+     */
+    private fun refreshCameraDetection() {
+        if (!isAdded) return
+
+        showCameraMessage("Buscando cámara USB...")
+        val devices = getDeviceList().orEmpty().filter(::isUsbCamera)
+        if (devices.isEmpty()) {
+            cameraStatus.text = "No se detectó una cámara USB. Revisa el cable OTG y actualiza."
+            showCameraMessage("No se detectó una cámara USB")
+            AppDiagnostics.record("Actualización de cámara: no se detectaron dispositivos USB compatibles")
+            updateCameraControls()
+            return
+        }
+
+        devices.forEach { device ->
+            if (getCameraMap()[device.deviceId] == null) {
+                generateCamera(requireContext(), device).also { camera ->
+                    getCameraMap()[device.deviceId] = camera
+                    onCameraAttached(camera)
+                }
+            }
+            if (!connectedCameraIds.contains(device.deviceId)) {
+                requestPermission(device)
+            }
+        }
+
+        val selectedCamera = selectedDeviceId?.let { getCameraMap()[it] }
+            ?: devices.firstNotNullOfOrNull { device -> getCameraMap()[device.deviceId] }
+            ?: return
+        selectedDeviceId = selectedCamera.getUsbDevice().deviceId
+        val selectedId = selectedCamera.getUsbDevice().deviceId
+
+        if (connectedCameraIds.contains(selectedId)) {
+            cameraContainer.postDelayed({
+                if (isAdded && selectedDeviceId == selectedId) {
+                    openSelectedCamera(selectedCamera)
+                }
+            }, CAMERA_SWITCH_DELAY_MS)
+        } else {
+            showCameraMessage("Solicitando acceso a la cámara...")
+        }
+        AppDiagnostics.record("Actualización manual de cámara: ${devices.size} dispositivo(s) detectado(s)")
+        updateCameraControls()
+    }
+
     private fun openSelectedCamera(camera: MultiCameraClient.ICamera) {
         val deviceId = camera.getUsbDevice().deviceId
         if (
@@ -465,6 +550,18 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 Gravity.CENTER
             )
+        )
+        (refreshCameraButton.parent as? ViewGroup)?.removeView(refreshCameraButton)
+        cameraContainer.addView(
+            refreshCameraButton,
+            FrameLayout.LayoutParams(
+                dp(44f),
+                dp(44f),
+                Gravity.TOP or Gravity.END
+            ).apply {
+                topMargin = dp(8f)
+                marginEnd = dp(8f)
+            }
         )
 
         cameraView.holder.addCallback(object : SurfaceHolder.Callback {
@@ -1134,8 +1231,14 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
             .setIcon(R.drawable.ic_info_purple)
             .setTitle(R.string.equipment_status_title)
             .setView(content)
+            .setNeutralButton("Guardar registros") { _, _ -> exportDiagnostics() }
             .setPositiveButton(R.string.equipment_status_close, null)
             .show()
+    }
+
+    private fun exportDiagnostics() {
+        AppDiagnostics.record("Se solicito exportar registros desde Estado del equipo")
+        diagnosticsExportLauncher.launch(AppDiagnostics.createExportIntent())
     }
 
     private fun bindEquipmentStatusRow(row: View, status: EquipmentStatusItem) {
@@ -1274,6 +1377,7 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
         tareFirmwareStarted = false
         legacyTareZeroSamples = 0
         tareStartedAt = SystemClock.elapsedRealtime()
+        AppDiagnostics.record("Tara iniciada")
 
         tareProgress.visibility = View.VISIBLE
         tareButton.text = "Realizando…"
@@ -1341,6 +1445,7 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
         tareUiActive = false
         tareFirmwareStarted = false
         uiHandler.removeCallbacks(tareTimeout)
+        AppDiagnostics.record("Tara ${if (success) "completada" else "fallida"}: $message")
 
         tareProgress.visibility = View.GONE
         tareButton.setCompoundDrawablesRelativeWithIntrinsicBounds(
