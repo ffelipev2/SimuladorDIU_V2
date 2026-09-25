@@ -57,6 +57,9 @@ import kotlin.math.max
 
 class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateCallBack {
     private lateinit var cameraContainer: FrameLayout
+    private var cameraHistoryPanel: LinearLayout? = null
+    private var cameraColumn: LinearLayout? = null
+    private var historyColumn: LinearLayout? = null
     private lateinit var cameraOverlay: TextView
     private lateinit var cameraStatus: TextView
     private lateinit var switchCameraButton: Button
@@ -167,6 +170,9 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
     override fun getRootView(inflater: LayoutInflater, container: ViewGroup?): View {
         val root = inflater.inflate(R.layout.fragment_usb_camera, container, false)
         cameraContainer = root.findViewById(R.id.cameraViewContainer)
+        cameraHistoryPanel = root.findViewById(R.id.cameraHistoryPanel)
+        cameraColumn = root.findViewById(R.id.cameraColumn)
+        historyColumn = root.findViewById(R.id.historyColumn)
         cameraOverlay = root.findViewById(R.id.cameraStatusText)
         cameraStatus = root.findViewById(R.id.statusText)
         switchCameraButton = root.findViewById(R.id.switchCameraButton)
@@ -215,6 +221,8 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
 
         bleManager = BleConnectionStore.acquire(requireContext(), this)
         measuredValueSpinner?.apply {
+            setBackgroundResource(R.drawable.measured_value_selector_background)
+            isActivated = false
             adapter = ArrayAdapter(
                 requireContext(),
                 android.R.layout.simple_spinner_item,
@@ -231,10 +239,15 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
                     id: Long
                 ) {
                     measuredValue = if (position == 0) null else position + 3
+                    parent.isActivated = measuredValue != null
                     updateProcedureState()
                 }
 
-                override fun onNothingSelected(parent: android.widget.AdapterView<*>) = Unit
+                override fun onNothingSelected(parent: android.widget.AdapterView<*>) {
+                    measuredValue = null
+                    parent.isActivated = false
+                    updateProcedureState()
+                }
             }
         }
         procedureChecks.forEach { checkBox ->
@@ -272,6 +285,7 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
         updateZone('B', alarm = false, humidityDetected = false)
         updateProcedureState()
         updateSensorInfoIcon()
+        applyCameraHistoryOrientation(resources.configuration)
         AppDiagnostics.record(
             "Vista de simulacion creada en " +
                 if (isWideLandscape()) "horizontal de tablet" else "vista estandar"
@@ -282,6 +296,41 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
     override fun onResume() {
         super.onResume()
         if (::cameraStatus.isInitialized) updateCameraControls()
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        applyCameraHistoryOrientation(newConfig)
+        if (::historySelectedText.isInitialized) {
+            val selectedRecordText = historySelectedText.text
+            val selectedRecordColor = historySelectedText.currentTextColor
+            renderPressHistory()
+            historySelectedText.text = selectedRecordText
+            historySelectedText.setTextColor(selectedRecordColor)
+        }
+    }
+
+    private fun applyCameraHistoryOrientation(configuration: Configuration) {
+        val panel = cameraHistoryPanel ?: return
+        val camera = cameraColumn ?: return
+        val history = historyColumn ?: return
+        val sideBySide = configuration.smallestScreenWidthDp >= 600 &&
+            configuration.screenWidthDp >= 800 &&
+            configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+
+        panel.orientation = if (sideBySide) LinearLayout.HORIZONTAL else LinearLayout.VERTICAL
+        camera.layoutParams = (camera.layoutParams as LinearLayout.LayoutParams).apply {
+            width = if (sideBySide) dp(360f) else ViewGroup.LayoutParams.MATCH_PARENT
+            height = ViewGroup.LayoutParams.WRAP_CONTENT
+            weight = 0f
+        }
+        history.layoutParams = (history.layoutParams as LinearLayout.LayoutParams).apply {
+            width = if (sideBySide) 0 else ViewGroup.LayoutParams.MATCH_PARENT
+            height = ViewGroup.LayoutParams.WRAP_CONTENT
+            weight = if (sideBySide) 1f else 0f
+            marginStart = if (sideBySide) dp(18f) else 0
+            topMargin = if (sideBySide) 0 else dp(12f)
+        }
     }
 
     override fun clear() {
@@ -832,7 +881,8 @@ class UsbCameraFragment : MultiCameraFragment(), BleScaleListener, ICameraStateC
     }
 
     private fun createHistoryRow(record: PressRecord): View {
-        if (!isWideLandscape()) {
+        // El historial comparte la fila con la cámara en tablets estrechas.
+        if (!isWideLandscape() || resources.configuration.screenWidthDp < 960) {
             val zoneColor = colorForZone(record.zone)
             return TextView(requireContext()).apply {
                 text = String.format(

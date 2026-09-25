@@ -1,6 +1,7 @@
 package com.felipe.endoscopeviewer
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
@@ -57,13 +58,20 @@ class ProcedureSummaryActivity : AppCompatActivity() {
     }
 
     private fun addStatus(container: LinearLayout, label: String, detail: String, completed: Boolean) {
+        val tabletLandscape = resources.configuration.smallestScreenWidthDp >= 600 &&
+            resources.configuration.screenWidthDp >= 800 &&
+            resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
         val color = if (completed) Color.rgb(35, 122, 67) else Color.rgb(180, 35, 47)
         val row = TextView(this).apply {
-            text = "${if (completed) "✓" else "•"}  $label · $detail"
+            text = if (tabletLandscape) {
+                "${if (completed) "✓" else "•"}  $label\n$detail"
+            } else {
+                "${if (completed) "✓" else "•"}  $label · $detail"
+            }
             setTextColor(Color.rgb(23, 33, 58))
             textSize = 14f
             gravity = Gravity.CENTER_VERTICAL
-            minHeight = dp(48)
+            minHeight = dp(if (tabletLandscape) 62 else 48)
             setPadding(dp(12), dp(6), dp(12), dp(6))
             background = GradientDrawable().apply {
                 cornerRadius = dp(10).toFloat()
@@ -71,10 +79,24 @@ class ProcedureSummaryActivity : AppCompatActivity() {
                 setStroke(dp(1), color)
             }
         }
-        container.addView(row, LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
-        ).apply { topMargin = dp(8) })
+        if (tabletLandscape) {
+            val last = container.getChildAt(container.childCount - 1) as? LinearLayout
+            val gridRow = if (last != null && last.childCount == 1) last else LinearLayout(this).apply {
+                orientation = LinearLayout.HORIZONTAL
+                container.addView(this, LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply { topMargin = dp(10) })
+            }
+            gridRow.addView(row, LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f).apply {
+                if (gridRow.childCount > 0) marginStart = dp(12)
+            })
+        } else {
+            container.addView(row, LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply { topMargin = dp(8) })
+        }
     }
 
     private fun dp(value: Int): Int = (value * resources.displayMetrics.density).toInt()

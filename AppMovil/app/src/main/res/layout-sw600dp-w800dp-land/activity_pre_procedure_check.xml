@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/preProcedureRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/sim_background">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/tablet_gutter"
+            android:paddingTop="24dp"
+            android:paddingEnd="@dimen/tablet_gutter"
+            android:paddingBottom="28dp">
+            <ImageView
+                android:layout_width="164dp"
+                android:layout_height="44dp"
+                android:contentDescription="@string/logo_description"
+                android:scaleType="fitCenter"
+                android:src="@drawable/simgyo_logo" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="26dp"
+                android:gravity="center_horizontal"
+                android:text="PREPARACIÓN"
+                android:textColor="#42C878"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center_horizontal"
+                android:text="Evaluación previa"
+                android:textColor="#0D2340"
+                android:textSize="27sp"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:orientation="horizontal">
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:background="@drawable/panel_background"
+                    android:elevation="5dp"
+                    android:orientation="vertical"
+                    android:padding="24dp"
+                    android:layout_weight="8">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lineSpacingExtra="4dp"
+                        android:text="@string/pre_procedure_pregnancy_check"
+                        android:textColor="#263851"
+                        android:textSize="17sp" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:background="#E5E2EC" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lineSpacingExtra="4dp"
+                        android:text="@string/pre_procedure_bimanual_exam"
+                        android:textColor="#263851"
+                        android:textSize="17sp" />
+                </LinearLayout>
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+            </LinearLayout>
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <FrameLayout
+                    android:layout_width="280dp"
+                    android:layout_height="56dp">
+                    <Button
+                        android:id="@+id/previousButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="0dp"
+                        android:background="@drawable/button_primary"
+                        android:backgroundTint="@null"
+                        android:drawableStart="@drawable/ic_arrow_left_purple"
+                        android:drawablePadding="8dp"
+                        android:drawableTint="@android:color/white"
+                        android:text="Volver"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </FrameLayout>
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+                <FrameLayout
+                    android:layout_width="320dp"
+                    android:layout_height="56dp">
+                    <Button
+                        android:id="@+id/preProcedureNextButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="0dp"
+                        android:background="@drawable/button_primary"
+                        android:backgroundTint="@null"
+                        android:drawableEnd="@drawable/ic_arrow_right_primary"
+                        android:drawablePadding="8dp"
+                        android:text="@string/welcome_next"
+                        android:textAllCaps="false"
+                        android:textColor="@color/button_primary_text"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </FrameLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

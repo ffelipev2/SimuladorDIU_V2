@@ -90,9 +90,15 @@ object AppDiagnostics {
         val packageInfo = runCatching {
             context.packageManager.getPackageInfo(context.packageName, 0)
         }.getOrNull()
+        val versionCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            packageInfo?.longVersionCode
+        } else {
+            @Suppress("DEPRECATION")
+            packageInfo?.versionCode?.toLong()
+        } ?: 0L
         appendLine("SimGyO DIU - registros de diagnostico")
         appendLine("Generado: ${timestampFormat.format(Date())}")
-        appendLine("Version: ${packageInfo?.versionName ?: "desconocida"} (${packageInfo?.longVersionCode ?: 0})")
+        appendLine("Version: ${packageInfo?.versionName ?: "desconocida"} ($versionCode)")
         appendLine("Android: ${Build.VERSION.RELEASE} (SDK ${Build.VERSION.SDK_INT})")
         appendLine("Dispositivo: ${Build.MANUFACTURER} ${Build.MODEL}")
         appendLine()

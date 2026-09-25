@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/sim_background">
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:overScrollMode="ifContentScrolls">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/tablet_gutter"
+            android:paddingTop="8dp"
+            android:paddingEnd="@dimen/tablet_gutter"
+            android:paddingBottom="24dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="140dp"
+                    android:layout_height="40dp"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="Logo SimGyo"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/simgyo_logo" />
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+                <TextView
+                    android:id="@+id/connectionBadge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:background="@drawable/badge_disconnected"
+                    android:gravity="center"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:text="○  SIN CONEXIÓN"
+                    android:textColor="#D73535"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+                <ImageButton
+                    android:id="@+id/sensorInfoButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="8dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/sensor_info_description"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_info_purple" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/panel_background"
+                android:elevation="5dp"
+                android:orientation="vertical"
+                android:padding="12dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="FUERZA ACTUAL"
+                            android:textColor="#69708F"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/currentWeightText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:includeFontPadding="false"
+                            android:text="0.00 g"
+                            android:textColor="#4210B1"
+                            android:textSize="38sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/zoneText"
+                            android:layout_width="90dp"
+                            android:layout_height="32dp"
+                            android:gravity="center"
+                            android:text="AZUL"
+                            android:textColor="#2857D7"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/lastWeightText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="Último: 0.00 g"
+                            android:textColor="#68708D"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+                </LinearLayout>
+                <com.felipe.endoscopeviewer.ForceGaugeView
+                    android:id="@+id/forceGauge"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:importantForAccessibility="yes" />
+                <TextView
+                    android:id="@+id/bleStatusText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:gravity="center"
+                    android:text="•  Conecta el dispositivo ESP32-S3"
+                    android:textColor="#68708D"
+                    android:textSize="12sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:gravity="bottom"
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/bluetoothButton"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_primary"
+                        android:backgroundTint="@null"
+                        android:drawableStart="@drawable/ic_link_white"
+                        android:drawablePadding="5dp"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:minWidth="0dp"
+                        android:paddingStart="4dp"
+                        android:paddingEnd="4dp"
+                        android:stateListAnimator="@null"
+                        android:text="Conectar dispositivo"
+                        android:textAllCaps="false"
+                        android:textColor="@color/button_primary_text"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1">
+                        <Button
+                            android:id="@+id/tareButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/button_outline"
+                            android:backgroundTint="@null"
+                            android:drawableStart="@drawable/ic_scale_purple"
+                            android:drawablePadding="5dp"
+                            android:enabled="false"
+                            android:gravity="center"
+                            android:maxLines="1"
+                            android:minWidth="0dp"
+                            android:paddingStart="4dp"
+                            android:paddingEnd="4dp"
+                            android:stateListAnimator="@null"
+                            android:text="Realizar tara"
+                            android:textAllCaps="false"
+                            android:textColor="@color/button_outline_text"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+                        <ProgressBar
+                            android:id="@+id/tareProgress" style="?android:attr/progressBarStyleSmall"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="end|center_vertical"
+                            android:layout_marginEnd="10dp"
+                            android:indeterminate="true"
+                            android:indeterminateTint="#4B12B5"
+                            android:visibility="gone" />
+                    </FrameLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1.2"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="VALOR MEDIDO"
+                            android:textColor="#5E6480"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+                        <Spinner
+                            android:id="@+id/measuredValueSpinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/button_outline"
+                            android:paddingStart="14dp"
+                            android:paddingEnd="14dp"
+                            android:saveEnabled="false" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/cameraHistoryPanel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/panel_background"
+                android:elevation="5dp"
+                android:orientation="horizontal"
+                android:padding="12dp"
+                android:gravity="top">
+                <LinearLayout
+                    android:id="@+id/cameraColumn"
+                    android:layout_width="360dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="CÁMARA EN VIVO"
+                                android:textColor="#102641"
+                                android:textSize="13sp"
+                                android:textStyle="bold" />
+                            <TextView
+                                android:id="@+id/statusText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:text="Conecta una cámara mediante OTG"
+                                android:textColor="#747B98"
+                                android:textSize="11sp" />
+                        </LinearLayout>
+                        <Button
+                            android:id="@+id/switchCameraButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="42dp"
+                            android:background="@drawable/tab_unselected_background"
+                            android:backgroundTint="@null"
+                            android:drawableStart="@drawable/ic_camera_blue"
+                            android:drawablePadding="5dp"
+                            android:enabled="false"
+                            android:stateListAnimator="@null"
+                            android:text="Sin otra cámara"
+                            android:textAllCaps="false"
+                            android:textColor="@color/button_outline_text"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                    <FrameLayout
+                        android:id="@+id/cameraViewContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="270dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/camera_background"
+                        android:clipToOutline="true">
+                        <TextView
+                            android:id="@+id/cameraStatusText"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:drawableTop="@drawable/ic_camera_blue"
+                            android:drawablePadding="14dp"
+                            android:gravity="center"
+                            android:padding="18dp"
+                            android:text="Esperando cámara USB"
+                            android:textColor="#575E7D"
+                            android:textSize="14sp" />
+                        <ImageButton
+                            android:id="@+id/refreshCameraButton"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            android:layout_gravity="top|end"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:background="@drawable/tab_unselected_background"
+                            android:backgroundTint="@null"
+                            android:contentDescription="Volver a detectar cámara USB"
+                            android:padding="10dp"
+                            android:src="@drawable/ic_refresh_camera" />
+                    </FrameLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/historyColumn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:background="@drawable/checklist_item_background"
+                    android:elevation="0dp"
+                    android:orientation="vertical"
+                    android:padding="12dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="18dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="REGISTROS DEL DISPOSITIVO"
+                            android:textColor="#102641"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+                        <Button
+                            android:id="@+id/clearHistoryButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:background="@drawable/tab_unselected_background"
+                            android:backgroundTint="@null"
+                            android:drawableStart="@drawable/ic_trash_white"
+                            android:drawablePadding="5dp"
+                            android:enabled="false"
+                            android:stateListAnimator="@null"
+                            android:text="Limpiar"
+                            android:textAllCaps="false"
+                            android:textColor="@color/button_outline_text"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="46dp"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+                        <Button
+                            android:id="@+id/historyTabButton"
+                            android:layout_width="0dp"
+                            android:layout_height="46dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/tab_selected_background"
+                            android:backgroundTint="@null"
+                            android:drawableStart="@drawable/ic_history_blue"
+                            android:drawablePadding="7dp"
+                            android:stateListAnimator="@null"
+                            android:text="Historial"
+                            android:textAllCaps="false"
+                            android:textColor="@android:color/white"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+                        <Button
+                            android:id="@+id/thresholdsTabButton"
+                            android:layout_width="0dp"
+                            android:layout_height="46dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/tab_unselected_background"
+                            android:backgroundTint="@null"
+                            android:drawableStart="@drawable/ic_thresholds_gray"
+                            android:drawablePadding="7dp"
+                            android:stateListAnimator="@null"
+                            android:text="Umbrales"
+                            android:textAllCaps="false"
+                            android:textColor="#4B12B5"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/historySelectedText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="Sin registros. Presiona y suelta el dispositivo."
+                        android:textColor="#747B98"
+                        android:textSize="11sp" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="12dp"
+                        android:background="@drawable/divider_light" />
+                    <androidx.core.widget.NestedScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:fillViewport="true"
+                        android:overScrollMode="ifContentScrolls"
+                        android:scrollbars="vertical">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <LinearLayout
+                                android:id="@+id/historyContent"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:minHeight="170dp"
+                                android:orientation="vertical">
+                                <LinearLayout
+                                    android:id="@+id/historyList"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical" />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/thresholdsContent"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:minHeight="170dp"
+                                android:orientation="vertical"
+                                android:visibility="gone">
+                                <LinearLayout
+                                    android:id="@+id/thresholdsList"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </androidx.core.widget.NestedScrollView>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:background="@drawable/panel_background"
+                android:orientation="vertical"
+                android:padding="18dp"
+                android:layout_weight="0"
+                android:layout_marginStart="0dp"
+                android:elevation="5dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="CHECKLIST DEL PROCEDIMIENTO"
+                    android:textColor="#102641"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+                <CheckBox
+                    android:id="@+id/loadDiuCheck"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="10dp"
+                    android:buttonTint="@color/material_checkbox_tint"
+                    android:gravity="center_vertical"
+                    android:text="Cargar el DIU"
+                    android:textColor="#263851"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+                <CheckBox
+                    android:id="@+id/fixMeasurementCheck"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:buttonTint="@color/material_checkbox_tint"
+                    android:gravity="center_vertical"
+                    android:text="Fijar medición"
+                    android:textColor="#263851"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+                <CheckBox
+                    android:id="@+id/releaseCheck"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:buttonTint="@color/material_checkbox_tint"
+                    android:gravity="center_vertical"
+                    android:text="Liberar"
+                    android:textColor="#263851"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+                <CheckBox
+                    android:id="@+id/successfulRemovalCheck"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:buttonTint="@color/material_checkbox_tint"
+                    android:gravity="center_vertical"
+                    android:text="Retiro Exitoso"
+                    android:textColor="#263851"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+                <CheckBox
+                    android:id="@+id/cutThreadsCheck"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:buttonTint="@color/material_checkbox_tint"
+                    android:gravity="center_vertical"
+                    android:text="Cortar Hilos"
+                    android:textColor="#263851"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/procedureProgressText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:textColor="#69708F"
+                    android:textSize="12sp" />
+                <Button
+                    android:id="@+id/procedureNextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/button_primary"
+                    android:backgroundTint="@null"
+                    android:drawableEnd="@drawable/ic_arrow_right_primary"
+                    android:drawablePadding="8dp"
+                    android:enabled="false"
+                    android:text="Siguiente"
+                    android:textAllCaps="false"
+                    android:textColor="@color/button_primary_text"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:minWidth="260dp"
+                    android:layout_gravity="end" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</FrameLayout>
