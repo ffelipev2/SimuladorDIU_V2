@@ -12,7 +12,7 @@ App nativa Android para:
   cámaras USB y motor.
 
 La versión actual incorpora la identidad **SimGYODIU**, icono amarillo y un
-flujo clínico guiado: selección de profundidad uterina, evaluación previa,
+flujo clínico guiado: selección de caso clínico, evaluación previa,
 confirmación de humedad, checklist de materiales, preparación de pinzamiento,
 tara visible y simulador. El eje se posiciona automáticamente según el caso y
 la conexión BLE se conserva entre estas pantallas. Bajo la cámara se debe
@@ -30,6 +30,49 @@ se conecta después de que el usuario selecciona uno.
 La interfaz se adapta a orientación vertical y horizontal, y la pantalla
 principal es desplazable para conservar todos los controles en teléfonos de
 distintos tamaños.
+
+## Guardar y finalizar el entrenamiento
+
+Los botones muestran únicamente **Caso clínico 1**, **2** y **3**. Las
+profundidades de 5, 8 y 12 cm se conservan internamente y se revelan en el
+resumen final.
+
+La pantalla final tiene únicamente dos botones:
+
+- **Guardar y finalizar**: requiere **Nombre y apellido**, guarda el PDF en
+  **Descargas/SimGyO-DIU**, termina la simulación y abre la ventana de Android
+  para compartirlo de manera opcional. Al cerrar esa ventana, el usuario vuelve
+  al inicio para realizar otra simulación.
+- **Finalizar**: termina la simulación y vuelve al inicio sin guardar ningún
+  resultado; el nombre y apellido no son obligatorios para esta opción.
+
+El PDF A4 incluye nombre y apellido, fecha, identificador único, profundidad
+real, medida registrada, diferencia absoluta y estado de las acciones. El
+nombre del archivo también contiene el nombre y apellido, la fecha y el mismo
+identificador UUID para distinguir cada documento y evitar sobrescrituras.
+El formato del archivo es
+`SimGyO_resultados_<nombre_y_apellido>_<AAAAMMDD_HHMMSS>_<UUID>.pdf`.
+El aviso de nombre vacío desaparece al escribir. Si falla el guardado, la app
+conserva el resumen para poder reintentar.
+
+Ambas opciones limpian los datos de la sesión y cierran Bluetooth. El PDF
+guardado se conserva y también puede compartirse desde el administrador de
+archivos del dispositivo. La generación funciona sin conexión a Internet.
+Android 10 y posteriores no requieren permisos de almacenamiento; en Android
+9 y anteriores la app pide ese permiso al guardar.
+
+### Comprobación en el dispositivo
+
+1. Completa una simulación y comprueba que la profundidad se revela únicamente
+   en el resumen final.
+2. Pulsa **Guardar y finalizar** sin nombre: debe aparecer el aviso. Escribe
+   nombre y apellido y comprueba que el aviso desaparece.
+3. Guarda el informe y verifica que el PDF esté en **Descargas/SimGyO-DIU**,
+   con el nombre y apellido y el mismo UUID en su contenido y nombre de archivo.
+4. Cierra la ventana de compartir: debe quedar la pantalla inicial. Repite la
+   prueba compartiendo el archivo y comprueba que el PDF sigue guardado.
+5. Completa otra simulación y pulsa **Finalizar** con el nombre vacío: debe
+   volver al inicio sin crear otro PDF.
 
 ## Abrir el proyecto
 

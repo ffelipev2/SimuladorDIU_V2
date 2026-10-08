@@ -36,4 +36,18 @@
     <string name="humidity_alarm_question">¿Escuchaste la alarma de sensor de humedad?</string>
     <string name="clamp_preparation_instruction">Preparar todo para realizar pinzamiento y tracción.</string>
     <string name="clamp_sound_question">¿Se ha escuchado el sonido de la pinza?</string>
+    <string name="summary_student_name">Nombre y apellido</string>
+    <string name="summary_student_name_hint">Escribe tu nombre y apellido para guardar el PDF.</string>
+    <string name="summary_student_name_required">Escribe tu nombre y apellido.</string>
+    <string name="summary_save_and_finish">Guardar y finalizar</string>
+    <string name="summary_save_hint">Guardar y finalizar crea el PDF en Descargas y ofrece compartirlo. Finalizar vuelve al inicio sin guardar.</string>
+    <string name="summary_saving_pdf">Guardando PDF en Descargas…</string>
+    <string name="summary_pdf_saved">PDF guardado en Descargas/SimGyO-DIU.</string>
+    <string name="summary_saved_pdf_missing">El PDF guardado ya no está disponible. Guarda los resultados nuevamente.</string>
+    <string name="summary_storage_permission_required">Permite el acceso al almacenamiento para guardar el PDF en Descargas.</string>
+    <string name="summary_share_results">Compartir resultados</string>
+    <string name="summary_share_subject">Resultados SimGyO-DIU - %1$s</string>
+    <string name="summary_share_message">Resultados del entrenamiento de %1$s. El informe PDF está adjunto.</string>
+    <string name="summary_no_share_app">No hay una aplicación disponible para compartir el PDF.</string>
+    <string name="summary_pdf_error">No se pudo guardar el PDF en Descargas. Inténtalo nuevamente.</string>
 </resources>

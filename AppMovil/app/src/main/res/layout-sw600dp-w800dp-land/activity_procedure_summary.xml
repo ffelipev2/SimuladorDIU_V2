@@ -79,11 +79,53 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:orientation="vertical" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/summaryStudentNameLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:hint="@string/summary_student_name"
+                app:helperText="@string/summary_student_name_hint"
+                xmlns:app="http://schemas.android.com/apk/res-auto">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/summaryStudentName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:inputType="textCapWords|textPersonName"
+                    android:maxLength="80"
+                    android:singleLine="true"
+                    android:textColor="#0D2340"
+                    android:textSize="16sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                android:id="@+id/summarySavedReportStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:accessibilityLiveRegion="polite"
+                android:text="@string/summary_save_hint"
+                android:textColor="#5E6480"
+                android:textSize="14sp" />
+            <Button
+                android:id="@+id/summarySaveButton"
+                android:layout_width="320dp"
+                android:layout_height="56dp"
+                android:layout_gravity="end"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/button_results"
+                android:backgroundTint="@null"
+                android:text="@string/summary_save_and_finish"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold" />
             <Button
                 android:id="@+id/summaryFinishButton"
                 android:layout_width="320dp"
                 android:layout_height="56dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="12dp"
                 android:background="@drawable/button_primary"
                 android:backgroundTint="@null"
                 android:text="Finalizar"

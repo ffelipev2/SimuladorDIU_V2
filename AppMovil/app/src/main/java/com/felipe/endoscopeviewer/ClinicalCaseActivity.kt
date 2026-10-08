@@ -191,7 +191,7 @@ class ClinicalCaseActivity : AppCompatActivity(), BleScaleListener {
         pendingTargetHalfSteps = clinicalCase.targetHalfSteps
         ClinicalCaseStore.saveSelectedCm(this, clinicalCase.centimeters)
         selectionStatus.text =
-            "Caso ${clinicalCase.number} seleccionado: ${clinicalCase.centimeters} cm. Centrando y ajustando el eje…"
+            "Caso ${clinicalCase.number} seleccionado. Centrando y ajustando el eje…"
         nextButton.isEnabled = false
         updateCaseButtons()
 
@@ -215,9 +215,9 @@ class ClinicalCaseActivity : AppCompatActivity(), BleScaleListener {
                 if (button.isSelected) Color.rgb(88, 209, 132) else Color.WHITE
             )
             button.text = if (button.isSelected) {
-                "✓ Caso clínico ${clinicalCase.number}  ·  ${clinicalCase.centimeters} cm"
+                "✓ Caso clínico ${clinicalCase.number}"
             } else {
-                "Caso clínico ${clinicalCase.number}  ·  ${clinicalCase.centimeters} cm"
+                "Caso clínico ${clinicalCase.number}"
             }
             button.background = caseButtonBackground(
                 selected = button.isSelected,
@@ -249,7 +249,7 @@ class ClinicalCaseActivity : AppCompatActivity(), BleScaleListener {
             !state.motorCentering
         ) {
             pendingTargetHalfSteps = null
-            selectionStatus.text = "Caso seleccionado. El eje está listo en ${selectedCaseCm} cm."
+            selectionStatus.text = "Caso seleccionado. El eje está listo."
             nextButton.isEnabled = true
         }
         updateSensorInfoIcon()

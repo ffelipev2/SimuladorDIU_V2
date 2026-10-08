@@ -16,11 +16,11 @@ Contacto: [simgyo25@gmail.com](mailto:simgyo25@gmail.com)
 La aplicación se identifica como **SimGYODIU** y utiliza un icono con fondo
 amarillo. El entrenamiento guiado actual sigue esta secuencia:
 
-1. Bienvenida y selección del caso clínico: **5 cm**, **8 cm** o **12 cm**.
+1. Bienvenida y selección de **Caso clínico 1**, **2** o **3**. Los botones y
+   mensajes de selección no muestran la profundidad: las medidas de 5, 8 y
+   12 cm se conservan internamente y se revelan al finalizar el entrenamiento.
    Los casos se habilitan únicamente tras conectar el ESP32 por BLE. El caso
-   elegido se confirma visualmente y el firmware centra el eje para luego
-   posicionarlo de forma proporcional: 12 cm queda en el centro, 8 cm usa una
-   apertura intermedia y 5 cm la apertura máxima.
+   elegido se confirma visualmente y el firmware centra y posiciona el eje.
 2. Evaluación previa: descarte de embarazo/contraindicaciones y examen
    bimanual.
 3. Preparación con espéculo, limpieza antiséptica y confirmación de la alarma
@@ -32,8 +32,9 @@ amarillo. El entrenamiento guiado actual sigue esta secuencia:
    fuerza, cámara USB, estado de sensores, selector de **valor medido** (4 a
    15) y el checklist final: cargar el DIU, fijar medición, liberar, retiro
    exitoso y cortar hilos.
-7. Resumen final con valor medido, diferencia frente a la profundidad elegida
-   y el estado de cada confirmación registrada durante el procedimiento.
+7. Resumen final con profundidad real, valor medido, diferencia absoluta y el
+   estado de cada confirmación. **Guardar y finalizar** genera un PDF y ofrece
+   compartirlo; **Finalizar** vuelve al inicio sin guardar resultados.
 
 La búsqueda BLE reintenta automáticamente una vez cuando el primer enlace
 GATT no termina de establecerse, evitando tener que seleccionar dos veces el
@@ -51,6 +52,9 @@ SimuladorDIU/
 │   └── celda_de_carga5.ino           Firmware BLE para ESP32-S3
 ├── calibracion_hx711/
 │   └── calibracion_hx711.ino          Calibración guiada desde Monitor Serie
+├── prueba_motor_paso_a_paso/
+│   ├── prueba_motor_paso_a_paso.ino   Prueba del motor desde Monitor Serie
+│   └── README.md                     Conexiones y comandos de prueba
 └── README.md                         Este documento
 ```
 
@@ -78,6 +82,9 @@ SimuladorDIU/
   eje mediante el comando BLE `CASE,pasos`.
 - Flujo de preparación clínica con confirmaciones de humedad, pinza, tara y
   checklist final antes del resumen del procedimiento.
+- Casos clínicos sin profundidad visible hasta el resumen final.
+- Informe PDF con nombre y apellido, fecha, identificador único, medidas y
+  acciones registradas; se guarda en Descargas y puede compartirse.
 - Visualización de una o dos cámaras USB UVC conectadas mediante OTG.
 - Historial local de hasta 50 registros de presión, con fecha, fuerza máxima y
   zona alcanzada.
@@ -233,17 +240,24 @@ AppMovil/app/build/outputs/apk/debug/app-debug.apk
 1. Enciende el prototipo con el eje físicamente centrado y la celda de carga
    libre de fuerza mientras termina su inicialización.
 2. Abre SimGyO-DIU y pulsa **Siguiente** en la pantalla inicial.
-3. Confirma los seis materiales del checklist y vuelve a pulsar **Siguiente**.
-4. En la pantalla **Simulador DIU**, pulsa **Seleccionar dispositivo** y elige
-   el simulador específico de la lista.
-5. Pulsa el icono de información para revisar BLE, HX711, humedad, cámaras y
-   motor. Espera a que el HX711 indique **Listo** antes de medir.
-6. Si necesitas repetir la tara, deja el dispositivo libre de carga, pulsa
-   **Realizar tara** y espera la confirmación.
-7. Mantén pulsado **Izquierda** o **Derecha** para controlar la extensión.
-   Suelta el botón para detener el movimiento.
-8. Usa **Centrar eje** para regresar a la posición lógica inicial.
-9. Conecta la cámara endoscópica mediante OTG para activar la vista USB.
+3. En la selección del caso clínico, pulsa **Conectar por Bluetooth** y elige
+   tu simulador. Selecciona uno de los tres casos y espera a que el eje esté
+   listo antes de avanzar.
+4. Completa la evaluación previa, la preparación con espéculo y la confirmación
+   de humedad. Marca los seis materiales del checklist.
+5. Completa la preparación de pinzamiento y la tara con el dispositivo libre
+   de carga. Espera la confirmación antes de entrar al simulador.
+6. Conecta la cámara endoscópica mediante OTG y concede el permiso USB. Pulsa
+   el icono de información para revisar el equipo; espera a que el HX711
+   indique **Listo** antes de medir.
+7. En el simulador, registra el valor medido y completa las acciones finales
+   para abrir el resumen y descubrir la profundidad real del caso.
+8. Elige **Guardar y finalizar** para conservar el informe y compartirlo si
+   lo deseas, o **Finalizar** para comenzar otra simulación sin guardar.
+
+Los controles **Izquierda**, **Derecha** y **Centrar eje** siguen disponibles
+en el simulador. Mantén pulsado un control de dirección para mover el motor y
+suéltalo para detenerlo. **Centrar eje** vuelve a la posición lógica inicial.
 
 Con el firmware actual, si el HX711 informa **No disponible** o
 **Inicializando**, la app muestra `--` en lugar de una fuerza válida y
@@ -251,6 +265,49 @@ deshabilita la tara. BLE, el diagnóstico, las cámaras, la lectura de humedad y
 el control del motor continúan disponibles. Con firmware antiguo sin el campo
 de diagnóstico, la app conserva la lectura y la tara por compatibilidad y
 muestra **Lectura activa** en verde mientras recibe telemetría válida.
+
+## Guardar y compartir resultados
+
+La pantalla final presenta únicamente dos botones:
+
+- **Guardar y finalizar** requiere **Nombre y apellido**. Guarda primero el
+  PDF en **Descargas/SimGyO-DIU**, termina la sesión y abre la ventana de Android
+  para compartirlo de forma opcional. Al compartir o cerrar esa ventana, queda
+  disponible la pantalla inicial para otra simulación.
+- **Finalizar** cierra la sesión y vuelve al inicio sin guardar el resultado.
+  Esta opción no exige completar el nombre.
+
+El documento contiene nombre y apellido, fecha, identificador UUID único,
+profundidad real, medida registrada, diferencia absoluta y estado de las
+acciones. El nombre del archivo incorpora el nombre y apellido, la fecha y el
+mismo identificador, con el formato:
+
+```text
+SimGyO_resultados_<nombre_y_apellido>_<AAAAMMDD_HHMMSS>_<UUID>.pdf
+```
+
+Los datos ausentes se muestran como **Sin registrar**. El aviso de nombre vacío
+desaparece al escribir. Si el guardado falla, el resumen permanece abierto para
+reintentar. Ambas opciones de finalización limpian los datos de la sesión y
+cierran la conexión BLE.
+
+El PDF guardado también puede compartirse posteriormente desde el administrador
+de archivos. Su generación no requiere Internet. Android 10 y posteriores usan
+Descargas sin permiso de almacenamiento; en Android 9 y anteriores la app
+solicita ese permiso al guardar.
+
+## Prueba independiente del motor
+
+El ejemplo [prueba_motor_paso_a_paso](./prueba_motor_paso_a_paso/README.md)
+permite probar únicamente el ESP32-S3, el motor 28BYJ-48 y el ULN2003, sin BLE,
+HX711 ni librerías adicionales. Usa los mismos GPIO del simulador y el Monitor
+Serie a **115200 baudios**.
+
+Con el motor desacoplado del mecanismo, envía `D` o `I` para mover 256 medios
+pasos, `T` para una ida y vuelta, `S` para detener y desenergizar, o `?` para
+consultar los comandos. El motor permanece detenido al encender. Consulta el
+README del ejemplo para conexiones y compilación; después de la prueba vuelve
+a cargar el firmware principal para usar la app.
 
 ## Indicadores de fuerza
 
@@ -403,7 +460,10 @@ pruebas.
 
 - [Firmware ESP32-S3](./celda_de_carga5/celda_de_carga5.ino)
 - [Calibración guiada del HX711](./calibracion_hx711/calibracion_hx711.ino)
+- [Prueba independiente del motor](./prueba_motor_paso_a_paso/README.md)
 - [Gestor BLE de Android](./AppMovil/app/src/main/java/com/felipe/endoscopeviewer/BleScaleManager.kt)
 - [Interfaz principal](./AppMovil/app/src/main/java/com/felipe/endoscopeviewer/UsbCameraFragment.kt)
 - [Pantalla inicial](./AppMovil/app/src/main/java/com/felipe/endoscopeviewer/SplashActivity.kt)
 - [Checklist de materiales](./AppMovil/app/src/main/java/com/felipe/endoscopeviewer/MaterialChecklistActivity.kt)
+- [Resumen del procedimiento](./AppMovil/app/src/main/java/com/felipe/endoscopeviewer/ProcedureSummaryActivity.kt)
+- [Generación del PDF de resultados](./AppMovil/app/src/main/java/com/felipe/endoscopeviewer/ProcedureResultsPdf.kt)
